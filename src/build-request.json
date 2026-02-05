@@ -1,77 +1,104 @@
 {
   "kind": "build_request",
-  "title": "Replace advisory/landing UI with WhatsApp-like main navigation (Chats, Groups, Status, Live, Videos)",
+  "title": "Populate the Videos tab with a simple sponsored/ad-style watch feed (frontend-only)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-29",
-      "text": "Remove the current advisory/marketing-style landing experience and make the authenticated app experience start on a WhatsApp-like main navigation flow where the primary sections are: Chats, Groups, Status, Live, Videos (in that order).",
+      "id": "REQ-32",
+      "text": "Replace the current placeholder content in `frontend/src/pages/VideosPage.tsx` with a simple, scrollable “Sponsored” video feed that gives users something to watch, using frontend-only mock ad items (no backend changes).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-5"
         ],
         "quotes": [
-          "Can you remove all that advisement and add just like Whatsapp starting with chats, groups , status then live then videos"
+          "Is there anyway you can add Atleast ads on that part of videos Atleast for it to have something to watch"
         ]
       },
       "acceptanceCriteria": [
-        "When a signed-in user opens the app, the default selected section is Chats (not the marketing landing page).",
-        "The app presents top-level navigation sections in this exact order: Chats, Groups, Status, Live, Videos.",
-        "The prior landing/marketing/advisory content is no longer shown as a primary screen for authenticated users."
+        "Navigating to the Videos tab shows a feed of at least 3 sponsored/ad-style items instead of the current “Videos is coming soon.” card.",
+        "Each feed item is clearly labeled in English as sponsored content (e.g., “Sponsored”).",
+        "Each feed item has a thumbnail image, a short title, and a short description (English).",
+        "No backend canister methods are added/changed to support this feed."
       ]
     },
     {
-      "id": "REQ-30",
-      "text": "Update the existing top navigation (AppHeader) to reflect WhatsApp-like section navigation: show actions/tabs for Chats, Groups, Status, Live, and Videos in that order; remove any non-essential navigation items that are not part of this WhatsApp-like top-level experience (e.g., do not show “Contacts” as a top-level item).",
+      "id": "REQ-33",
+      "text": "Implement a basic in-app “watch” experience for the sponsored items in the Videos tab (e.g., tapping an item opens a modal/sheet with a full-bleed vertical viewer that simulates playback using an animated progress indicator and item details), entirely client-side.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-5"
         ],
         "quotes": [
-          "add just like Whatsapp starting with chats, groups , status then live then videos"
+          "add Atleast ads on that part of videos Atleast for it to have something to watch"
         ]
       },
       "acceptanceCriteria": [
-        "On desktop widths, the header shows clickable navigation items for Chats, Groups, Status, Live, Videos in that order.",
-        "On mobile widths, the overflow menu (or mobile nav equivalent) lists Chats, Groups, Status, Live, Videos in that order.",
-        "Selecting each section updates the UI to the corresponding screen/view and visually indicates the active section."
+        "Clicking/tapping a sponsored item opens a dedicated viewer (modal/sheet/page section) that presents the ad item in a watchable format.",
+        "The viewer includes a visible progress indicator that advances automatically (e.g., 10–15 seconds) and provides a clear close/back control.",
+        "User-facing labels and messaging are in English and do not claim the content is from a real ad network."
       ]
     },
     {
-      "id": "REQ-31",
-      "text": "Add placeholder screens/views for Groups, Status, Live, and Videos so navigation works end-to-end, with clear English “Coming soon” messaging and no backend changes required.",
+      "id": "REQ-34",
+      "text": "Add a small disclaimer in the Videos tab UI clarifying that the sponsored items are sample/demo content (English), and ensure the layout works well on both mobile and desktop.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-5"
         ],
         "quotes": [
-          "add just like Whatsapp starting with chats, groups , status then live then videos"
+          "add Atleast ads on that part of videos Atleast for it to have something to watch"
         ]
       },
       "acceptanceCriteria": [
-        "Navigating to Groups shows a dedicated Groups screen with an English placeholder message (e.g., “Groups is coming soon.”).",
-        "Navigating to Status shows a dedicated Status screen with an English placeholder message (e.g., “Status is coming soon.”).",
-        "Navigating to Live shows a dedicated Live screen with an English placeholder message (e.g., “Live is coming soon.”).",
-        "Navigating to Videos shows a dedicated Videos screen with an English placeholder message (e.g., “Videos is coming soon.”).",
-        "No new backend methods are required to support these placeholder screens."
+        "A short disclaimer appears in the Videos tab (e.g., near the top of the feed) indicating the items are sample/demo sponsored content.",
+        "The feed and viewer are responsive and usable on small mobile screens and desktop widths without horizontal overflow."
+      ]
+    },
+    {
+      "id": "REQ-35",
+      "text": "Add the required generated ad thumbnail images under `frontend/public/assets/generated/` and render them in the Videos tab feed items (do not fetch thumbnails via the backend).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All generated thumbnails exist at `frontend/public/assets/generated/` and are referenced by the Videos tab via static paths (e.g., `/assets/generated/...`).",
+        "Thumbnails render crisply (no broken images) in both light and dark mode."
       ]
     }
   ],
   "constraints": [
-    "Frontend files under frontend/src/components/ui and the paths listed in frontend.immutablePaths must not be edited directly.",
-    "Backend must remain single-actor (all Motoko logic in backend/main.mo); do not introduce additional canisters/services."
+    "Do not add or integrate third-party ad networks (no Google AdSense or similar).",
+    "Do not add new backend canisters/services; keep this change frontend-only.",
+    "Do not edit files under `frontend/src/components/ui` or other paths listed in `frontend.immutablePaths`.",
+    "Use English for all user-facing text."
   ],
   "nonGoals": [
-    "Implementing real Groups functionality (creating/managing group chats, membership, group messaging).",
-    "Implementing real Status functionality (stories/status posting, expiration, viewers).",
-    "Implementing real Live or Videos features beyond placeholder screens.",
-    "Adding third-party authentication (only Internet Identity is supported)."
+    "Real monetization, payouts, impressions/click tracking, or analytics.",
+    "Server-side ad selection, targeting, or user profiling.",
+    "Uploading user videos or building full video-sharing functionality in this change."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Abstract sponsored video thumbnail with bold shapes and high contrast (vibechat-sponsored-1.dim_720x1280.png)",
+      "Abstract sponsored video thumbnail with product-style silhouette and clean gradients (vibechat-sponsored-2.dim_720x1280.png)",
+      "Abstract sponsored video thumbnail with dynamic pattern and minimal iconography (vibechat-sponsored-3.dim_720x1280.png)"
+    ],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

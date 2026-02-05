@@ -1,56 +1,75 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T22:18:22.418Z",
+  "generatedAt": "2026-02-05T22:27:22.893Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 4,
+    "implemented": 4,
     "items": [
       {
-        "id": "REQ-29",
-        "summary": "Remove the current advisory/marketing-style landing experience and make the authenticated app experience start on a WhatsApp-like main navigation flow where the primary sections are: Chats, Groups, Status, Live, Videos (in that order).",
+        "id": "REQ-32",
+        "summary": "Replace the current placeholder content in `frontend/src/pages/VideosPage.tsx` with a simple, scrollable “Sponsored” video feed that gives users something to watch, using frontend-only mock ad items (no backend changes).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/App.tsx"
+          "frontend/src/components/videos/mockSponsoredItems.ts",
+          "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+          "frontend/src/pages/VideosPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/App.tsx"
+          "frontend/src/components/videos/mockSponsoredItems.ts",
+          "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+          "frontend/src/pages/VideosPage.tsx"
         ]
       },
       {
-        "id": "REQ-30",
-        "summary": "Update the existing top navigation (AppHeader) to reflect WhatsApp-like section navigation: show actions/tabs for Chats, Groups, Status, Live, and Videos in that order; remove any non-essential navigation items that are not part of this WhatsApp-like top-level experience (e.g., do not show “Contacts” as a top-level item).",
+        "id": "REQ-33",
+        "summary": "Implement a basic in-app “watch” experience for the sponsored items in the Videos tab (e.g., tapping an item opens a modal/sheet with a full-bleed vertical viewer that simulates playback using an animated progress indicator and item details), entirely client-side.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/AppHeader.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/videos/SponsoredVideoViewer.tsx",
+          "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
+          "frontend/src/components/videos/SponsoredVideoFeed.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/AppHeader.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/videos/SponsoredVideoViewer.tsx",
+          "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
+          "frontend/src/components/videos/SponsoredVideoFeed.tsx"
         ]
       },
       {
-        "id": "REQ-31",
-        "summary": "Add placeholder screens/views for Groups, Status, Live, and Videos so navigation works end-to-end, with clear English “Coming soon” messaging and no backend changes required.",
+        "id": "REQ-34",
+        "summary": "Add a small disclaimer in the Videos tab UI clarifying that the sponsored items are sample/demo content (English), and ensure the layout works well on both mobile and desktop.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/GroupsPage.tsx",
-          "frontend/src/pages/StatusPage.tsx",
-          "frontend/src/pages/LivePage.tsx",
           "frontend/src/pages/VideosPage.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/videos/SponsoredVideoViewer.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/GroupsPage.tsx",
-          "frontend/src/pages/StatusPage.tsx",
-          "frontend/src/pages/LivePage.tsx",
           "frontend/src/pages/VideosPage.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/videos/SponsoredVideoViewer.tsx"
+        ]
+      },
+      {
+        "id": "REQ-35",
+        "summary": "Add the required generated ad thumbnail images under `frontend/public/assets/generated/` and render them in the Videos tab feed items (do not fetch thumbnails via the backend).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png",
+          "frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png",
+          "frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png",
+          "frontend/src/components/videos/mockSponsoredItems.ts",
+          "frontend/src/components/videos/SponsoredVideoFeed.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png",
+          "frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png",
+          "frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png",
+          "frontend/src/components/videos/mockSponsoredItems.ts",
+          "frontend/src/components/videos/SponsoredVideoFeed.tsx"
         ]
       }
     ]
@@ -60,11 +79,13 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/App.tsx",
-    "frontend/src/components/AppHeader.tsx",
-    "frontend/src/pages/GroupsPage.tsx",
-    "frontend/src/pages/LivePage.tsx",
-    "frontend/src/pages/StatusPage.tsx",
+    "frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png",
+    "frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png",
+    "frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png",
+    "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+    "frontend/src/components/videos/SponsoredVideoViewer.tsx",
+    "frontend/src/components/videos/mockSponsoredItems.ts",
+    "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
     "frontend/src/pages/VideosPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",

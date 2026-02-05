@@ -26,5 +26,9 @@
   "frontend/src/pages/GroupsPage.tsx": "Placeholder page for Groups section with centered card displaying \"Groups is coming soon\" message and descriptive text.",
   "frontend/src/pages/StatusPage.tsx": "Placeholder page for Status section with centered card displaying \"Status is coming soon\" message and descriptive text.",
   "frontend/src/pages/LivePage.tsx": "Placeholder page for Live section with centered card displaying \"Live is coming soon\" message and descriptive text.",
-  "frontend/src/pages/VideosPage.tsx": "Placeholder page for Videos section with centered card displaying \"Videos is coming soon\" message and descriptive text."
+  "frontend/src/pages/VideosPage.tsx": "Videos page with disclaimer alert, page header, and sponsored video feed replacing the previous placeholder content.",
+  "frontend/src/components/videos/mockSponsoredItems.ts": "Mock data for sponsored video items with titles, descriptions, thumbnail paths, and durations (3 items total).",
+  "frontend/src/components/videos/useSimulatedPlaybackProgress.ts": "React hook that simulates video playback progress over a configurable duration with start/stop/reset controls and completion callback.",
+  "frontend/src/components/videos/SponsoredVideoViewer.tsx": "Full-screen modal viewer for sponsored video items with thumbnail display, progress indicator, auto-play simulation, and close control using Dialog component.",
+  "frontend/src/components/videos/SponsoredVideoFeed.tsx": "Grid-based feed component displaying sponsored video items as cards with thumbnails, badges, hover effects, and click-to-view functionality."
 }

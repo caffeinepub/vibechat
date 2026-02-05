@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 31,
+  "projectStateVersion": 33,
   "summary": "Project \"vibechat\" is targeting a more strictly WhatsApp-like main navigation/UI, specifically using a top-level section order of Chats, Groups, Status, Live, then Videos, and removing prior advisory/help-style UI content that is not part of that WhatsApp-like experience.",
   "architectural_notes": [
     "Platform constraint: authentication must use Internet Identity; SMS verification/phone-based login is not supported. Any in-app password is app-level data (e.g., for extra gating) and not a replacement for II auth.",
@@ -17,9 +17,11 @@
     "Login flow error: users report being unable to log in due to a \"profile failed\" message (likely profile load/save failure after Internet Identity auth).",
     "Potential version/deployment confusion: conversation references Version 7 being deployed/live while project state previously referenced Version 2/3/4 discrepancies.",
     "Users report login still failing (\"But it failed\"), likely tied to post-Internet Identity profile flow.",
-    "Profile picture upload may fail due to missing device photo/gallery permission handling."
+    "Profile picture upload may fail due to missing device photo/gallery permission handling.",
+    "Potential version/deployment confusion: assistant claims Version 15 is live in production, conflicting with previously tracked version states."
   ],
   "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Abstract sponsored video thumbnail with bold shapes and high contrast (vibechat-sponsored-1.dim_720x1280.png)\n- Abstract sponsored video thumbnail with product-style silhouette and clean gradients (vibechat-sponsored-2.dim_720x1280.png)\n- Abstract sponsored video thumbnail with dynamic pattern and minimal iconography (vibechat-sponsored-3.dim_720x1280.png)",
   "existing_features": [
     {
       "id": "feature-generate-a-custom-original-logo-image-for-the-app-name-vibechat-and-add-it-to-the-project-as-a-static-asset-under-frontend-public-assets-generated",
@@ -228,6 +230,38 @@
         "REQ-31"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-placeholder-content-in-frontend-src-pages-videospage-tsx-with-a-simple-scrollable-sponsored-video-feed-that-gives-users-something-to-watch-using-frontend-only-mock-ad-items-no-backend-changes",
+      "title": "Replace the current placeholder content in `frontend/src/pages/VideosPage.tsx` with a simple, scrollable “Sponsored” video feed that gives users something to watch, using frontend-only mock ad items (no backend changes).",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-basic-in-app-watch-experience-for-the-sponsored-items-in-the-videos-tab-e-g-tapping-an-item-opens-a-modal-sheet-with-a-full-bleed-vertical-viewer-that-simulates-playback-using-an-animated-progress-indicator-and-item-details-entirely-client-side",
+      "title": "Implement a basic in-app “watch” experience for the sponsored items in the Videos tab (e.g., tapping an item opens a modal/sheet with a full-bleed vertical viewer that simulates playback using an animated progress indicator and item details), entirely client-side.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-small-disclaimer-in-the-videos-tab-ui-clarifying-that-the-sponsored-items-are-sample-demo-content-english-and-ensure-the-layout-works-well-on-both-mobile-and-desktop",
+      "title": "Add a small disclaimer in the Videos tab UI clarifying that the sponsored items are sample/demo content (English), and ensure the layout works well on both mobile and desktop.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-required-generated-ad-thumbnail-images-under-frontend-public-assets-generated-and-render-them-in-the-videos-tab-feed-items-do-not-fetch-thumbnails-via-the-backend",
+      "title": "Add the required generated ad thumbnail images under `frontend/public/assets/generated/` and render them in the Videos tab feed items (do not fetch thumbnails via the backend).",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -370,6 +404,12 @@
     {
       "id": "AR-25",
       "summary": "Add a Status section/screen (WhatsApp-like) alongside Chats and Groups",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-26",
+      "summary": "Add ads or ad-like video content to the Videos section so it has something to watch (populate Videos tab with ads/monetizable content)",
       "reqIds": [],
       "status": "pending"
     }

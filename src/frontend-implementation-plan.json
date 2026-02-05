@@ -1,80 +1,113 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "WhatsApp-like main navigation (Chats, Groups, Status, Live, Videos) replacing landing for authenticated users",
+  "title": "Videos tab sponsored watch feed (mock, frontend-only)",
   "requirements": [
     {
-      "id": "REQ-29",
-      "summary": "Replace the authenticated default experience so signed-in users start in a WhatsApp-like main navigation flow with Chats as the default section (no marketing landing as primary screen).",
+      "id": "REQ-32",
+      "summary": "Replace Videos placeholder with a scrollable sponsored/ad-style feed using client-side mock items (no backend).",
       "acceptanceCriteria": [
-        "When a signed-in user opens the app, the default selected section is Chats (not the marketing landing page).",
-        "The app presents top-level navigation sections in this exact order: Chats, Groups, Status, Live, Videos.",
-        "The prior landing/marketing/advisory content is no longer shown as a primary screen for authenticated users."
+        "Navigating to the Videos tab shows a feed of at least 3 sponsored/ad-style items instead of the current “Videos is coming soon.” card.",
+        "Each feed item is clearly labeled in English as sponsored content (e.g., “Sponsored”).",
+        "Each feed item has a thumbnail image, a short title, and a short description (English).",
+        "No backend canister methods are added/changed to support this feed."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Update app view state so unauthenticated users see the existing LandingPage, while authenticated users start on a WhatsApp-like section-based flow with Chats as the default selected section and section switching rendering the corresponding screen. Ensure landing/marketing content is not the primary screen for authenticated users."
-        }
-      ]
-    },
-    {
-      "id": "REQ-30",
-      "summary": "Update AppHeader to provide WhatsApp-like top-level section navigation (Chats, Groups, Status, Live, Videos) in order across desktop and mobile, removing non-essential top-level items like Contacts.",
-      "acceptanceCriteria": [
-        "On desktop widths, the header shows clickable navigation items for Chats, Groups, Status, Live, Videos in that order.",
-        "On mobile widths, the overflow menu (or mobile nav equivalent) lists Chats, Groups, Status, Live, Videos in that order.",
-        "Selecting each section updates the UI to the corresponding screen/view and visually indicates the active section."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/AppHeader.tsx",
-          "operation": "modify",
-          "description": "Refactor AppHeader to switch from the current landing/chats + extra buttons model to a section navigation model with exactly these primary items in order: Chats, Groups, Status, Live, Videos. Keep active-state styling based on the current section. Remove Contacts as a top-level item (it may be moved behind a secondary menu if still needed). Use the shadcn-ui Button and DropdownMenu components for consistent UI; verify the component's usage instructions before implementing."
+          "path": "frontend/src/components/videos/mockSponsoredItems.ts",
+          "operation": "create",
+          "description": "Create client-only mock sponsored video item data (>= 3 items) including English title/description, a static thumbnail path under frontend/public/assets/generated/, and any lightweight metadata needed for the watch viewer."
         },
         {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Update AppHeader integration to pass/receive the new section-based navigation props (current section + setter) so selecting header items switches the rendered screen and the active state is consistent across desktop/mobile."
-        }
-      ]
-    },
-    {
-      "id": "REQ-31",
-      "summary": "Add placeholder screens for Groups, Status, Live, and Videos with clear English 'Coming soon' messaging (no backend changes).",
-      "acceptanceCriteria": [
-        "Navigating to Groups shows a dedicated Groups screen with an English placeholder message (e.g., “Groups is coming soon.”).",
-        "Navigating to Status shows a dedicated Status screen with an English placeholder message (e.g., “Status is coming soon.”).",
-        "Navigating to Live shows a dedicated Live screen with an English placeholder message (e.g., “Live is coming soon.”).",
-        "Navigating to Videos shows a dedicated Videos screen with an English placeholder message (e.g., “Videos is coming soon.”).",
-        "No new backend methods are required to support these placeholder screens."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/GroupsPage.tsx",
+          "path": "frontend/src/components/videos/SponsoredVideoFeed.tsx",
           "operation": "create",
-          "description": "Create a dedicated Groups placeholder screen with clear English 'Coming soon' messaging (no backend calls). Use shadcn-ui primitives (e.g., Card/Typography/Button if needed) for consistent styling; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/StatusPage.tsx",
-          "operation": "create",
-          "description": "Create a dedicated Status placeholder screen with clear English 'Coming soon' messaging (no backend calls). Use shadcn-ui primitives for consistent styling; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/LivePage.tsx",
-          "operation": "create",
-          "description": "Create a dedicated Live placeholder screen with clear English 'Coming soon' messaging (no backend calls). Use shadcn-ui primitives for consistent styling; verify the component's usage instructions before implementing."
+          "description": "Implement a scrollable feed UI rendering the mock sponsored items with clear “Sponsored” labeling, thumbnail, title, and description. Use shadcn-ui components (e.g., Card, Badge, Button) for consistent styling; verify the component's usage instructions before implementing."
         },
         {
           "path": "frontend/src/pages/VideosPage.tsx",
+          "operation": "modify",
+          "description": "Replace the placeholder Card with the new sponsored feed UI, wiring in SponsoredVideoFeed and ensuring the page layout supports scrolling and typical app container spacing. Use shadcn-ui components where helpful; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "summary": "Add an in-app watch viewer (modal/sheet) for sponsored items with simulated playback progress and close/back control, fully client-side.",
+      "acceptanceCriteria": [
+        "Clicking/tapping a sponsored item opens a dedicated viewer (modal/sheet/page section) that presents the ad item in a watchable format.",
+        "The viewer includes a visible progress indicator that advances automatically (e.g., 10–15 seconds) and provides a clear close/back control.",
+        "User-facing labels and messaging are in English and do not claim the content is from a real ad network."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/videos/SponsoredVideoViewer.tsx",
           "operation": "create",
-          "description": "Create a dedicated Videos placeholder screen with clear English 'Coming soon' messaging (no backend calls). Use shadcn-ui primitives for consistent styling; verify the component's usage instructions before implementing."
+          "description": "Create a dedicated viewer component that displays the selected sponsored item in a full-bleed vertical format (thumbnail as the visual), includes item details, and provides a clear close/back control. Use shadcn-ui Dialog or Sheet to present the viewer as a modal/sheet; verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
+          "operation": "create",
+          "description": "Add a small React hook that simulates playback by advancing a progress value over a fixed duration (e.g., 10–15 seconds), supports reset on open/item change, and stops/cleans up timers on close/unmount."
+        },
+        {
+          "path": "frontend/src/components/videos/SponsoredVideoFeed.tsx",
           "operation": "modify",
-          "description": "Wire the new Groups/Status/Live/Videos pages into the authenticated section renderer so navigation works end-to-end without requiring any backend changes."
+          "description": "Wire feed item click/tap to open the SponsoredVideoViewer modal/sheet and pass the selected item. Ensure labels remain clearly “Sponsored” and avoid any wording implying a real ad network. Use shadcn-ui trigger/control components as needed; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-34",
+      "summary": "Add an English demo-content disclaimer to Videos tab and ensure feed/viewer are responsive on mobile and desktop without horizontal overflow.",
+      "acceptanceCriteria": [
+        "A short disclaimer appears in the Videos tab (e.g., near the top of the feed) indicating the items are sample/demo sponsored content.",
+        "The feed and viewer are responsive and usable on small mobile screens and desktop widths without horizontal overflow."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/VideosPage.tsx",
+          "operation": "modify",
+          "description": "Add a small English disclaimer near the top of the Videos feed (e.g., “Demo sponsored content for preview purposes.”). Ensure layout uses responsive Tailwind classes and avoids horizontal overflow at common mobile/desktop widths. Use shadcn-ui typography-friendly components (Card, Alert, etc.) if desired; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/videos/SponsoredVideoViewer.tsx",
+          "operation": "modify",
+          "description": "Ensure the viewer modal/sheet layout is responsive: full-height vertical viewer on mobile, centered/max-width presentation on desktop, and no horizontal overflow. Keep user-facing text in English and clearly demo/simulated."
+        }
+      ]
+    },
+    {
+      "id": "REQ-35",
+      "summary": "Add required generated ad thumbnail images under frontend/public/assets/generated/ and render them via static paths in the feed (no backend fetch).",
+      "acceptanceCriteria": [
+        "All generated thumbnails exist at `frontend/public/assets/generated/` and are referenced by the Videos tab via static paths (e.g., `/assets/generated/...`).",
+        "Thumbnails render crisply (no broken images) in both light and dark mode."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png",
+          "operation": "create",
+          "description": "Add the generated thumbnail image asset for sponsored item 1 at the exact required path."
+        },
+        {
+          "path": "frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png",
+          "operation": "create",
+          "description": "Add the generated thumbnail image asset for sponsored item 2 at the exact required path."
+        },
+        {
+          "path": "frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png",
+          "operation": "create",
+          "description": "Add the generated thumbnail image asset for sponsored item 3 at the exact required path."
+        },
+        {
+          "path": "frontend/src/components/videos/mockSponsoredItems.ts",
+          "operation": "modify",
+          "description": "Reference the generated thumbnails via static public paths that map to these exact files: frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png, frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png, frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png."
+        },
+        {
+          "path": "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+          "operation": "modify",
+          "description": "Render thumbnails from the static generated assets (not via backend). Ensure images display without breaking in both light and dark mode (e.g., appropriate object-fit, background, and border styling). Use shadcn-ui components where helpful; verify the component's usage instructions before implementing."
         }
       ]
     }

@@ -2,56 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-remove-the-current-advisory-marketing-style-landing-experience-and-make-the-authenticated-app-experience-start-on-a-whatsapp-like-main-navigation-flow-where-the-primary-sections-are-chats-groups-status-live-videos-in-that-order",
-      "featureTitle": "Remove the current advisory/marketing-style landing experience and make the authenticated app experience start on a WhatsApp-like main navigation flow where the primary sections are: Chats, Groups, Status, Live, Videos (in that order).",
+      "featureId": "feature-replace-the-current-placeholder-content-in-frontend-src-pages-videospage-tsx-with-a-simple-scrollable-sponsored-video-feed-that-gives-users-something-to-watch-using-frontend-only-mock-ad-items-no-backend-changes",
+      "featureTitle": "Replace the current placeholder content in `frontend/src/pages/VideosPage.tsx` with a simple, scrollable “Sponsored” video feed that gives users something to watch, using frontend-only mock ad items (no backend changes).",
       "files": [
-        "frontend/src/App.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "camera@1.0.0"
-      ],
-      "testIds": [
-        "REQ-29"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-update-the-existing-top-navigation-appheader-to-reflect-whatsapp-like-section-navigation-show-actions-tabs-for-chats-groups-status-live-and-videos-in-that-order-remove-any-non-essential-navigation-items-that-are-not-part-of-this-whatsapp-like-top-level-experience-e-g-do-not-show-contacts-as-a-top-level-item",
-      "featureTitle": "Update the existing top navigation (AppHeader) to reflect WhatsApp-like section navigation: show actions/tabs for Chats, Groups, Status, Live, and Videos in that order; remove any non-essential navigation items that are not part of this WhatsApp-like top-level experience (e.g., do not show “Contacts” as a top-level item).",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/AppHeader.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "camera@1.0.0"
-      ],
-      "testIds": [
-        "REQ-30"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-placeholder-screens-views-for-groups-status-live-and-videos-so-navigation-works-end-to-end-with-clear-english-coming-soon-messaging-and-no-backend-changes-required",
-      "featureTitle": "Add placeholder screens/views for Groups, Status, Live, and Videos so navigation works end-to-end, with clear English “Coming soon” messaging and no backend changes required.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/pages/GroupsPage.tsx",
-        "frontend/src/pages/LivePage.tsx",
-        "frontend/src/pages/StatusPage.tsx",
+        "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+        "frontend/src/components/videos/mockSponsoredItems.ts",
         "frontend/src/pages/VideosPage.tsx"
       ],
       "components": [
@@ -65,7 +20,74 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-31"
+        "REQ-32"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-basic-in-app-watch-experience-for-the-sponsored-items-in-the-videos-tab-e-g-tapping-an-item-opens-a-modal-sheet-with-a-full-bleed-vertical-viewer-that-simulates-playback-using-an-animated-progress-indicator-and-item-details-entirely-client-side",
+      "featureTitle": "Implement a basic in-app “watch” experience for the sponsored items in the Videos tab (e.g., tapping an item opens a modal/sheet with a full-bleed vertical viewer that simulates playback using an animated progress indicator and item details), entirely client-side.",
+      "files": [
+        "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+        "frontend/src/components/videos/SponsoredVideoViewer.tsx",
+        "frontend/src/components/videos/useSimulatedPlaybackProgress.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-33"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-small-disclaimer-in-the-videos-tab-ui-clarifying-that-the-sponsored-items-are-sample-demo-content-english-and-ensure-the-layout-works-well-on-both-mobile-and-desktop",
+      "featureTitle": "Add a small disclaimer in the Videos tab UI clarifying that the sponsored items are sample/demo content (English), and ensure the layout works well on both mobile and desktop.",
+      "files": [
+        "frontend/src/components/videos/SponsoredVideoViewer.tsx",
+        "frontend/src/pages/VideosPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-34"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-the-required-generated-ad-thumbnail-images-under-frontend-public-assets-generated-and-render-them-in-the-videos-tab-feed-items-do-not-fetch-thumbnails-via-the-backend",
+      "featureTitle": "Add the required generated ad thumbnail images under `frontend/public/assets/generated/` and render them in the Videos tab feed items (do not fetch thumbnails via the backend).",
+      "files": [
+        "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+        "frontend/src/components/videos/mockSponsoredItems.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-35"
       ],
       "confidence": "high"
     }

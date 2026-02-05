@@ -1,18 +1,26 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T22:18:22.415Z",
-  "summary": "Diff adds WhatsApp-like section navigation for authenticated users (defaulting to Chats) and introduces placeholder pages for Groups/Status/Live/Videos. Landing page remains for unauthenticated users. Mobile navigation details in AppHeader are truncated, so full compliance there cannot be conclusively verified from the provided diff summary.",
-  "missing_requirements": [],
+  "generatedAt": "2026-02-05T22:27:22.890Z",
+  "summary": "Implemented a frontend-only sponsored video feed and modal viewer on the Videos page, including mock items, sponsored labeling, and simulated playback progress. However, the diff summary does not show the required generated thumbnail image files being added under frontend/public/assets/generated/.",
+  "missing_requirements": [
+    {
+      "id": "REQ-35",
+      "requirement": "Add the required generated ad thumbnail images under `frontend/public/assets/generated/` and render them in the Videos tab feed items (do not fetch thumbnails via the backend).",
+      "reason": "The feed references `/assets/generated/vibechat-sponsored-*.dim_720x1280.png`, but the diff summary does not include any added image files under `frontend/public/assets/generated/`, so the required thumbnails cannot be confirmed as present.",
+      "evidence": [
+        "frontend/src/components/videos/mockSponsoredItems.ts"
+      ]
+    }
+  ],
   "hallucinated_features": [],
-  "confidence": 0.68,
+  "confidence": 0.72,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/App.tsx",
-    "frontend/src/components/AppHeader.tsx",
-    "frontend/src/pages/GroupsPage.tsx",
-    "frontend/src/pages/LivePage.tsx",
-    "frontend/src/pages/StatusPage.tsx",
+    "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+    "frontend/src/components/videos/SponsoredVideoViewer.tsx",
+    "frontend/src/components/videos/mockSponsoredItems.ts",
+    "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
     "frontend/src/pages/VideosPage.tsx",
     "project_state.json"
   ]
