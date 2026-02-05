@@ -1,6 +1,65 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Untitled request",
-  "requirements": []
+  "title": "Improve PWA install callout UX and persistence",
+  "requirements": [
+    {
+      "id": "REQ-50",
+      "summary": "Make the PWA install callout primary action a prominent “Install” CTA and remove “Dismiss” wording",
+      "acceptanceCriteria": [
+        "When the browser provides an install prompt (`beforeinstallprompt` captured), the callout shows a clear primary CTA labeled \"Install\" (or \"Install Vibechat\") that triggers the install prompt.",
+        "The UI no longer shows a button labeled \"Dismiss\" anywhere in the install callout.",
+        "If the user completes installation successfully, the callout disappears (no longer rendered)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PWAInstallCallout.tsx",
+          "operation": "modify",
+          "description": "Update the install callout UI so the primary CTA is a prominent Button labeled \"Install\" or \"Install Vibechat\" that calls promptInstall(); remove the current \"Dismiss\" button text entirely. Use existing shadcn-ui Button/Card components for the CTA styling and layout (verify the component's usage instructions before implementing). Also ensure the callout hides after a successful install outcome and/or when the appinstalled event indicates completion."
+        },
+        {
+          "path": "frontend/src/hooks/usePWAInstallPrompt.ts",
+          "operation": "modify",
+          "description": "Adjust the hook behavior (as needed) to better support the callout disappearing after install completion (e.g., reliably reflecting install state after appinstalled). Keep changes limited to frontend install-prompt handling."
+        }
+      ]
+    },
+    {
+      "id": "REQ-51",
+      "summary": "Show concise manual install instructions when programmatic install is unavailable",
+      "acceptanceCriteria": [
+        "On environments where `beforeinstallprompt` is not available, the install UI displays concise manual-install instructions in English.",
+        "The copy explicitly clarifies that installation availability depends on the browser/device (to avoid implying install works identically for everyone).",
+        "The install UI does not imply that Vibechat can force-install on unsupported browsers."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PWAInstallCallout.tsx",
+          "operation": "modify",
+          "description": "Refine the non-installable state copy to short, clear English instructions for installing via the browser menu (e.g., \"Add to Home Screen\" / \"Install App\") and explicitly note that availability depends on browser/device. Keep wording factual and avoid any implication of forced installation."
+        }
+      ]
+    },
+    {
+      "id": "REQ-52",
+      "summary": "Add a “Not now”/close control to hide the callout and persist the hide choice locally",
+      "acceptanceCriteria": [
+        "The callout can be hidden via a secondary control that is not labeled \"Dismiss\".",
+        "After hiding the callout, it stays hidden on page refresh/reload (local persistence).",
+        "If the user installs the PWA, the callout stays hidden regardless of the saved hide state."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/pwaInstallCalloutStorage.ts",
+          "operation": "create",
+          "description": "Create a small localStorage-backed utility for persisting whether the PWA install callout has been hidden (e.g., get/set/clear functions). Keep it focused and English-agnostic (no UI text)."
+        },
+        {
+          "path": "frontend/src/components/PWAInstallCallout.tsx",
+          "operation": "modify",
+          "description": "Add a low-friction secondary hide control (e.g., \"Not now\" text button or an X icon button) that is not labeled \"Dismiss\", and wire it to persist the hidden state via the new storage utility. Use existing shadcn-ui Button for the secondary control (verify the component's usage instructions before implementing). Ensure install completion always results in the callout being hidden (persisted), regardless of any prior hide state."
+        }
+      ]
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 43,
+  "projectStateVersion": 45,
   "summary": "Project \"vibechat\" is targeting a more strictly WhatsApp-like main navigation/UI (Chats, Groups, Status, Live, Videos) and removing prior advisory/help-style UI content from the authenticated in-app experience; the user also wants a lightweight introduction/onboarding screen shown before Internet Identity sign-in (pre-login) and now wants Vibechat to be installable as a PWA (add to home screen like a normal app). Additionally, the user requested social features: following/followers and liking.",
   "architectural_notes": [
     "Platform constraint: authentication must use Internet Identity; SMS verification/phone-based login is not supported. Any in-app password is app-level data (e.g., for extra gating) and not a replacement for II auth.",
@@ -378,6 +378,30 @@
         "REQ-49"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-pwa-install-prompt-ui-to-make-installation-feel-one-tap-and-remove-confusing-dismissal-wording-in-frontend-src-components-pwainstallcallout-tsx-make-the-primary-action-a-prominent-install-button-or-install-vibechat-and-remove-the-current-dismiss-button-text-from-the-ui",
+      "title": "Update the PWA install prompt UI to make installation feel “one-tap” and remove confusing dismissal wording: in `frontend/src/components/PWAInstallCallout.tsx`, make the primary action a prominent \"Install\" button (or \"Install Vibechat\"), and remove the current \"Dismiss\" button text from the UI.",
+      "reqIds": [
+        "REQ-50"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-users-on-browsers-devices-that-do-not-support-programmatic-install-still-have-a-clear-easy-path-when-isinstallable-is-false-in-pwainstallcallout-show-short-english-instructions-explaining-how-to-install-via-the-browser-menu-e-g-add-to-home-screen-install-app-and-that-availability-depends-on-the-browser-device",
+      "title": "Ensure users on browsers/devices that do not support programmatic install still have a clear, easy path: when `isInstallable` is false in `PWAInstallCallout`, show short English instructions explaining how to install via the browser menu (e.g., \"Add to Home Screen\" / \"Install App\") and that availability depends on the browser/device.",
+      "reqIds": [
+        "REQ-51"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-low-friction-way-to-temporarily-hide-the-install-callout-without-using-the-word-dismiss-e-g-a-small-not-now-text-button-or-an-x-icon-and-persist-that-choice-locally-so-returning-users-are-not-repeatedly-shown-the-callout-after-hiding-it",
+      "title": "Add a low-friction way to temporarily hide the install callout without using the word \"Dismiss\" (e.g., a small \"Not now\" text button or an X icon), and persist that choice locally so returning users are not repeatedly shown the callout after hiding it.",
+      "reqIds": [
+        "REQ-52"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -562,6 +586,12 @@
     {
       "id": "AR-32",
       "summary": "Add a liking feature (likes/reactions) so users can like content (e.g., status updates and/or videos) and view like counts",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-33",
+      "summary": "Improve PWA install UX: replace/avoid a confusing \"Dismiss\" CTA and instead prominently show an \"Install\" option so users can easily add Vibechat to their phone home screen (where supported), with clear fallback messaging when installation isn’t available",
       "reqIds": [],
       "status": "pending"
     }

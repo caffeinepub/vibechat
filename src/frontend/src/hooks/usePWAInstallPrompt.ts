@@ -8,6 +8,7 @@ interface BeforeInstallPromptEvent extends Event {
 export function usePWAInstallPrompt() {
   const [installPromptEvent, setInstallPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -22,6 +23,7 @@ export function usePWAInstallPrompt() {
       console.log('[PWA] App was installed');
       setInstallPromptEvent(null);
       setIsInstallable(false);
+      setIsInstalled(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -49,6 +51,7 @@ export function usePWAInstallPrompt() {
         console.log('[PWA] User accepted the install prompt');
         setInstallPromptEvent(null);
         setIsInstallable(false);
+        setIsInstalled(true);
         return true;
       } else {
         console.log('[PWA] User dismissed the install prompt');
@@ -62,6 +65,7 @@ export function usePWAInstallPrompt() {
 
   return {
     isInstallable,
+    isInstalled,
     promptInstall,
   };
 }

@@ -1,10 +1,72 @@
 {
   "kind": "build_request",
-  "title": "Untitled request",
+  "title": "Improve PWA install UX (prominent Install, no confusing Dismiss)",
   "priority": "normal",
-  "requirements": [],
-  "constraints": [],
-  "nonGoals": [],
+  "requirements": [
+    {
+      "id": "REQ-50",
+      "text": "Update the PWA install prompt UI to make installation feel “one-tap” and remove confusing dismissal wording: in `frontend/src/components/PWAInstallCallout.tsx`, make the primary action a prominent \"Install\" button (or \"Install Vibechat\"), and remove the current \"Dismiss\" button text from the UI.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-messages-6"
+        ],
+        "quotes": [
+          "About installing can you make it easy to install.... Where dismiss is just put there install for all people to install it to there phones just like other phones easy"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When the browser provides an install prompt (`beforeinstallprompt` captured), the callout shows a clear primary CTA labeled \"Install\" (or \"Install Vibechat\") that triggers the install prompt.",
+        "The UI no longer shows a button labeled \"Dismiss\" anywhere in the install callout.",
+        "If the user completes installation successfully, the callout disappears (no longer rendered)."
+      ]
+    },
+    {
+      "id": "REQ-51",
+      "text": "Ensure users on browsers/devices that do not support programmatic install still have a clear, easy path: when `isInstallable` is false in `PWAInstallCallout`, show short English instructions explaining how to install via the browser menu (e.g., \"Add to Home Screen\" / \"Install App\") and that availability depends on the browser/device.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-messages-6"
+        ],
+        "quotes": [
+          "make it easy to install... for all people to install it to there phones"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On environments where `beforeinstallprompt` is not available, the install UI displays concise manual-install instructions in English.",
+        "The copy explicitly clarifies that installation availability depends on the browser/device (to avoid implying install works identically for everyone).",
+        "The install UI does not imply that Vibechat can force-install on unsupported browsers."
+      ]
+    },
+    {
+      "id": "REQ-52",
+      "text": "Add a low-friction way to temporarily hide the install callout without using the word \"Dismiss\" (e.g., a small \"Not now\" text button or an X icon), and persist that choice locally so returning users are not repeatedly shown the callout after hiding it.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-messages-6"
+        ],
+        "quotes": [
+          "Where dismiss is just put there install"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The callout can be hidden via a secondary control that is not labeled \"Dismiss\".",
+        "After hiding the callout, it stays hidden on page refresh/reload (local persistence).",
+        "If the user installs the PWA, the callout stays hidden regardless of the saved hide state."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify immutable frontend paths (e.g., `frontend/src/main.tsx`, `frontend/src/components/ui`).",
+    "Do not add any backend changes for this request.",
+    "Use English for all user-facing text."
+  ],
+  "nonGoals": [
+    "Changing the existing PWA manifest, service worker caching strategy, or icon set (unless required for the install prompt UI to function).",
+    "Implementing native app store distribution (iOS App Store / Google Play)."
+  ],
   "imageRequirements": {
     "required": [],
     "edits": []

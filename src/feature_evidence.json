@@ -1,4 +1,70 @@
 {
   "kind": "feature_evidence_report",
-  "features": []
+  "features": [
+    {
+      "featureId": "feature-update-the-pwa-install-prompt-ui-to-make-installation-feel-one-tap-and-remove-confusing-dismissal-wording-in-frontend-src-components-pwainstallcallout-tsx-make-the-primary-action-a-prominent-install-button-or-install-vibechat-and-remove-the-current-dismiss-button-text-from-the-ui",
+      "featureTitle": "Update the PWA install prompt UI to make installation feel “one-tap” and remove confusing dismissal wording: in `frontend/src/components/PWAInstallCallout.tsx`, make the primary action a prominent \"Install\" button (or \"Install Vibechat\"), and remove the current \"Dismiss\" button text from the UI.",
+      "files": [
+        "frontend/src/components/PWAInstallCallout.tsx",
+        "frontend/src/hooks/usePWAInstallPrompt.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-50"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-users-on-browsers-devices-that-do-not-support-programmatic-install-still-have-a-clear-easy-path-when-isinstallable-is-false-in-pwainstallcallout-show-short-english-instructions-explaining-how-to-install-via-the-browser-menu-e-g-add-to-home-screen-install-app-and-that-availability-depends-on-the-browser-device",
+      "featureTitle": "Ensure users on browsers/devices that do not support programmatic install still have a clear, easy path: when `isInstallable` is false in `PWAInstallCallout`, show short English instructions explaining how to install via the browser menu (e.g., \"Add to Home Screen\" / \"Install App\") and that availability depends on the browser/device.",
+      "files": [
+        "frontend/src/components/PWAInstallCallout.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-51"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-low-friction-way-to-temporarily-hide-the-install-callout-without-using-the-word-dismiss-e-g-a-small-not-now-text-button-or-an-x-icon-and-persist-that-choice-locally-so-returning-users-are-not-repeatedly-shown-the-callout-after-hiding-it",
+      "featureTitle": "Add a low-friction way to temporarily hide the install callout without using the word \"Dismiss\" (e.g., a small \"Not now\" text button or an X icon), and persist that choice locally so returning users are not repeatedly shown the callout after hiding it.",
+      "files": [
+        "frontend/src/components/PWAInstallCallout.tsx",
+        "frontend/src/utils/pwaInstallCalloutStorage.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-52"
+      ],
+      "confidence": "high"
+    }
+  ]
 }

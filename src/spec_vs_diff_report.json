@@ -1,58 +1,31 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T23:08:15.939Z",
-  "summary": "BuildRequest contains no stated requirements or acceptance criteria, but the diff introduces multiple new UI sections and social features (People page, following/followers, message likes), plus navigation and app-behavior changes.",
+  "generatedAt": "2026-02-05T23:17:31.352Z",
+  "summary": "The diff implements the requested PWA install UX updates in `PWAInstallCallout.tsx`: a prominent primary \"Install\" CTA when programmatic install is available, removal of any \"Dismiss\" wording, manual-install instructions when not installable (including a browser/device availability disclaimer), and a secondary hide control (\"Not now\" and an X) persisted via localStorage. It also hides the callout after successful installation.",
   "missing_requirements": [],
   "hallucinated_features": [
     {
-      "description": "Added a new People page with user cards and follow/unfollow UI (including loading states, skeletons, tabs, and error alerts).",
-      "reason": "No requirements were specified in the BuildRequest, so adding a new page and social UI is out of scope.",
+      "description": "Added an unused `clearCalloutHidden()` storage helper (extra API beyond the requested hide/persist behavior).",
+      "reason": "REQ-52 only requires persisting the hidden choice; no requirement mentions a separate clear/reset API.",
       "evidence": [
-        "frontend/src/pages/PeoplePage.tsx"
+        "frontend/src/utils/pwaInstallCalloutStorage.ts"
       ]
     },
     {
-      "description": "Added a new \"People\" section to app navigation and wired it into section routing.",
-      "reason": "No navigation/section changes were requested.",
+      "description": "Added console logging around PWA install events and outcomes.",
+      "reason": "Logging was not requested by any requirement or acceptance criteria.",
       "evidence": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/AppHeader.tsx"
-      ]
-    },
-    {
-      "description": "Implemented/added React Query hooks for social features like following/followers and follow/unfollow, and message likes (like/unlike/hasLiked/getMessageLikes).",
-      "reason": "No backend/query-hook expansion was requested.",
-      "evidence": [
-        "frontend/src/hooks/useQueries.ts",
-        "frontend/src/pages/PeoplePage.tsx",
-        "frontend/src/components/chat/MessageTimeline.tsx",
-        "frontend-file-summaries.txt"
-      ]
-    },
-    {
-      "description": "Added message-like UI/behavior to the chat message timeline (like button, counts, loading state).",
-      "reason": "No chat interaction changes were requested.",
-      "evidence": [
-        "frontend/src/components/chat/MessageTimeline.tsx"
-      ]
-    },
-    {
-      "description": "Added/changed app startup behavior to register a service worker on mount.",
-      "reason": "No PWA/service-worker behavior was requested in this BuildRequest.",
-      "evidence": [
-        "frontend/src/App.tsx"
+        "frontend/src/hooks/usePWAInstallPrompt.ts"
       ]
     }
   ],
-  "confidence": 0.78,
+  "confidence": 0.82,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/App.tsx",
-    "frontend/src/components/AppHeader.tsx",
-    "frontend/src/components/chat/MessageTimeline.tsx",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/pages/PeoplePage.tsx",
+    "frontend/src/components/PWAInstallCallout.tsx",
+    "frontend/src/hooks/usePWAInstallPrompt.ts",
+    "frontend/src/utils/pwaInstallCalloutStorage.ts",
     "project_state.json"
   ]
 }

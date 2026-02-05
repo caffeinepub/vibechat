@@ -1,26 +1,62 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T23:08:15.942Z",
+  "generatedAt": "2026-02-05T23:17:31.356Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 0,
-    "implemented": 0,
-    "items": []
+    "total": 3,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-50",
+        "summary": "Update the PWA install prompt UI to make installation feel “one-tap” and remove confusing dismissal wording: in `frontend/src/components/PWAInstallCallout.tsx`, make the primary action a prominent \"Install\" button (or \"Install Vibechat\"), and remove the current \"Dismiss\" button text from the UI.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/PWAInstallCallout.tsx",
+          "frontend/src/hooks/usePWAInstallPrompt.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/PWAInstallCallout.tsx",
+          "frontend/src/hooks/usePWAInstallPrompt.ts"
+        ]
+      },
+      {
+        "id": "REQ-51",
+        "summary": "Ensure users on browsers/devices that do not support programmatic install still have a clear, easy path: when `isInstallable` is false in `PWAInstallCallout`, show short English instructions explaining how to install via the browser menu (e.g., \"Add to Home Screen\" / \"Install App\") and that availability depends on the browser/device.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/PWAInstallCallout.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/PWAInstallCallout.tsx"
+        ]
+      },
+      {
+        "id": "REQ-52",
+        "summary": "Add a low-friction way to temporarily hide the install callout without using the word \"Dismiss\" (e.g., a small \"Not now\" text button or an X icon), and persist that choice locally so returning users are not repeatedly shown the callout after hiding it.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/utils/pwaInstallCalloutStorage.ts",
+          "frontend/src/components/PWAInstallCallout.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/utils/pwaInstallCalloutStorage.ts",
+          "frontend/src/components/PWAInstallCallout.tsx"
+        ]
+      }
+    ]
   },
   "changedFiles": [
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/App.tsx",
-    "frontend/src/components/AppHeader.tsx",
-    "frontend/src/components/chat/MessageTimeline.tsx",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/pages/PeoplePage.tsx",
+    "frontend/src/components/PWAInstallCallout.tsx",
+    "frontend/src/hooks/usePWAInstallPrompt.ts",
+    "frontend/src/utils/pwaInstallCalloutStorage.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

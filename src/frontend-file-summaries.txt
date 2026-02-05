@@ -40,7 +40,8 @@
   "frontend/public/sw.js": "Service worker implementing cache-first strategy for shell assets and network-first for dynamic content, with safe fallbacks and proper error handling.",
   "frontend/index.html": "HTML entry point with PWA metadata including manifest link, theme-color meta tag, favicon, and Apple touch icon references.",
   "frontend/src/utils/registerServiceWorker.ts": "Utility function that conditionally registers the service worker only in production builds with browser support checks and graceful degradation.",
-  "frontend/src/hooks/usePWAInstallPrompt.ts": "React hook that captures the browser's beforeinstallprompt event and provides install prompt triggering functionality with state management.",
-  "frontend/src/components/PWAInstallCallout.tsx": "Callout component displaying PWA install prompt with conditional UI based on browser support and fallback instructions for manual installation.",
-  "frontend/src/pages/PeoplePage.tsx": "People discovery page with tabs for discovering users, viewing following/following lists, and follow/unfollow functionality with user cards and profile avatars."
+  "frontend/src/hooks/usePWAInstallPrompt.ts": "React hook that captures the browser's beforeinstallprompt event, provides install prompt triggering functionality, and tracks installation state including isInstalled flag for post-install UI updates.",
+  "frontend/src/components/PWAInstallCallout.tsx": "PWA install callout component with prominent \"Install\" CTA, \"Not now\" secondary control with X icon, localStorage persistence for hide state, improved manual install instructions noting browser/device dependency, and automatic hiding after successful installation.",
+  "frontend/src/pages/PeoplePage.tsx": "People discovery page with tabs for discovering users, viewing following/following lists, and follow/unfollow functionality with user cards and profile avatars.",
+  "frontend/src/utils/pwaInstallCalloutStorage.ts": "LocalStorage utility for persisting whether the PWA install callout has been hidden by the user, with get/set/clear functions and graceful error handling."
 }
