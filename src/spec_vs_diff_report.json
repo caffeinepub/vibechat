@@ -1,26 +1,70 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T21:31:03.086Z",
-  "summary": "REQ-17 is largely implemented by adding a new ProfilePhotoPicker with separate “From gallery” and “Take photo” actions, plus a CameraCaptureDialog that handles camera support/permission errors in clear English and returns a captured File for the existing preview/save flow. One acceptance-criteria detail (using a camera-capable file input with `capture`) is not evidenced; instead, the diff shows a custom camera dialog likely using getUserMedia via a `useCamera` hook.",
+  "generatedAt": "2026-02-05T21:58:48.238Z",
+  "summary": "Diff adds a dedicated Chats screen with conversation list/detail components, message timeline/composer with image/video attachments, a principal-based “new chat” dialog, and introduces backend data types + migration scaffolding for conversations/messages/media. However, the diff summary does not show the required backend conversation/message APIs, access control enforcement for conversation participation, or attachment validation/retrieval guarantees at the backend level. Some additional UI navigation/items (Live/Videos) and a promotional footer appear unrelated to the BuildRequest.",
   "missing_requirements": [
     {
-      "id": "REQ-17",
-      "requirement": "In the profile setup step, users have an explicit UI option to take a new photo that uses a camera-capable file input (e.g., input capture) on supported mobile browsers.",
-      "reason": "The diff shows the “Take photo” UI opening a custom `CameraCaptureDialog` backed by a `useCamera` hook (live video/canvas capture). There is no evidence of an `<input type=\"file\" capture>`-based implementation for camera capture.",
+      "id": "REQ-24",
+      "requirement": "Backend exposes APIs to create/open a conversation, list caller conversations, list messages for a conversation (paged/limited), and send a message with optional attachments, with access control so only participants can read/write.",
+      "reason": "backend/main.mo diff snippet shows only type/data structure additions (Conversation/Message/MediaAttachment) and existing profile auth checks; it does not show implementations of the required conversation/message APIs nor participant-based authorization checks for reading/writing messages/attachments.",
       "evidence": [
-        "frontend/src/components/ProfilePhotoPicker.tsx",
-        "frontend/src/components/CameraCaptureDialog.tsx"
+        "backend/main.mo (truncated shows types + profile functions, no conversation/message API bodies)",
+        "backend/migration.mo (adds conversations field but no APIs)"
+      ]
+    },
+    {
+      "id": "REQ-26",
+      "requirement": "Ensure message media storage uses existing blob storage; attachments stored as blobs linked to messages; backend returns attachment metadata and enforces participant-only access; backend validates attachment size/type with clear errors.",
+      "reason": "Frontend validates file type/size and uses ExternalBlob, but the diff summary does not show backend-side validation, authorization checks for blob/attachment access by participants, or explicit APIs/mechanisms for safe authorized retrieval beyond using Storage.ExternalBlob in types.",
+      "evidence": [
+        "backend/main.mo (truncated: includes MixinStorage and attachment types, but no validation/access logic shown)",
+        "frontend/src/utils/readFileAsBytesAny.ts (frontend-only validation)"
+      ]
+    },
+    {
+      "id": "REQ-25",
+      "requirement": "User can start/open a conversation from the Chats screen with a selected contact (from existing contacts match results) OR by entering a principal/identifier supported by the UI.",
+      "reason": "The diff shows starting a conversation by entering a Principal ID (NewConversationDialog), but does not show wiring from “existing contacts match results” to create/open a conversation with a selected matched contact (ContactsSyncDialog changes shown only include an onStartChat navigation callback, not selecting a matched user to start a chat).",
+      "evidence": [
+        "frontend/src/components/chat/NewConversationDialog.tsx",
+        "frontend/src/components/ContactsSyncDialog.tsx (truncated)"
       ]
     }
   ],
-  "hallucinated_features": [],
-  "confidence": 0.68,
+  "hallucinated_features": [
+    {
+      "description": "Added/retained top-level navigation items for “Live” and “Videos” with “coming soon” toasts in the header.",
+      "reason": "BuildRequest scope is Chats UI + conversation/media storage; it does not request Live/Videos navigation/actions.",
+      "evidence": [
+        "frontend/src/components/AppHeader.tsx (truncated: Live/Videos buttons and handlers)"
+      ]
+    },
+    {
+      "description": "Added a footer with “© 2026. Built with … caffeine.ai” shown on landing view.",
+      "reason": "Not requested by any of REQ-23..REQ-26; appears to be an unrelated promotional/footer change.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.6,
   "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "frontend-file-summaries.txt",
-    "frontend/src/components/CameraCaptureDialog.tsx",
-    "frontend/src/components/ProfilePhotoPicker.tsx",
-    "frontend/src/components/WhatsAppStyleAuth.tsx",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AppHeader.tsx",
+    "frontend/src/components/ContactsSyncDialog.tsx",
+    "frontend/src/components/chat/ConversationDetail.tsx",
+    "frontend/src/components/chat/ConversationList.tsx",
+    "frontend/src/components/chat/MessageComposer.tsx",
+    "frontend/src/components/chat/MessageTimeline.tsx",
+    "frontend/src/components/chat/NewConversationDialog.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/ChatsPage.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/utils/readFileAsBytesAny.ts",
     "project_state.json"
   ]
 }

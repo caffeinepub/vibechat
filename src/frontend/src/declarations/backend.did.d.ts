@@ -11,6 +11,18 @@ import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
 export type ExternalBlob = Uint8Array;
+export interface MediaAttachment {
+  'blob' : ExternalBlob,
+  'attachmentType' : MediaAttachmentType,
+}
+export type MediaAttachmentType = { 'video' : null } |
+  { 'photo' : null };
+export interface Message {
+  'text' : string,
+  'sender' : Principal,
+  'timestamp' : bigint,
+  'attachments' : Array<MediaAttachment>,
+}
 export interface UserProfile {
   'fullName' : string,
   'phoneNumber' : string,
@@ -51,17 +63,22 @@ export interface _SERVICE {
   'changePassword' : ActorMethod<[string, string], undefined>,
   'checkPassword' : ActorMethod<[string], boolean>,
   'checkPhoneNumberAvailability' : ActorMethod<[string], boolean>,
+  'createConversation' : ActorMethod<[Array<Principal>], string>,
   'getAllUserProfiles' : ActorMethod<[], Array<UserProfile>>,
   'getAllVerifiedPhoneNumbers' : ActorMethod<[], Array<string>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getMatchingContacts' : ActorMethod<[Array<string>], Array<UserProfile>>,
+  'getMessages' : ActorMethod<[string], Array<Message>>,
   'getProfilePicture' : ActorMethod<[Principal], [] | [ExternalBlob]>,
+  'getUserConversations' : ActorMethod<[], Array<string>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'hasPassword' : ActorMethod<[], boolean>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'registerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'removePassword' : ActorMethod<[], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'sendMessage' : ActorMethod<[string, Message], undefined>,
   'setPassword' : ActorMethod<[string], undefined>,
   'uploadProfilePicture' : ActorMethod<[ExternalBlob], undefined>,
 }

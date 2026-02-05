@@ -1,12 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Let users set a profile photo by choosing from their device gallery or taking a new photo with the device camera during the WhatsApp-style auth/profile setup flow, without backend changes.
+**Goal:** Update Vibechat with a WhatsApp-inspired chat experience and add backend support for conversations, messages, and photo/video attachments stored in existing blob storage with participant-only access.
 
 **Planned changes:**
-- Update the profile photo picker UI in the profile setup step to offer two actions: select from gallery (existing file picker) and “Take photo” (camera-capable file input on supported mobile browsers).
-- Keep existing image validation (type and max size) and display any validation failures in clear English.
-- Add clear English fallback messaging when camera capture is unsupported or permission is denied, while still allowing gallery selection.
-- Preserve existing behavior for immediate preview and saving/uploading via the current profile save flow.
+- Redesign the frontend to add a dedicated Chats entry point with a conversation list and a responsive conversation detail view (message timeline + composer), using WhatsApp-inspired patterns without copying WhatsApp branding/assets.
+- Implement backend APIs for creating/opening conversations, listing a user’s conversations, listing messages for a conversation (paged/limited), and sending messages with optional photo/video attachments.
+- Enforce access control in the backend so only conversation participants can read/write messages and retrieve attachments.
+- Store message attachments as blobs linked to messages; return safe attachment metadata/references for authorized retrieval, with basic file size/type validation and clear error messages.
+- Wire the new chat UI to the backend using React Query hooks for conversation/message queries and send-message mutations, including loading/progress/error states and attachment selection from the device.
 
-**User-visible outcome:** During profile setup, users can either pick a profile photo from their gallery or take a new photo (when supported), see an immediate preview, and save it using the existing flow—with clear messages if camera capture isn’t available.
+**User-visible outcome:** Users can open the Chats screen, start or open a conversation, view message history, send text messages, and attach photos/videos that are stored and viewable only by conversation participants, on both mobile and desktop layouts.

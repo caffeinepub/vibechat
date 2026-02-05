@@ -1,42 +1,96 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T21:31:03.089Z",
+  "generatedAt": "2026-02-05T21:58:48.241Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 4,
+    "implemented": 2,
     "items": [
       {
-        "id": "REQ-17",
-        "summary": "Update the profile photo picker in the WhatsApp-style auth/profile flow to support selecting an image from the device photo gallery and (on supported mobile browsers) taking a new photo using the device camera, without requiring any backend changes.",
+        "id": "REQ-23",
+        "summary": "Update the Vibechat UI to be WhatsApp-inspired (without copying WhatsApp’s exact branding/assets), including a dedicated Chats screen with a conversation list and a conversation detail view that feels familiar on mobile and desktop.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/ProfilePhotoPicker.tsx",
-          "frontend/src/components/CameraCaptureDialog.tsx",
-          "frontend/src/components/WhatsAppStyleAuth.tsx"
+          "frontend/src/App.tsx",
+          "frontend/src/components/AppHeader.tsx",
+          "frontend/src/pages/ChatsPage.tsx",
+          "frontend/src/components/chat/ConversationList.tsx",
+          "frontend/src/components/chat/ConversationDetail.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/ProfilePhotoPicker.tsx",
-          "frontend/src/components/CameraCaptureDialog.tsx",
-          "frontend/src/components/WhatsAppStyleAuth.tsx"
+          "frontend/src/App.tsx",
+          "frontend/src/components/AppHeader.tsx",
+          "frontend/src/pages/ChatsPage.tsx",
+          "frontend/src/components/chat/ConversationList.tsx",
+          "frontend/src/components/chat/ConversationDetail.tsx"
         ]
+      },
+      {
+        "id": "REQ-24",
+        "summary": "Implement backend support for conversations and messages, including storing message text plus optional media attachments (photos/videos) associated with a conversation, with appropriate access control so only conversation participants can read or write messages and attachments.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-25",
+        "summary": "Add frontend chat functionality wired to the backend using React Query: conversation list, message list, and sending messages with optional photo/video attachments selected from the device.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/chat/NewConversationDialog.tsx",
+          "frontend/src/components/chat/MessageComposer.tsx",
+          "frontend/src/components/chat/MessageTimeline.tsx",
+          "frontend/src/utils/readFileAsBytesAny.ts",
+          "frontend/src/pages/ChatsPage.tsx",
+          "frontend/src/components/ContactsSyncDialog.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/chat/NewConversationDialog.tsx",
+          "frontend/src/components/chat/MessageComposer.tsx",
+          "frontend/src/components/chat/MessageTimeline.tsx",
+          "frontend/src/utils/readFileAsBytesAny.ts",
+          "frontend/src/pages/ChatsPage.tsx",
+          "frontend/src/components/ContactsSyncDialog.tsx"
+        ]
+      },
+      {
+        "id": "REQ-26",
+        "summary": "Ensure message media storage uses the existing blob storage capability in the backend and that attachments can be retrieved by authorized participants via a safe, direct mechanism supported by the current blob abstractions.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/camera/useCamera.ts",
-    "frontend/src/components/CameraCaptureDialog.tsx",
-    "frontend/src/components/ProfilePhotoPicker.tsx",
-    "frontend/src/components/WhatsAppStyleAuth.tsx",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/AppHeader.tsx",
+    "frontend/src/components/ContactsSyncDialog.tsx",
+    "frontend/src/components/chat/ConversationDetail.tsx",
+    "frontend/src/components/chat/ConversationList.tsx",
+    "frontend/src/components/chat/MessageComposer.tsx",
+    "frontend/src/components/chat/MessageTimeline.tsx",
+    "frontend/src/components/chat/NewConversationDialog.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/ChatsPage.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/utils/readFileAsBytesAny.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -2,12 +2,14 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-profile-photo-picker-in-the-whatsapp-style-auth-profile-flow-to-support-selecting-an-image-from-the-device-photo-gallery-and-on-supported-mobile-browsers-taking-a-new-photo-using-the-device-camera-without-requiring-any-backend-changes",
-      "featureTitle": "Update the profile photo picker in the WhatsApp-style auth/profile flow to support selecting an image from the device photo gallery and (on supported mobile browsers) taking a new photo using the device camera, without requiring any backend changes.",
+      "featureId": "feature-update-the-vibechat-ui-to-be-whatsapp-inspired-without-copying-whatsapp-s-exact-branding-assets-including-a-dedicated-chats-screen-with-a-conversation-list-and-a-conversation-detail-view-that-feels-familiar-on-mobile-and-desktop",
+      "featureTitle": "Update the Vibechat UI to be WhatsApp-inspired (without copying WhatsApp’s exact branding/assets), including a dedicated Chats screen with a conversation list and a conversation detail view that feels familiar on mobile and desktop.",
       "files": [
-        "frontend/src/components/CameraCaptureDialog.tsx",
-        "frontend/src/components/ProfilePhotoPicker.tsx",
-        "frontend/src/components/WhatsAppStyleAuth.tsx"
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppHeader.tsx",
+        "frontend/src/components/chat/ConversationDetail.tsx",
+        "frontend/src/components/chat/ConversationList.tsx",
+        "frontend/src/pages/ChatsPage.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -20,7 +22,34 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-17"
+        "REQ-23"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-frontend-chat-functionality-wired-to-the-backend-using-react-query-conversation-list-message-list-and-sending-messages-with-optional-photo-video-attachments-selected-from-the-device",
+      "featureTitle": "Add frontend chat functionality wired to the backend using React Query: conversation list, message list, and sending messages with optional photo/video attachments selected from the device.",
+      "files": [
+        "frontend/src/components/ContactsSyncDialog.tsx",
+        "frontend/src/components/chat/MessageComposer.tsx",
+        "frontend/src/components/chat/MessageTimeline.tsx",
+        "frontend/src/components/chat/NewConversationDialog.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/ChatsPage.tsx",
+        "frontend/src/utils/readFileAsBytesAny.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-25"
       ],
       "confidence": "high"
     }

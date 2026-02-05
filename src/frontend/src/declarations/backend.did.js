@@ -30,6 +30,20 @@ export const UserProfile = IDL.Record({
   'phoneNumber' : IDL.Text,
   'profilePicture' : IDL.Opt(ExternalBlob),
 });
+export const MediaAttachmentType = IDL.Variant({
+  'video' : IDL.Null,
+  'photo' : IDL.Null,
+});
+export const MediaAttachment = IDL.Record({
+  'blob' : ExternalBlob,
+  'attachmentType' : MediaAttachmentType,
+});
+export const Message = IDL.Record({
+  'text' : IDL.Text,
+  'sender' : IDL.Principal,
+  'timestamp' : IDL.Nat,
+  'attachments' : IDL.Vec(MediaAttachment),
+});
 
 export const idlService = IDL.Service({
   '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -63,15 +77,23 @@ export const idlService = IDL.Service({
   'changePassword' : IDL.Func([IDL.Text, IDL.Text], [], []),
   'checkPassword' : IDL.Func([IDL.Text], [IDL.Bool], []),
   'checkPhoneNumberAvailability' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
+  'createConversation' : IDL.Func([IDL.Vec(IDL.Principal)], [IDL.Text], []),
   'getAllUserProfiles' : IDL.Func([], [IDL.Vec(UserProfile)], ['query']),
   'getAllVerifiedPhoneNumbers' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'getMatchingContacts' : IDL.Func(
+      [IDL.Vec(IDL.Text)],
+      [IDL.Vec(UserProfile)],
+      ['query'],
+    ),
+  'getMessages' : IDL.Func([IDL.Text], [IDL.Vec(Message)], ['query']),
   'getProfilePicture' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(ExternalBlob)],
       ['query'],
     ),
+  'getUserConversations' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
@@ -82,6 +104,7 @@ export const idlService = IDL.Service({
   'registerUserProfile' : IDL.Func([UserProfile], [], []),
   'removePassword' : IDL.Func([], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'sendMessage' : IDL.Func([IDL.Text, Message], [], []),
   'setPassword' : IDL.Func([IDL.Text], [], []),
   'uploadProfilePicture' : IDL.Func([ExternalBlob], [], []),
 });
@@ -110,6 +133,20 @@ export const idlFactory = ({ IDL }) => {
     'fullName' : IDL.Text,
     'phoneNumber' : IDL.Text,
     'profilePicture' : IDL.Opt(ExternalBlob),
+  });
+  const MediaAttachmentType = IDL.Variant({
+    'video' : IDL.Null,
+    'photo' : IDL.Null,
+  });
+  const MediaAttachment = IDL.Record({
+    'blob' : ExternalBlob,
+    'attachmentType' : MediaAttachmentType,
+  });
+  const Message = IDL.Record({
+    'text' : IDL.Text,
+    'sender' : IDL.Principal,
+    'timestamp' : IDL.Nat,
+    'attachments' : IDL.Vec(MediaAttachment),
   });
   
   return IDL.Service({
@@ -148,15 +185,23 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Bool],
         ['query'],
       ),
+    'createConversation' : IDL.Func([IDL.Vec(IDL.Principal)], [IDL.Text], []),
     'getAllUserProfiles' : IDL.Func([], [IDL.Vec(UserProfile)], ['query']),
     'getAllVerifiedPhoneNumbers' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'getMatchingContacts' : IDL.Func(
+        [IDL.Vec(IDL.Text)],
+        [IDL.Vec(UserProfile)],
+        ['query'],
+      ),
+    'getMessages' : IDL.Func([IDL.Text], [IDL.Vec(Message)], ['query']),
     'getProfilePicture' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(ExternalBlob)],
         ['query'],
       ),
+    'getUserConversations' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],
@@ -167,6 +212,7 @@ export const idlFactory = ({ IDL }) => {
     'registerUserProfile' : IDL.Func([UserProfile], [], []),
     'removePassword' : IDL.Func([], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'sendMessage' : IDL.Func([IDL.Text, Message], [], []),
     'setPassword' : IDL.Func([IDL.Text], [], []),
     'uploadProfilePicture' : IDL.Func([ExternalBlob], [], []),
   });

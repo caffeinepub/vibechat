@@ -1,49 +1,98 @@
 {
   "kind": "build_request",
-  "title": "Enable profile photo selection from gallery and camera capture",
+  "title": "Add WhatsApp-inspired chat UI with conversation media (photos/videos) storage",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-17",
-      "text": "Update the profile photo picker in the WhatsApp-style auth/profile flow to support selecting an image from the device photo gallery and (on supported mobile browsers) taking a new photo using the device camera, without requiring any backend changes.",
+      "id": "REQ-23",
+      "text": "Update the Vibechat UI to be WhatsApp-inspired (without copying WhatsApp’s exact branding/assets), including a dedicated Chats screen with a conversation list and a conversation detail view that feels familiar on mobile and desktop.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "recent-messages"
+          "msg-4"
         ],
         "quotes": [
-          "No let the app have permission to take photos from gallery"
+          "Hey I want everything to exactly just like Whatsapp... Copy everything of Whatsapp now"
         ]
       },
       "acceptanceCriteria": [
-        "In the profile setup step (profile photo area), users can choose an existing image from their device gallery using the existing file picker flow.",
-        "In the profile setup step, users have an explicit UI option to take a new photo (e.g., a “Take photo” action) that uses a camera-capable file input (e.g., input capture) on supported mobile browsers.",
-        "The image validation rules continue to apply (type and max size) and any validation errors are shown in clear English.",
-        "If the browser/device does not support camera capture or the user denies permission, the UI shows a clear English message and the user can still select a photo from the gallery.",
-        "Selected/taken photos show a preview immediately (using the existing preview behavior) and continue to upload/save through the existing profile save flow."
+        "App has a clear Chats entry point (in the main content area) that shows a conversation list.",
+        "Clicking a conversation opens a conversation detail view with a message timeline and a message composer.",
+        "User-facing text is in English and does not mention WhatsApp branding as if it were the same product.",
+        "Layout is responsive: usable on narrow mobile widths and on desktop widths."
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "text": "Implement backend support for conversations and messages, including storing message text plus optional media attachments (photos/videos) associated with a conversation, with appropriate access control so only conversation participants can read or write messages and attachments.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "also add space to store massage video and pictures when the user is having a conversation"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes APIs to: create or open a conversation between participants, list caller conversations, list messages for a conversation (paged or limited), and send a message with optional attachments.",
+        "Only authenticated users with appropriate permissions can create/send/read conversations and messages.",
+        "A user who is not a participant in a conversation cannot read its messages or attachments (backend enforces this)."
+      ]
+    },
+    {
+      "id": "REQ-25",
+      "text": "Add frontend chat functionality wired to the backend using React Query: conversation list, message list, and sending messages with optional photo/video attachments selected from the device.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "also add space to store massage video and pictures when the user is having a conversation"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can start/open a conversation from the Chats screen with a selected contact (from existing contacts match results) or by entering a principal/identifier supported by the UI.",
+        "User can send a text message and see it appear in the message timeline.",
+        "User can attach an image or video file to a message, send it, and see it rendered in the timeline (image preview or a video player/thumbnail + download/open link).",
+        "UI shows clear English loading/progress and error states for sending and loading messages/attachments.",
+        "All new backend calls are wrapped in React Query hooks (consistent with existing query/mutation patterns)."
+      ]
+    },
+    {
+      "id": "REQ-26",
+      "text": "Ensure message media storage uses the existing blob storage capability in the backend and that attachments can be retrieved by authorized participants via a safe, direct mechanism supported by the current blob abstractions.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "add space to store massage video and pictures"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Attachments are stored as blobs linked to a specific message.",
+        "Backend returns attachment metadata needed for rendering (e.g., content type, size, and a retrievable reference) without exposing attachments to non-participants.",
+        "Basic validation exists for attachment size/type to prevent obviously invalid uploads (with clear trap/error messages)."
       ]
     }
   ],
   "constraints": [
-    "Frontend files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, and frontend/src/components/ui must not be edited (compose instead).",
-    "Do not add new backend services or external integrations; keep all changes within the existing React app and existing profile save API."
+    "Do not claim to be WhatsApp or copy WhatsApp proprietary branding/assets; implement a WhatsApp-inspired layout and interaction patterns only.",
+    "Backend must remain a single Motoko actor (all logic in backend/main.mo).",
+    "Do not edit files under frontend/src/components/ui or other immutable frontend paths listed in SYSTEM_CONTEXT.",
+    "No SMS-based phone verification or third-party authentication integrations; continue using Internet Identity."
   ],
   "nonGoals": [
-    "Implementing SMS/MMS-based photo retrieval or any phone OS-level permissions beyond what the browser file/camera picker provides.",
-    "Adding a new backend image storage system or changing how profile pictures are stored server-side."
+    "Implementing end-to-end encryption.",
+    "Real-time messaging via WebSockets or push notifications.",
+    "Copying WhatsApp exactly (pixel-perfect clone) or using WhatsApp trademarks/assets.",
+    "External database or non-IC storage for messages/media."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

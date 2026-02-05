@@ -1,11 +1,13 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 21,
-  "summary": "Project \"vibechat\" is being promoted to public production access, and scope now includes adding in-app user registration (name, phone number, profile picture) plus an optional app-level password field stored in the backend (not SMS-based).",
+  "projectStateVersion": 27,
+  "summary": "Project \"vibechat\" is being promoted to public production access, and scope includes adding in-app user registration (name, phone number, profile picture) plus an optional app-level password field stored in the backend (not SMS-based), updating the UI to include a WhatsApp-like headline/header area with additional far-end navigation items for \"Live\" and \"Videos\", adding a WhatsApp-like contacts integration that can read/sync device phone contacts (with user permission) to connect users, and adding support for storing and sending media attachments (photos/videos) within conversations.",
   "architectural_notes": [
     "Platform constraint: authentication must use Internet Identity; SMS verification/phone-based login is not supported. Any in-app password is app-level data (e.g., for extra gating) and not a replacement for II auth.",
     "Profile/registration UX: the \"name\" field should not require a full legal/real name; allow nicknames/handles and avoid copy implying otherwise.",
-    "Requested login UX should mimic WhatsApp where possible, but must still authenticate via Internet Identity (no SMS/phone-number login or verification)."
+    "Requested login UX should mimic WhatsApp where possible, but must still authenticate via Internet Identity (no SMS/phone-number login or verification).",
+    "Contacts integration requires explicit user permission and a privacy-forward UX; availability will vary by platform/browser (web vs mobile) and may require a fallback/manual contact discovery approach.",
+    "User requests WhatsApp-like parity; implement as \"WhatsApp-like\" UX/features within platform/legal constraints rather than a literal 1:1 copy."
   ],
   "known_issues": [
     "Production deployment failed with a deployment error when attempting to take Version 2 live.",
@@ -15,7 +17,7 @@
     "Users report login still failing (\"But it failed\"), likely tied to post-Internet Identity profile flow.",
     "Profile picture upload may fail due to missing device photo/gallery permission handling."
   ],
-  "isFixRequest": true,
+  "isFixRequest": false,
   "existing_features": [
     {
       "id": "feature-generate-a-custom-original-logo-image-for-the-app-name-vibechat-and-add-it-to-the-project-as-a-static-asset-under-frontend-public-assets-generated",
@@ -136,6 +138,54 @@
         "REQ-17"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-existing-top-app-header-to-include-a-whatsapp-like-headline-title-area-a-clear-persistent-app-title-next-to-the-vibechat-logo-that-remains-visible-on-both-mobile-and-desktop",
+      "title": "Update the existing top app header to include a WhatsApp-like headline/title area (a clear, persistent app title next to the Vibechat logo) that remains visible on both mobile and desktop.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-two-far-end-right-aligned-header-navigation-actions-labeled-live-and-videos-placed-at-the-far-end-of-the-app-header-similarly-to-whatsapp-style-top-actions-without-requiring-any-backend-changes",
+      "title": "Add two far-end (right-aligned) header navigation/actions labeled \"Live\" and \"Videos\", placed at the far end of the app header similarly to WhatsApp-style top actions, without requiring any backend changes.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-contacts-sync-ui-that-requests-permission-to-read-device-contacts-when-supported-and-extracts-phone-numbers-for-matching-registered-vibechat-users-with-a-clear-fallback-flow-for-browsers-that-do-not-support-contacts-access",
+      "title": "Add a Contacts sync UI that requests permission to read device contacts (when supported) and extracts phone numbers for matching registered Vibechat users, with a clear fallback flow for browsers that do not support contacts access.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-wire-the-contacts-sync-ui-to-the-backend-using-react-query-hooks-and-display-robust-loading-error-states-in-english",
+      "title": "Wire the Contacts sync UI to the backend using React Query hooks and display robust loading/error states in English.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-vibechat-ui-to-be-whatsapp-inspired-without-copying-whatsapp-s-exact-branding-assets-including-a-dedicated-chats-screen-with-a-conversation-list-and-a-conversation-detail-view-that-feels-familiar-on-mobile-and-desktop",
+      "title": "Update the Vibechat UI to be WhatsApp-inspired (without copying WhatsApp’s exact branding/assets), including a dedicated Chats screen with a conversation list and a conversation detail view that feels familiar on mobile and desktop.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-frontend-chat-functionality-wired-to-the-backend-using-react-query-conversation-list-message-list-and-sending-messages-with-optional-photo-video-attachments-selected-from-the-device",
+      "title": "Add frontend chat functionality wired to the backend using React Query: conversation list, message list, and sending messages with optional photo/video attachments selected from the device.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -202,8 +252,57 @@
       "summary": "Enable photo/gallery access permission so users can select or take a profile picture (camera/gallery permissions and UX)",
       "reqIds": [],
       "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Add a WhatsApp-like headline/header in the app UI",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Add far-end header/navigation items for \"Live\" and \"Videos\" (similar to WhatsApp)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Connect/sync device phone contacts (WhatsApp-like) so users can find/connect with contacts from their phone address book (requires contacts permission and privacy UX)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Implement a backend API to match a client-provided list of phone numbers to registered Vibechat user profiles without exposing the full user directory or admin-only phone-number lists.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Add support for chat media attachments: store/send photos and videos in conversations (message attachments)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Implement backend support for conversations and messages, including storing message text plus optional media attachments (photos/videos) associated with a conversation, with appropriate access control so only conversation participants can read or write messages and attachments.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Ensure message media storage uses the existing blob storage capability in the backend and that attachments can be retrieved by authorized participants via a safe, direct mechanism supported by the current blob abstractions.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "status": "pending"
     }
   ],
+  "gameProjectType": "none",
   "projectName": "vibechat",
   "clarification_mode": "instant",
   "clarification_rounds": 0

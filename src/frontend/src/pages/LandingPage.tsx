@@ -1,12 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MessageSquare, Zap, Users, Shield } from 'lucide-react';
+import { MessageSquare, Zap, Users, Shield, Contact } from 'lucide-react';
 
 interface LandingPageProps {
   onOpenAuth: () => void;
+  onOpenContacts: () => void;
+  onNavigateToChats: () => void;
 }
 
-export function LandingPage({ onOpenAuth }: LandingPageProps) {
+export function LandingPage({ onOpenAuth, onOpenContacts, onNavigateToChats }: LandingPageProps) {
   return (
     <div className="container mx-auto px-4 py-12 space-y-20">
       {/* Hero Section */}
@@ -26,12 +28,12 @@ export function LandingPage({ onOpenAuth }: LandingPageProps) {
           with intuitive, real-time messaging built for the way you communicate.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-          <Button size="lg" className="text-lg px-8 gap-2" onClick={onOpenAuth}>
+          <Button size="lg" className="text-lg px-8 gap-2" onClick={onNavigateToChats}>
             <MessageSquare className="h-5 w-5" />
-            Get Started
+            Start Chatting
           </Button>
-          <Button size="lg" variant="outline" className="text-lg px-8">
-            Learn More
+          <Button size="lg" variant="outline" className="text-lg px-8" onClick={onOpenAuth}>
+            Sign In
           </Button>
         </div>
       </section>
@@ -77,11 +79,28 @@ export function LandingPage({ onOpenAuth }: LandingPageProps) {
               </div>
               <CardTitle>Secure & Private</CardTitle>
               <CardDescription>
-                Your conversations are protected with end-to-end encryption and privacy controls
+                Your conversations are protected with privacy controls on the blockchain
               </CardDescription>
             </CardHeader>
           </Card>
         </div>
+      </section>
+
+      {/* Contacts CTA Section */}
+      <section className="text-center space-y-6 py-12 px-4 rounded-2xl bg-gradient-to-br from-accent/10 via-primary/5 to-accent/10 border border-border/50">
+        <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 mb-2">
+          <Contact className="h-8 w-8 text-primary" />
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-bold">
+          Find friends from your contacts
+        </h2>
+        <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+          Discover which of your contacts are already on Vibechat and start chatting instantly
+        </p>
+        <Button size="lg" className="text-lg px-8 gap-2" onClick={onOpenContacts}>
+          <Contact className="h-5 w-5" />
+          Sync Contacts
+        </Button>
       </section>
 
       {/* CTA Section */}
@@ -92,7 +111,7 @@ export function LandingPage({ onOpenAuth }: LandingPageProps) {
         <p className="text-muted-foreground text-lg max-w-xl mx-auto">
           Join thousands of users already chatting on Vibechat
         </p>
-        <Button size="lg" className="text-lg px-8 gap-2" onClick={onOpenAuth}>
+        <Button size="lg" className="text-lg px-8 gap-2" onClick={onNavigateToChats}>
           <MessageSquare className="h-5 w-5" />
           Start Chatting Now
         </Button>
