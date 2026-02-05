@@ -313,3 +313,201 @@ export function useGetConversationParticipants(conversationId: string) {
     retry: false,
   });
 }
+
+// Social features - Following/Followers (Mock implementation until backend is ready)
+
+export function useGetAllUsers() {
+  const { actor, isFetching: actorFetching } = useActor();
+
+  return useQuery<UserProfile[]>({
+    queryKey: ['allUsers'],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      try {
+        // Note: This requires admin permission in current backend
+        // In production, backend should have a public endpoint to discover users
+        return await actor.getAllUserProfiles();
+      } catch (error: any) {
+        // Return empty array if unauthorized (non-admin users)
+        return [];
+      }
+    },
+    enabled: !!actor && !actorFetching,
+    retry: false,
+  });
+}
+
+// Mock follow/unfollow until backend implements these
+export function useFollowUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (userPrincipal: string) => {
+      // TODO: Replace with actual backend call when implemented
+      // await actor.followUser(Principal.fromText(userPrincipal));
+      console.log('Follow user (mock):', userPrincipal);
+      
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Store in localStorage as mock
+      const following = JSON.parse(localStorage.getItem('following') || '[]');
+      if (!following.includes(userPrincipal)) {
+        following.push(userPrincipal);
+        localStorage.setItem('following', JSON.stringify(following));
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['following'] });
+      queryClient.invalidateQueries({ queryKey: ['followers'] });
+    },
+  });
+}
+
+export function useUnfollowUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (userPrincipal: string) => {
+      // TODO: Replace with actual backend call when implemented
+      // await actor.unfollowUser(Principal.fromText(userPrincipal));
+      console.log('Unfollow user (mock):', userPrincipal);
+      
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Remove from localStorage as mock
+      const following = JSON.parse(localStorage.getItem('following') || '[]');
+      const updated = following.filter((p: string) => p !== userPrincipal);
+      localStorage.setItem('following', JSON.stringify(updated));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['following'] });
+      queryClient.invalidateQueries({ queryKey: ['followers'] });
+    },
+  });
+}
+
+export function useGetFollowing() {
+  const { identity } = useInternetIdentity();
+
+  return useQuery<string[]>({
+    queryKey: ['following'],
+    queryFn: async () => {
+      // TODO: Replace with actual backend call when implemented
+      // return await actor.getFollowing(identity.getPrincipal());
+      
+      // Mock implementation using localStorage
+      return JSON.parse(localStorage.getItem('following') || '[]');
+    },
+    enabled: !!identity,
+  });
+}
+
+export function useGetFollowers() {
+  const { identity } = useInternetIdentity();
+
+  return useQuery<string[]>({
+    queryKey: ['followers'],
+    queryFn: async () => {
+      // TODO: Replace with actual backend call when implemented
+      // return await actor.getFollowers(identity.getPrincipal());
+      
+      // Mock implementation - return empty for now
+      return [];
+    },
+    enabled: !!identity,
+  });
+}
+
+export function useIsFollowing(userPrincipal: string) {
+  const { data: following } = useGetFollowing();
+  return following?.includes(userPrincipal) || false;
+}
+
+// Mock like/unlike until backend implements these
+export function useLikeMessage() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ conversationId, messageIndex }: { conversationId: string; messageIndex: number }) => {
+      // TODO: Replace with actual backend call when implemented
+      // await actor.likeMessage(conversationId, BigInt(messageIndex));
+      console.log('Like message (mock):', conversationId, messageIndex);
+      
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Store in localStorage as mock
+      const likes = JSON.parse(localStorage.getItem('messageLikes') || '{}');
+      const key = `${conversationId}_${messageIndex}`;
+      if (!likes[key]) {
+        likes[key] = [];
+      }
+      const currentUser = 'current-user'; // Would be identity.getPrincipal().toString()
+      if (!likes[key].includes(currentUser)) {
+        likes[key].push(currentUser);
+        localStorage.setItem('messageLikes', JSON.stringify(likes));
+      }
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['messageLikes', variables.conversationId] });
+    },
+  });
+}
+
+export function useUnlikeMessage() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ conversationId, messageIndex }: { conversationId: string; messageIndex: number }) => {
+      // TODO: Replace with actual backend call when implemented
+      // await actor.unlikeMessage(conversationId, BigInt(messageIndex));
+      console.log('Unlike message (mock):', conversationId, messageIndex);
+      
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Remove from localStorage as mock
+      const likes = JSON.parse(localStorage.getItem('messageLikes') || '{}');
+      const key = `${conversationId}_${messageIndex}`;
+      if (likes[key]) {
+        const currentUser = 'current-user';
+        likes[key] = likes[key].filter((u: string) => u !== currentUser);
+        localStorage.setItem('messageLikes', JSON.stringify(likes));
+      }
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['messageLikes', variables.conversationId] });
+    },
+  });
+}
+
+export function useGetMessageLikes(conversationId: string) {
+  return useQuery<Record<number, string[]>>({
+    queryKey: ['messageLikes', conversationId],
+    queryFn: async () => {
+      // TODO: Replace with actual backend call when implemented
+      // const allLikes = await actor.getConversationLikes(conversationId);
+      
+      // Mock implementation using localStorage
+      const allLikes = JSON.parse(localStorage.getItem('messageLikes') || '{}');
+      const conversationLikes: Record<number, string[]> = {};
+      
+      Object.keys(allLikes).forEach(key => {
+        if (key.startsWith(`${conversationId}_`)) {
+          const messageIndex = parseInt(key.split('_')[1]);
+          conversationLikes[messageIndex] = allLikes[key];
+        }
+      });
+      
+      return conversationLikes;
+    },
+  });
+}
+
+export function useHasLikedMessage(conversationId: string, messageIndex: number) {
+  const { data: likes } = useGetMessageLikes(conversationId);
+  const currentUser = 'current-user'; // Would be identity.getPrincipal().toString()
+  return likes?.[messageIndex]?.includes(currentUser) || false;
+}

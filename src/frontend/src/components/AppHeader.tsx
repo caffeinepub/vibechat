@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useGetCallerUserProfile } from '../hooks/useQueries';
-import { User, Loader2, Video, Radio, MoreVertical, MessageSquare, Users, Eye } from 'lucide-react';
+import { User, Loader2, Video, Radio, MoreVertical, MessageSquare, Users, Eye, UserPlus } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
 } from './ui/dropdown-menu';
 import { toast } from 'sonner';
 
-type Section = 'chats' | 'groups' | 'status' | 'live' | 'videos';
+type Section = 'chats' | 'groups' | 'status' | 'live' | 'videos' | 'people';
 
 interface AppHeaderProps {
   onOpenAuth: () => void;
@@ -71,7 +71,7 @@ export function AppHeader({ onOpenAuth, currentSection, onSectionChange }: AppHe
 
         {/* Center: Section Navigation (Desktop) */}
         {isAuthenticated && (
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1">
             <Button
               onClick={() => handleSectionClick('chats')}
               variant={currentSection === 'chats' ? 'default' : 'ghost'}
@@ -80,6 +80,15 @@ export function AppHeader({ onOpenAuth, currentSection, onSectionChange }: AppHe
             >
               <MessageSquare className="h-4 w-4" />
               Chats
+            </Button>
+            <Button
+              onClick={() => handleSectionClick('people')}
+              variant={currentSection === 'people' ? 'default' : 'ghost'}
+              size="sm"
+              className="gap-2"
+            >
+              <UserPlus className="h-4 w-4" />
+              People
             </Button>
             <Button
               onClick={() => handleSectionClick('groups')}
@@ -124,7 +133,7 @@ export function AppHeader({ onOpenAuth, currentSection, onSectionChange }: AppHe
         <div className="flex items-center gap-2">
           {/* Mobile: Show overflow menu */}
           {isAuthenticated && (
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-9 w-9">
@@ -136,6 +145,10 @@ export function AppHeader({ onOpenAuth, currentSection, onSectionChange }: AppHe
                   <DropdownMenuItem onClick={() => handleSectionClick('chats')}>
                     <MessageSquare className="mr-2 h-4 w-4" />
                     Chats
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleSectionClick('people')}>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    People
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => handleSectionClick('groups')}>
                     <Users className="mr-2 h-4 w-4" />

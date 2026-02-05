@@ -8,6 +8,7 @@ import { GroupsPage } from './pages/GroupsPage';
 import { StatusPage } from './pages/StatusPage';
 import { LivePage } from './pages/LivePage';
 import { VideosPage } from './pages/VideosPage';
+import { PeoplePage } from './pages/PeoplePage';
 import { SplashScreen } from './components/SplashScreen';
 import { WhatsAppStyleAuth } from './components/WhatsAppStyleAuth';
 import { ContactsSyncDialog } from './components/ContactsSyncDialog';
@@ -19,7 +20,7 @@ import { registerServiceWorker } from './utils/registerServiceWorker';
 
 const queryClient = new QueryClient();
 
-type Section = 'chats' | 'groups' | 'status' | 'live' | 'videos';
+type Section = 'chats' | 'groups' | 'status' | 'live' | 'videos' | 'people';
 
 function AppContent() {
   const [showSplash, setShowSplash] = useState(true);
@@ -87,6 +88,8 @@ function AppContent() {
         return <LivePage />;
       case 'videos':
         return <VideosPage />;
+      case 'people':
+        return <PeoplePage />;
       default:
         return <ChatsPage />;
     }

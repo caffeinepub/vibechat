@@ -1,109 +1,26 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T22:56:25.468Z",
+  "generatedAt": "2026-02-05T23:08:15.942Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 5,
-    "implemented": 5,
-    "items": [
-      {
-        "id": "REQ-45",
-        "summary": "Add a Web App Manifest for Vibechat so modern browsers recognize the site as an installable PWA, including app name/short_name, start_url, display mode, theme/background colors, and icon declarations.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/manifest.webmanifest",
-          "frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png",
-          "frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png",
-          "frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png"
-        ],
-        "matchedFiles": [
-          "frontend/public/manifest.webmanifest",
-          "frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png",
-          "frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png",
-          "frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png"
-        ]
-      },
-      {
-        "id": "REQ-46",
-        "summary": "Update `frontend/index.html` to include the required PWA metadata: link to the manifest, theme-color meta tag, and appropriate icon links (including an Apple touch icon).",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/index.html",
-          "frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png",
-          "frontend/public/assets/generated/vibechat-favicon.dim_32x32.png"
-        ],
-        "matchedFiles": [
-          "frontend/index.html",
-          "frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png",
-          "frontend/public/assets/generated/vibechat-favicon.dim_32x32.png"
-        ]
-      },
-      {
-        "id": "REQ-47",
-        "summary": "Add a service worker file to enable baseline PWA behavior (at minimum: registerable service worker and lightweight caching for core shell assets) without introducing runtime errors in unsupported browsers.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/sw.js"
-        ],
-        "matchedFiles": [
-          "frontend/public/sw.js"
-        ]
-      },
-      {
-        "id": "REQ-48",
-        "summary": "Register the service worker from within the editable React codebase (do not modify immutable files such as `frontend/src/main.tsx`) and ensure registration is performed only in production-like environments and supported browsers.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/utils/registerServiceWorker.ts",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/utils/registerServiceWorker.ts",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-49",
-        "summary": "Add a simple, user-facing way for users to install Vibechat (PWA) from the unauthenticated experience, with clear English text explaining that installation availability depends on the browser/device.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/usePWAInstallPrompt.ts",
-          "frontend/src/components/PWAInstallCallout.tsx",
-          "frontend/src/pages/LandingPage.tsx",
-          "frontend/src/pages/PreLoginIntroPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/usePWAInstallPrompt.ts",
-          "frontend/src/components/PWAInstallCallout.tsx",
-          "frontend/src/pages/LandingPage.tsx",
-          "frontend/src/pages/PreLoginIntroPage.tsx"
-        ]
-      }
-    ]
+    "total": 0,
+    "implemented": 0,
+    "items": []
   },
   "changedFiles": [
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/index.html",
-    "frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png",
-    "frontend/public/assets/generated/vibechat-favicon.dim_32x32.png",
-    "frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png",
-    "frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png",
-    "frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png",
-    "frontend/public/manifest.webmanifest",
-    "frontend/public/sw.js",
     "frontend/src/App.tsx",
-    "frontend/src/components/PWAInstallCallout.tsx",
-    "frontend/src/hooks/usePWAInstallPrompt.ts",
-    "frontend/src/pages/LandingPage.tsx",
-    "frontend/src/pages/PreLoginIntroPage.tsx",
-    "frontend/src/utils/registerServiceWorker.ts",
+    "frontend/src/components/AppHeader.tsx",
+    "frontend/src/components/chat/MessageTimeline.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/PeoplePage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

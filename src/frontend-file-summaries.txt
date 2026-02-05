@@ -1,9 +1,9 @@
 {
-  "frontend/src/App.tsx": "Main application component with service worker registration, section-based navigation, pre-login introduction flow, authentication/contacts dialogs, and toast notifications.",
+  "frontend/src/App.tsx": "Main application component with service worker registration, section-based navigation including new People section, pre-login introduction flow, authentication/contacts dialogs, and toast notifications.",
   "frontend/src/components/BrandLogo.tsx": "Reusable logo component that displays the Vibechat logo image with responsive sizing and text fallback on error.",
-  "frontend/src/components/AppHeader.tsx": "Sticky header with brand logo, WhatsApp-style section navigation (Chats, Groups, Status, Live, Videos) in desktop/mobile layouts, and auth-aware profile area with avatar display.",
+  "frontend/src/components/AppHeader.tsx": "Sticky header with brand logo, WhatsApp-style section navigation including new People tab (Chats, People, Groups, Status, Live, Videos) in desktop/mobile layouts, and auth-aware profile area with avatar display.",
   "frontend/src/pages/LandingPage.tsx": "Landing page for unauthenticated users with welcome headline, attribution, PWA install callout, and sign-in button.",
-  "frontend/src/hooks/useQueries.ts": "React Query hooks for user profile operations, password management, contact matching, and chat functionality (conversations, messages, sending) with proper error handling, cache invalidation, and correct Principal imports from @dfinity/principal.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for user profiles, passwords, contacts, chat operations, and social features (following/followers, message likes) with mock implementations for social features until backend is ready.",
   "frontend/src/index.css": "Global styles with custom OKLCH color system using warm coral and teal palette, supporting both light and dark modes.",
   "frontend/tailwind.config.js": "Tailwind configuration with extended theme including custom fonts, colors mapped to CSS variables, and refined design tokens.",
   "frontend/src/components/SplashScreen.tsx": "Full-screen splash screen component that displays the Vibechat logo with animated loading dots, auto-dismisses after a configurable duration with a smooth fade-out transition, and is responsive across all screen sizes.",
@@ -18,7 +18,7 @@
   "frontend/src/pages/ChatsPage.tsx": "Main chats page with responsive split-view layout showing conversation list and detail, mobile navigation between list/detail views, and new conversation dialog integration.",
   "frontend/src/components/chat/ConversationList.tsx": "Conversation list component displaying user's conversations with participant avatars, selection state, loading skeletons, error handling, and empty state.",
   "frontend/src/components/chat/ConversationDetail.tsx": "Conversation detail shell with header showing participant info, AI button that opens helper sheet, message timeline area, and message composer with external text insertion support.",
-  "frontend/src/components/chat/MessageTimeline.tsx": "Message timeline component rendering messages with sender-based alignment (own vs others), photo/video attachment display using ExternalBlob direct URLs, timestamps, and auto-scroll to latest message.",
+  "frontend/src/components/chat/MessageTimeline.tsx": "Message timeline component rendering messages with sender-based alignment, photo/video attachments, timestamps, like buttons with counts, and auto-scroll to latest message.",
   "frontend/src/components/chat/MessageComposer.tsx": "Message composer with text input, file attachments, WhatsApp share toggle, AI smart reply suggestions displayed inline, rewrite tool with preview/apply flow, and send functionality with forwardRef support for external text insertion.",
   "frontend/src/components/chat/NewConversationDialog.tsx": "Dialog for creating new conversations by entering a Principal ID with validation, error handling, and conversation creation flow.",
   "frontend/src/utils/readFileAsBytesAny.ts": "Utility functions for validating media files (images/videos) with type and size checks, and reading File objects into Uint8Array for message attachments.",
@@ -41,5 +41,6 @@
   "frontend/index.html": "HTML entry point with PWA metadata including manifest link, theme-color meta tag, favicon, and Apple touch icon references.",
   "frontend/src/utils/registerServiceWorker.ts": "Utility function that conditionally registers the service worker only in production builds with browser support checks and graceful degradation.",
   "frontend/src/hooks/usePWAInstallPrompt.ts": "React hook that captures the browser's beforeinstallprompt event and provides install prompt triggering functionality with state management.",
-  "frontend/src/components/PWAInstallCallout.tsx": "Callout component displaying PWA install prompt with conditional UI based on browser support and fallback instructions for manual installation."
+  "frontend/src/components/PWAInstallCallout.tsx": "Callout component displaying PWA install prompt with conditional UI based on browser support and fallback instructions for manual installation.",
+  "frontend/src/pages/PeoplePage.tsx": "People discovery page with tabs for discovering users, viewing following/following lists, and follow/unfollow functionality with user cards and profile avatars."
 }

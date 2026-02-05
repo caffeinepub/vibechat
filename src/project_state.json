@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 41,
-  "summary": "Project \"vibechat\" is targeting a more strictly WhatsApp-like main navigation/UI (Chats, Groups, Status, Live, Videos) and removing prior advisory/help-style UI content from the authenticated in-app experience; the user also wants a lightweight introduction/onboarding screen shown before Internet Identity sign-in (pre-login) and now wants Vibechat to be installable as a PWA (add to home screen like a normal app).",
+  "projectStateVersion": 43,
+  "summary": "Project \"vibechat\" is targeting a more strictly WhatsApp-like main navigation/UI (Chats, Groups, Status, Live, Videos) and removing prior advisory/help-style UI content from the authenticated in-app experience; the user also wants a lightweight introduction/onboarding screen shown before Internet Identity sign-in (pre-login) and now wants Vibechat to be installable as a PWA (add to home screen like a normal app). Additionally, the user requested social features: following/followers and liking.",
   "architectural_notes": [
     "Platform constraint: authentication must use Internet Identity; SMS verification/phone-based login is not supported. Any in-app password is app-level data (e.g., for extra gating) and not a replacement for II auth.",
     "Profile/registration UX: the \"name\" field should not require a full legal/real name; allow nicknames/handles and avoid copy implying otherwise.",
@@ -22,10 +22,10 @@
     "Users report login still failing (\"But it failed\"), likely tied to post-Internet Identity profile flow.",
     "Profile picture upload may fail due to missing device photo/gallery permission handling.",
     "Potential version/deployment confusion: assistant claims Version 15 is live in production, conflicting with previously tracked version states.",
-    "Potential version/deployment confusion: assistant claims \"Version 19\" deployed/live in production, conflicting with previously tracked version states."
+    "Potential version/deployment confusion: assistant claims \"Version 19\" deployed/live in production, conflicting with previously tracked version states.",
+    "Potential version/deployment confusion: assistant claims \"Version 20\" successfully deployed to production, which may conflict with previously tracked version states."
   ],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- PWA app icon with a clean centered Vibechat mark on an opaque background (vibechat-pwa-icon.dim_192x192.png)\n- PWA app icon with a clean centered Vibechat mark on an opaque background (vibechat-pwa-icon.dim_512x512.png)\n- Maskable PWA app icon with safe padding and centered mark (vibechat-pwa-icon-maskable.dim_512x512.png)\n- Apple touch icon with centered mark on an opaque background (vibechat-apple-touch-icon.dim_180x180.png)\n- Favicon with simplified mark (vibechat-favicon.dim_32x32.png)",
   "existing_features": [
     {
       "id": "feature-generate-a-custom-original-logo-image-for-the-app-name-vibechat-and-add-it-to-the-project-as-a-static-asset-under-frontend-public-assets-generated",
@@ -550,6 +550,18 @@
     {
       "id": "AR-30",
       "summary": "Make Vibechat installable as a PWA (manifest, icons, service worker) so users can add it to home screen like a normal app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-31",
+      "summary": "Add following/followers functionality (social graph) so users can follow other users and view follower/following counts/lists",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-32",
+      "summary": "Add a liking feature (likes/reactions) so users can like content (e.g., status updates and/or videos) and view like counts",
       "reqIds": [],
       "status": "pending"
     }
