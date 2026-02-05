@@ -1,75 +1,86 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T22:27:22.893Z",
+  "generatedAt": "2026-02-05T22:56:25.468Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 4,
+    "total": 5,
+    "implemented": 5,
     "items": [
       {
-        "id": "REQ-32",
-        "summary": "Replace the current placeholder content in `frontend/src/pages/VideosPage.tsx` with a simple, scrollable “Sponsored” video feed that gives users something to watch, using frontend-only mock ad items (no backend changes).",
+        "id": "REQ-45",
+        "summary": "Add a Web App Manifest for Vibechat so modern browsers recognize the site as an installable PWA, including app name/short_name, start_url, display mode, theme/background colors, and icon declarations.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/videos/mockSponsoredItems.ts",
-          "frontend/src/components/videos/SponsoredVideoFeed.tsx",
-          "frontend/src/pages/VideosPage.tsx"
+          "frontend/public/manifest.webmanifest",
+          "frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png",
+          "frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png",
+          "frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png"
         ],
         "matchedFiles": [
-          "frontend/src/components/videos/mockSponsoredItems.ts",
-          "frontend/src/components/videos/SponsoredVideoFeed.tsx",
-          "frontend/src/pages/VideosPage.tsx"
+          "frontend/public/manifest.webmanifest",
+          "frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png",
+          "frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png",
+          "frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png"
         ]
       },
       {
-        "id": "REQ-33",
-        "summary": "Implement a basic in-app “watch” experience for the sponsored items in the Videos tab (e.g., tapping an item opens a modal/sheet with a full-bleed vertical viewer that simulates playback using an animated progress indicator and item details), entirely client-side.",
+        "id": "REQ-46",
+        "summary": "Update `frontend/index.html` to include the required PWA metadata: link to the manifest, theme-color meta tag, and appropriate icon links (including an Apple touch icon).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/videos/SponsoredVideoViewer.tsx",
-          "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
-          "frontend/src/components/videos/SponsoredVideoFeed.tsx"
+          "frontend/index.html",
+          "frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png",
+          "frontend/public/assets/generated/vibechat-favicon.dim_32x32.png"
         ],
         "matchedFiles": [
-          "frontend/src/components/videos/SponsoredVideoViewer.tsx",
-          "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
-          "frontend/src/components/videos/SponsoredVideoFeed.tsx"
+          "frontend/index.html",
+          "frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png",
+          "frontend/public/assets/generated/vibechat-favicon.dim_32x32.png"
         ]
       },
       {
-        "id": "REQ-34",
-        "summary": "Add a small disclaimer in the Videos tab UI clarifying that the sponsored items are sample/demo content (English), and ensure the layout works well on both mobile and desktop.",
+        "id": "REQ-47",
+        "summary": "Add a service worker file to enable baseline PWA behavior (at minimum: registerable service worker and lightweight caching for core shell assets) without introducing runtime errors in unsupported browsers.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/VideosPage.tsx",
-          "frontend/src/components/videos/SponsoredVideoViewer.tsx"
+          "frontend/public/sw.js"
         ],
         "matchedFiles": [
-          "frontend/src/pages/VideosPage.tsx",
-          "frontend/src/components/videos/SponsoredVideoViewer.tsx"
+          "frontend/public/sw.js"
         ]
       },
       {
-        "id": "REQ-35",
-        "summary": "Add the required generated ad thumbnail images under `frontend/public/assets/generated/` and render them in the Videos tab feed items (do not fetch thumbnails via the backend).",
+        "id": "REQ-48",
+        "summary": "Register the service worker from within the editable React codebase (do not modify immutable files such as `frontend/src/main.tsx`) and ensure registration is performed only in production-like environments and supported browsers.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png",
-          "frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png",
-          "frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png",
-          "frontend/src/components/videos/mockSponsoredItems.ts",
-          "frontend/src/components/videos/SponsoredVideoFeed.tsx"
+          "frontend/src/utils/registerServiceWorker.ts",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png",
-          "frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png",
-          "frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png",
-          "frontend/src/components/videos/mockSponsoredItems.ts",
-          "frontend/src/components/videos/SponsoredVideoFeed.tsx"
+          "frontend/src/utils/registerServiceWorker.ts",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-49",
+        "summary": "Add a simple, user-facing way for users to install Vibechat (PWA) from the unauthenticated experience, with clear English text explaining that installation availability depends on the browser/device.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/usePWAInstallPrompt.ts",
+          "frontend/src/components/PWAInstallCallout.tsx",
+          "frontend/src/pages/LandingPage.tsx",
+          "frontend/src/pages/PreLoginIntroPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/usePWAInstallPrompt.ts",
+          "frontend/src/components/PWAInstallCallout.tsx",
+          "frontend/src/pages/LandingPage.tsx",
+          "frontend/src/pages/PreLoginIntroPage.tsx"
         ]
       }
     ]
@@ -79,14 +90,20 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png",
-    "frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png",
-    "frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png",
-    "frontend/src/components/videos/SponsoredVideoFeed.tsx",
-    "frontend/src/components/videos/SponsoredVideoViewer.tsx",
-    "frontend/src/components/videos/mockSponsoredItems.ts",
-    "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
-    "frontend/src/pages/VideosPage.tsx",
+    "frontend/index.html",
+    "frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png",
+    "frontend/public/assets/generated/vibechat-favicon.dim_32x32.png",
+    "frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png",
+    "frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png",
+    "frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png",
+    "frontend/public/manifest.webmanifest",
+    "frontend/public/sw.js",
+    "frontend/src/App.tsx",
+    "frontend/src/components/PWAInstallCallout.tsx",
+    "frontend/src/hooks/usePWAInstallPrompt.ts",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/pages/PreLoginIntroPage.tsx",
+    "frontend/src/utils/registerServiceWorker.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

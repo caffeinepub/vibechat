@@ -1,12 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Populate the Videos tab with a simple, frontend-only sponsored/ad-style feed and a basic in-app watch experience using mock items.
+**Goal:** Make Vibechat installable as a PWA (Add to Home Screen) with a manifest, icons, service worker, and a simple install prompt in the unauthenticated UI.
 
 **Planned changes:**
-- Replace the placeholder content in `frontend/src/pages/VideosPage.tsx` with a scrollable feed of at least 3 “Sponsored” mock video items, each showing a thumbnail, title, and short description (English).
-- Add a small disclaimer in the Videos tab indicating the sponsored items are sample/demo content, and ensure the feed layout is responsive on mobile and desktop.
-- Implement a client-side “watch” viewer (modal/sheet) that opens when a feed item is tapped/clicked, showing a full-bleed vertical viewer with item details, a close/back control, and an auto-advancing progress indicator (simulated playback).
-- Add and reference static generated thumbnail images under `frontend/public/assets/generated/` via `/assets/generated/...` paths (no backend changes, no third-party ad networks).
+- Add a web app manifest in frontend public assets with required PWA fields (name/short_name, start_url, standalone display, theme/background colors) and icon declarations (including maskable).
+- Update `frontend/index.html` to reference the manifest, set theme-color metadata, and link to existing favicon and Apple touch icon assets.
+- Add a baseline service worker (`/sw.js`) that installs/activates cleanly and performs minimal safe caching for core app shell assets without breaking normal online/authenticated usage.
+- Register the service worker from an editable React file (e.g., `App.tsx`) only when supported and in production-like environments.
+- Add an unauthenticated “Install Vibechat” UI action that triggers the browser install prompt when available, and shows an English fallback message when not.
 
-**User-visible outcome:** The Videos tab shows a responsive sponsored demo feed with watchable mock items; selecting an item opens an in-app viewer that simulates playback with a progress indicator and clear close/back control.
+**User-visible outcome:** Users on supported browsers/devices can install Vibechat from the landing/pre-login experience (or follow clear guidance to use “Add to Home Screen” when the prompt isn’t available), and the app loads normally with baseline PWA behavior enabled.

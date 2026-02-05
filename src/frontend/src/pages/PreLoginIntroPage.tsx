@@ -2,15 +2,21 @@ import { Button } from '@/components/ui/button';
 import { BrandLogo } from '@/components/BrandLogo';
 import { PWAInstallCallout } from '@/components/PWAInstallCallout';
 
-interface LandingPageProps {
+interface PreLoginIntroPageProps {
   onOpenAuth: () => void;
-  onOpenContacts: () => void;
-  onNavigateToChats: () => void;
+  onSkip: () => void;
 }
 
-export function LandingPage({ onOpenAuth }: LandingPageProps) {
+export function PreLoginIntroPage({ onOpenAuth, onSkip }: PreLoginIntroPageProps) {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-primary/5 to-accent/10">
+      {/* Skip Button - Top Right */}
+      <div className="absolute top-4 right-4 z-10">
+        <Button variant="ghost" onClick={onSkip} className="text-muted-foreground hover:text-foreground">
+          Skip
+        </Button>
+      </div>
+
       <div className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-4xl space-y-12">
           {/* Hero Section */}

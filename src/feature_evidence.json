@@ -2,12 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-replace-the-current-placeholder-content-in-frontend-src-pages-videospage-tsx-with-a-simple-scrollable-sponsored-video-feed-that-gives-users-something-to-watch-using-frontend-only-mock-ad-items-no-backend-changes",
-      "featureTitle": "Replace the current placeholder content in `frontend/src/pages/VideosPage.tsx` with a simple, scrollable “Sponsored” video feed that gives users something to watch, using frontend-only mock ad items (no backend changes).",
+      "featureId": "feature-add-a-web-app-manifest-for-vibechat-so-modern-browsers-recognize-the-site-as-an-installable-pwa-including-app-name-short-name-start-url-display-mode-theme-background-colors-and-icon-declarations",
+      "featureTitle": "Add a Web App Manifest for Vibechat so modern browsers recognize the site as an installable PWA, including app name/short_name, start_url, display mode, theme/background colors, and icon declarations.",
       "files": [
-        "frontend/src/components/videos/SponsoredVideoFeed.tsx",
-        "frontend/src/components/videos/mockSponsoredItems.ts",
-        "frontend/src/pages/VideosPage.tsx"
+        "frontend/public/manifest.webmanifest"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -20,17 +18,15 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-32"
+        "REQ-45"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-implement-a-basic-in-app-watch-experience-for-the-sponsored-items-in-the-videos-tab-e-g-tapping-an-item-opens-a-modal-sheet-with-a-full-bleed-vertical-viewer-that-simulates-playback-using-an-animated-progress-indicator-and-item-details-entirely-client-side",
-      "featureTitle": "Implement a basic in-app “watch” experience for the sponsored items in the Videos tab (e.g., tapping an item opens a modal/sheet with a full-bleed vertical viewer that simulates playback using an animated progress indicator and item details), entirely client-side.",
+      "featureId": "feature-update-frontend-index-html-to-include-the-required-pwa-metadata-link-to-the-manifest-theme-color-meta-tag-and-appropriate-icon-links-including-an-apple-touch-icon",
+      "featureTitle": "Update `frontend/index.html` to include the required PWA metadata: link to the manifest, theme-color meta tag, and appropriate icon links (including an Apple touch icon).",
       "files": [
-        "frontend/src/components/videos/SponsoredVideoFeed.tsx",
-        "frontend/src/components/videos/SponsoredVideoViewer.tsx",
-        "frontend/src/components/videos/useSimulatedPlaybackProgress.ts"
+        "frontend/index.html"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -43,16 +39,15 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-33"
+        "REQ-46"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-a-small-disclaimer-in-the-videos-tab-ui-clarifying-that-the-sponsored-items-are-sample-demo-content-english-and-ensure-the-layout-works-well-on-both-mobile-and-desktop",
-      "featureTitle": "Add a small disclaimer in the Videos tab UI clarifying that the sponsored items are sample/demo content (English), and ensure the layout works well on both mobile and desktop.",
+      "featureId": "feature-add-a-service-worker-file-to-enable-baseline-pwa-behavior-at-minimum-registerable-service-worker-and-lightweight-caching-for-core-shell-assets-without-introducing-runtime-errors-in-unsupported-browsers",
+      "featureTitle": "Add a service worker file to enable baseline PWA behavior (at minimum: registerable service worker and lightweight caching for core shell assets) without introducing runtime errors in unsupported browsers.",
       "files": [
-        "frontend/src/components/videos/SponsoredVideoViewer.tsx",
-        "frontend/src/pages/VideosPage.tsx"
+        "frontend/public/sw.js"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -65,16 +60,16 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-34"
+        "REQ-47"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-the-required-generated-ad-thumbnail-images-under-frontend-public-assets-generated-and-render-them-in-the-videos-tab-feed-items-do-not-fetch-thumbnails-via-the-backend",
-      "featureTitle": "Add the required generated ad thumbnail images under `frontend/public/assets/generated/` and render them in the Videos tab feed items (do not fetch thumbnails via the backend).",
+      "featureId": "feature-register-the-service-worker-from-within-the-editable-react-codebase-do-not-modify-immutable-files-such-as-frontend-src-main-tsx-and-ensure-registration-is-performed-only-in-production-like-environments-and-supported-browsers",
+      "featureTitle": "Register the service worker from within the editable React codebase (do not modify immutable files such as `frontend/src/main.tsx`) and ensure registration is performed only in production-like environments and supported browsers.",
       "files": [
-        "frontend/src/components/videos/SponsoredVideoFeed.tsx",
-        "frontend/src/components/videos/mockSponsoredItems.ts"
+        "frontend/src/App.tsx",
+        "frontend/src/utils/registerServiceWorker.ts"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -87,7 +82,31 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-35"
+        "REQ-48"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-simple-user-facing-way-for-users-to-install-vibechat-pwa-from-the-unauthenticated-experience-with-clear-english-text-explaining-that-installation-availability-depends-on-the-browser-device",
+      "featureTitle": "Add a simple, user-facing way for users to install Vibechat (PWA) from the unauthenticated experience, with clear English text explaining that installation availability depends on the browser/device.",
+      "files": [
+        "frontend/src/components/PWAInstallCallout.tsx",
+        "frontend/src/hooks/usePWAInstallPrompt.ts",
+        "frontend/src/pages/LandingPage.tsx",
+        "frontend/src/pages/PreLoginIntroPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-49"
       ],
       "confidence": "high"
     }

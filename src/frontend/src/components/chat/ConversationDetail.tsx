@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { MessageTimeline } from './MessageTimeline';
 import { MessageComposer } from './MessageComposer';
-import { useGetConversationParticipants } from '../../hooks/useQueries';
+import { AIHelperSheet } from './ai/AIHelperSheet';
+import { useGetConversationParticipants, useGetMessages } from '../../hooks/useQueries';
+import { useInternetIdentity } from '../../hooks/useInternetIdentity';
 import { Button } from '../ui/button';
-import { ArrowLeft, MoreVertical } from 'lucide-react';
+import { ArrowLeft, MoreVertical, Sparkles } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Skeleton } from '../ui/skeleton';
 
@@ -13,10 +16,24 @@ interface ConversationDetailProps {
 
 export function ConversationDetail({ conversationId, onBack }: ConversationDetailProps) {
   const { data: participants, isLoading } = useGetConversationParticipants(conversationId);
+  const { data: messages } = useGetMessages(conversationId);
+  const { identity } = useInternetIdentity();
+  const [aiSheetOpen, setAiSheetOpen] = useState(false);
+  const [composerText, setComposerText] = useState('');
 
   const otherParticipant = participants?.[0];
   const displayName = otherParticipant?.fullName || 'Unknown User';
   const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
+  // Get the latest received message (not sent by current user)
+  const currentUserPrincipal = identity?.getPrincipal().toString();
+  const latestReceivedMessage = messages
+    ?.filter(m => m.sender.toString() !== currentUserPrincipal)
+    .slice(-1)[0]?.text || null;
+
+  const handleInsertText = (text: string) => {
+    setComposerText(text);
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -55,6 +72,15 @@ export function ConversationDetail({ conversationId, onBack }: ConversationDetai
           </>
         )}
 
+        <Button 
+          variant="ghost" 
+          size="icon"
+          onClick={() => setAiSheetOpen(true)}
+          className="text-primary"
+        >
+          <Sparkles className="h-5 w-5" />
+        </Button>
+
         <Button variant="ghost" size="icon">
           <MoreVertical className="h-5 w-5" />
         </Button>
@@ -64,7 +90,19 @@ export function ConversationDetail({ conversationId, onBack }: ConversationDetai
       <MessageTimeline conversationId={conversationId} />
 
       {/* Composer */}
-      <MessageComposer conversationId={conversationId} />
+      <MessageComposer 
+        conversationId={conversationId}
+        externalText={composerText}
+        onExternalTextUsed={() => setComposerText('')}
+      />
+
+      {/* AI Helper Sheet */}
+      <AIHelperSheet
+        open={aiSheetOpen}
+        onOpenChange={setAiSheetOpen}
+        latestReceivedMessage={latestReceivedMessage}
+        onInsertText={handleInsertText}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 33,
-  "summary": "Project \"vibechat\" is targeting a more strictly WhatsApp-like main navigation/UI, specifically using a top-level section order of Chats, Groups, Status, Live, then Videos, and removing prior advisory/help-style UI content that is not part of that WhatsApp-like experience.",
+  "projectStateVersion": 41,
+  "summary": "Project \"vibechat\" is targeting a more strictly WhatsApp-like main navigation/UI (Chats, Groups, Status, Live, Videos) and removing prior advisory/help-style UI content from the authenticated in-app experience; the user also wants a lightweight introduction/onboarding screen shown before Internet Identity sign-in (pre-login) and now wants Vibechat to be installable as a PWA (add to home screen like a normal app).",
   "architectural_notes": [
     "Platform constraint: authentication must use Internet Identity; SMS verification/phone-based login is not supported. Any in-app password is app-level data (e.g., for extra gating) and not a replacement for II auth.",
     "Profile/registration UX: the \"name\" field should not require a full legal/real name; allow nicknames/handles and avoid copy implying otherwise.",
@@ -9,7 +9,10 @@
     "Contacts integration requires explicit user permission and a privacy-forward UX; availability will vary by platform/browser (web vs mobile) and may require a fallback/manual contact discovery approach.",
     "User requests WhatsApp-like parity; implement as \"WhatsApp-like\" UX/features within platform/legal constraints rather than a literal 1:1 copy.",
     "WhatsApp message forwarding/bridging will require an official WhatsApp API integration (e.g., WhatsApp Business Platform) with significant policy/verification constraints; direct consumer WhatsApp message injection is generally not supported without approved APIs.",
-    "UI direction: prioritize a WhatsApp-like top-level navigation with sections in this order: Chats, Groups, Status, Live, Videos; de-emphasize/remove auxiliary advisory/help UI from the primary experience."
+    "UI direction: prioritize a WhatsApp-like top-level navigation with sections in this order: Chats, Groups, Status, Live, Videos; de-emphasize/remove auxiliary advisory/help UI from the primary experience.",
+    "UX scope: user wants an introduction/onboarding screen before Internet Identity sign-in (pre-login). Keep the authenticated in-app experience WhatsApp-like and avoid bringing back advisory/help UI into the main navigation.",
+    "Pre-login intro/onboarding should remove advisory-style content and display user-provided welcome copy: \"WELCOME TO VIBECHAT WHERE YOU WILL NEVER GET BORED...\" — by Joshua Koech.",
+    "PWA scope: add web app manifest + required icons and enable service worker/caching so Vibechat can be installed ('Add to Home Screen') like a normal app; no change to Internet Identity auth requirement."
   ],
   "known_issues": [
     "Production deployment failed with a deployment error when attempting to take Version 2 live.",
@@ -18,10 +21,11 @@
     "Potential version/deployment confusion: conversation references Version 7 being deployed/live while project state previously referenced Version 2/3/4 discrepancies.",
     "Users report login still failing (\"But it failed\"), likely tied to post-Internet Identity profile flow.",
     "Profile picture upload may fail due to missing device photo/gallery permission handling.",
-    "Potential version/deployment confusion: assistant claims Version 15 is live in production, conflicting with previously tracked version states."
+    "Potential version/deployment confusion: assistant claims Version 15 is live in production, conflicting with previously tracked version states.",
+    "Potential version/deployment confusion: assistant claims \"Version 19\" deployed/live in production, conflicting with previously tracked version states."
   ],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Abstract sponsored video thumbnail with bold shapes and high contrast (vibechat-sponsored-1.dim_720x1280.png)\n- Abstract sponsored video thumbnail with product-style silhouette and clean gradients (vibechat-sponsored-2.dim_720x1280.png)\n- Abstract sponsored video thumbnail with dynamic pattern and minimal iconography (vibechat-sponsored-3.dim_720x1280.png)",
+  "imageRequirements": "## Required Images\n- PWA app icon with a clean centered Vibechat mark on an opaque background (vibechat-pwa-icon.dim_192x192.png)\n- PWA app icon with a clean centered Vibechat mark on an opaque background (vibechat-pwa-icon.dim_512x512.png)\n- Maskable PWA app icon with safe padding and centered mark (vibechat-pwa-icon-maskable.dim_512x512.png)\n- Apple touch icon with centered mark on an opaque background (vibechat-apple-touch-icon.dim_180x180.png)\n- Favicon with simplified mark (vibechat-favicon.dim_32x32.png)",
   "existing_features": [
     {
       "id": "feature-generate-a-custom-original-logo-image-for-the-app-name-vibechat-and-add-it-to-the-project-as-a-static-asset-under-frontend-public-assets-generated",
@@ -262,6 +266,118 @@
         "REQ-35"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-a-new-ai-helper-entry-point-in-the-chats-experience-that-provides-ai-style-assistance-without-calling-any-external-ai-llm-services-e-g-a-button-near-the-message-composer-or-in-the-conversation-header-that-opens-an-assistant-panel-sheet",
+      "title": "Add a new “AI” helper entry point in the Chats experience that provides AI-style assistance without calling any external AI/LLM services (e.g., a button near the message composer or in the conversation header that opens an assistant panel/sheet).",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-smart-replies-suggestions-for-incoming-messages-using-deterministic-client-side-logic-rules-keyword-matching-templates-and-allow-the-user-to-insert-a-suggested-reply-into-the-message-composer-with-one-tap-click",
+      "title": "Implement “Smart Replies” suggestions for incoming messages using deterministic, client-side logic (rules/keyword matching/templates) and allow the user to insert a suggested reply into the message composer with one tap/click.",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-optional-rewrite-tool-for-the-message-composer-that-can-transform-the-currently-typed-draft-using-client-side-heuristics-e-g-shorter-more-friendly-more-formal-and-preview-apply-the-rewritten-text",
+      "title": "Add an optional “Rewrite” tool for the message composer that can transform the currently typed draft using client-side heuristics (e.g., “Shorter”, “More friendly”, “More formal”) and preview/apply the rewritten text.",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-clear-english-user-facing-disclosure-copy-wherever-the-ai-helper-is-shown-stating-that-the-feature-is-a-lightweight-on-device-demo-assistant-and-does-not-use-external-ai-services-ensure-the-copy-does-not-imply-real-ai-llm-connectivity",
+      "title": "Add clear, English user-facing disclosure copy wherever the AI helper is shown stating that the feature is a lightweight, on-device/demo assistant and does not use external AI services; ensure the copy does not imply real AI/LLM connectivity.",
+      "reqIds": [
+        "REQ-39"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-lightweight-pre-login-introduction-onboarding-experience-that-is-shown-to-users-before-they-sign-in-internet-identity-replacing-the-current-pre-login-landing-marketing-content",
+      "title": "Add a lightweight pre-login introduction/onboarding experience that is shown to users before they sign in (Internet Identity), replacing the current pre-login landing/marketing content.",
+      "reqIds": [
+        "REQ-40"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-clear-way-to-skip-dismiss-the-pre-login-introduction-and-proceed-to-sign-in-and-remember-the-dismissal-locally-so-returning-users-are-not-forced-to-re-read-the-introduction-every-time",
+      "title": "Provide a clear way to skip/dismiss the pre-login introduction and proceed to sign-in, and remember the dismissal locally so returning users are not forced to re-read the introduction every time.",
+      "reqIds": [
+        "REQ-41"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-the-pre-login-introduction-into-the-existing-app-entry-flow-in-frontend-src-app-tsx-so-that-it-appears-only-when-the-user-is-not-authenticated-without-requiring-any-backend-changes",
+      "title": "Integrate the pre-login introduction into the existing app entry flow in `frontend/src/App.tsx` so that it appears only when the user is not authenticated, without requiring any backend changes.",
+      "reqIds": [
+        "REQ-42"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-pre-login-introduction-screen-frontend-src-pages-preloginintropage-tsx-to-remove-the-current-advisory-feature-marketing-content-and-instead-display-only-the-following-headline-and-attribution-in-english-headline-welcome-to-vibechat-where-you-will-never-get-bored-attribution-by-joshua-koech-keep-a-clear-call-to-action-to-sign-in-internet-identity-and-keep-a-way-to-skip-dismiss",
+      "title": "Update the pre-login introduction screen (`frontend/src/pages/PreLoginIntroPage.tsx`) to remove the current advisory/feature marketing content and instead display only the following headline and attribution in English: Headline: \"WELCOME TO VIBECHAT WHERE YOU WILL NEVER GET BORED...\" Attribution: \"by Joshua Koech\". Keep a clear call-to-action to sign in (Internet Identity) and keep a way to skip/dismiss.",
+      "reqIds": [
+        "REQ-43"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-remaining-unauthenticated-advisory-marketing-landing-content-by-replacing-the-current-landingpage-experience-frontend-src-pages-landingpage-tsx-with-a-minimal-welcome-view-that-uses-the-same-welcome-headline-and-attribution-text-welcome-to-vibechat-where-you-will-never-get-bored-by-joshua-koech-and-provides-a-clear-button-to-sign-in-via-the-existing-auth-dialog-flow-ensure-the-unauthenticated-experience-no-longer-shows-the-previous-marketing-sections",
+      "title": "Remove the remaining unauthenticated advisory/marketing landing content by replacing the current `LandingPage` experience (`frontend/src/pages/LandingPage.tsx`) with a minimal welcome view that uses the same welcome headline and attribution text (\"WELCOME TO VIBECHAT WHERE YOU WILL NEVER GET BORED...\" / \"by Joshua Koech\") and provides a clear button to sign in via the existing auth dialog flow. Ensure the unauthenticated experience no longer shows the previous marketing sections.",
+      "reqIds": [
+        "REQ-44"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-web-app-manifest-for-vibechat-so-modern-browsers-recognize-the-site-as-an-installable-pwa-including-app-name-short-name-start-url-display-mode-theme-background-colors-and-icon-declarations",
+      "title": "Add a Web App Manifest for Vibechat so modern browsers recognize the site as an installable PWA, including app name/short_name, start_url, display mode, theme/background colors, and icon declarations.",
+      "reqIds": [
+        "REQ-45"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-frontend-index-html-to-include-the-required-pwa-metadata-link-to-the-manifest-theme-color-meta-tag-and-appropriate-icon-links-including-an-apple-touch-icon",
+      "title": "Update `frontend/index.html` to include the required PWA metadata: link to the manifest, theme-color meta tag, and appropriate icon links (including an Apple touch icon).",
+      "reqIds": [
+        "REQ-46"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-service-worker-file-to-enable-baseline-pwa-behavior-at-minimum-registerable-service-worker-and-lightweight-caching-for-core-shell-assets-without-introducing-runtime-errors-in-unsupported-browsers",
+      "title": "Add a service worker file to enable baseline PWA behavior (at minimum: registerable service worker and lightweight caching for core shell assets) without introducing runtime errors in unsupported browsers.",
+      "reqIds": [
+        "REQ-47"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-register-the-service-worker-from-within-the-editable-react-codebase-do-not-modify-immutable-files-such-as-frontend-src-main-tsx-and-ensure-registration-is-performed-only-in-production-like-environments-and-supported-browsers",
+      "title": "Register the service worker from within the editable React codebase (do not modify immutable files such as `frontend/src/main.tsx`) and ensure registration is performed only in production-like environments and supported browsers.",
+      "reqIds": [
+        "REQ-48"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-simple-user-facing-way-for-users-to-install-vibechat-pwa-from-the-unauthenticated-experience-with-clear-english-text-explaining-that-installation-availability-depends-on-the-browser-device",
+      "title": "Add a simple, user-facing way for users to install Vibechat (PWA) from the unauthenticated experience, with clear English text explaining that installation availability depends on the browser/device.",
+      "reqIds": [
+        "REQ-49"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -410,6 +526,30 @@
     {
       "id": "AR-26",
       "summary": "Add ads or ad-like video content to the Videos section so it has something to watch (populate Videos tab with ads/monetizable content)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-27",
+      "summary": "Add AI features to Vibechat (scope TBD: e.g., AI chat assistant, smart replies, or AI tools in Videos/Chats)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-28",
+      "summary": "Add a pre-login introduction/onboarding screen shown before Internet Identity sign-in (intro to the app before sign in)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-29",
+      "summary": "Update the pre-login introduction/onboarding screen copy to: \"WELCOME TO VIBECHAT WHERE YOU WILL NEVER GET BORED...\" with attribution \"by Joshua Koech\", and remove remaining advisory-style content",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-30",
+      "summary": "Make Vibechat installable as a PWA (manifest, icons, service worker) so users can add it to home screen like a normal app",
       "reqIds": [],
       "status": "pending"
     }

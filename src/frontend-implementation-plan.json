@@ -1,113 +1,133 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Videos tab sponsored watch feed (mock, frontend-only)",
+  "title": "Enable Vibechat as an installable PWA (Add to Home Screen)",
   "requirements": [
     {
-      "id": "REQ-32",
-      "summary": "Replace Videos placeholder with a scrollable sponsored/ad-style feed using client-side mock items (no backend).",
+      "id": "REQ-45",
+      "summary": "Add a Web App Manifest so Vibechat is recognized as an installable PWA with required metadata and icon declarations.",
       "acceptanceCriteria": [
-        "Navigating to the Videos tab shows a feed of at least 3 sponsored/ad-style items instead of the current “Videos is coming soon.” card.",
-        "Each feed item is clearly labeled in English as sponsored content (e.g., “Sponsored”).",
-        "Each feed item has a thumbnail image, a short title, and a short description (English).",
-        "No backend canister methods are added/changed to support this feed."
+        "A manifest file exists under the frontend static/public assets (e.g., `frontend/public/manifest.webmanifest` or `frontend/public/manifest.json`).",
+        "The manifest includes: `name` = \"Vibechat\", `short_name` = \"Vibechat\", `start_url`, `display` (standalone), `background_color`, `theme_color`, and an `icons` array with at least 192x192 and 512x512 PNG icons (including a maskable icon).",
+        "The app can be installed on supported browsers (Chrome/Edge/Android) without manifest-related console errors."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/videos/mockSponsoredItems.ts",
+          "path": "frontend/public/manifest.webmanifest",
           "operation": "create",
-          "description": "Create client-only mock sponsored video item data (>= 3 items) including English title/description, a static thumbnail path under frontend/public/assets/generated/, and any lightweight metadata needed for the watch viewer."
+          "description": "Create the Vibechat web app manifest with required PWA fields (name/short_name, start_url, display=standalone, background_color, theme_color) and icon declarations referencing: frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png, frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png, and frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png."
         },
         {
-          "path": "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+          "path": "frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png",
           "operation": "create",
-          "description": "Implement a scrollable feed UI rendering the mock sponsored items with clear “Sponsored” labeling, thumbnail, title, and description. Use shadcn-ui components (e.g., Card, Badge, Button) for consistent styling; verify the component's usage instructions before implementing."
+          "description": "Add the generated PWA icon asset (192x192) at the exact path frontend/public/assets/generated/vibechat-pwa-icon.dim_192x192.png and ensure the manifest references it."
         },
         {
-          "path": "frontend/src/pages/VideosPage.tsx",
-          "operation": "modify",
-          "description": "Replace the placeholder Card with the new sponsored feed UI, wiring in SponsoredVideoFeed and ensuring the page layout supports scrolling and typical app container spacing. Use shadcn-ui components where helpful; verify the component's usage instructions before implementing."
+          "path": "frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated PWA icon asset (512x512) at the exact path frontend/public/assets/generated/vibechat-pwa-icon.dim_512x512.png and ensure the manifest references it."
+        },
+        {
+          "path": "frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated maskable PWA icon asset (512x512) at the exact path frontend/public/assets/generated/vibechat-pwa-icon-maskable.dim_512x512.png and ensure the manifest references it with purpose set to include maskable."
         }
       ]
     },
     {
-      "id": "REQ-33",
-      "summary": "Add an in-app watch viewer (modal/sheet) for sponsored items with simulated playback progress and close/back control, fully client-side.",
+      "id": "REQ-46",
+      "summary": "Update frontend/index.html with manifest link, theme-color meta, and icon links including Apple touch icon and favicon.",
       "acceptanceCriteria": [
-        "Clicking/tapping a sponsored item opens a dedicated viewer (modal/sheet/page section) that presents the ad item in a watchable format.",
-        "The viewer includes a visible progress indicator that advances automatically (e.g., 10–15 seconds) and provides a clear close/back control.",
-        "User-facing labels and messaging are in English and do not claim the content is from a real ad network."
+        "`frontend/index.html` includes a `<link rel=\"manifest\" ...>` pointing to the manifest file.",
+        "`frontend/index.html` includes `<meta name=\"theme-color\" ...>` matching the manifest theme color.",
+        "`frontend/index.html` references a favicon and an Apple touch icon file that exist in the frontend public assets.",
+        "The page still loads normally and the document title remains \"vibechat\" (unless explicitly updated as part of PWA metadata)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/videos/SponsoredVideoViewer.tsx",
-          "operation": "create",
-          "description": "Create a dedicated viewer component that displays the selected sponsored item in a full-bleed vertical format (thumbnail as the visual), includes item details, and provides a clear close/back control. Use shadcn-ui Dialog or Sheet to present the viewer as a modal/sheet; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/videos/useSimulatedPlaybackProgress.ts",
-          "operation": "create",
-          "description": "Add a small React hook that simulates playback by advancing a progress value over a fixed duration (e.g., 10–15 seconds), supports reset on open/item change, and stops/cleans up timers on close/unmount."
-        },
-        {
-          "path": "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+          "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Wire feed item click/tap to open the SponsoredVideoViewer modal/sheet and pass the selected item. Ensure labels remain clearly “Sponsored” and avoid any wording implying a real ad network. Use shadcn-ui trigger/control components as needed; verify the component's usage instructions before implementing."
+          "description": "Add required PWA metadata: link rel=\"manifest\" pointing to /manifest.webmanifest, meta name=\"theme-color\" matching the manifest theme_color, link rel=\"icon\" referencing frontend/public/assets/generated/vibechat-favicon.dim_32x32.png, and link rel=\"apple-touch-icon\" referencing frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png, while keeping the existing title \"vibechat\"."
+        },
+        {
+          "path": "frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png",
+          "operation": "create",
+          "description": "Add the generated Apple touch icon asset at the exact path frontend/public/assets/generated/vibechat-apple-touch-icon.dim_180x180.png and ensure index.html references it."
+        },
+        {
+          "path": "frontend/public/assets/generated/vibechat-favicon.dim_32x32.png",
+          "operation": "create",
+          "description": "Add the generated favicon asset at the exact path frontend/public/assets/generated/vibechat-favicon.dim_32x32.png and ensure index.html references it."
         }
       ]
     },
     {
-      "id": "REQ-34",
-      "summary": "Add an English demo-content disclaimer to Videos tab and ensure feed/viewer are responsive on mobile and desktop without horizontal overflow.",
+      "id": "REQ-47",
+      "summary": "Add a registerable service worker with safe, lightweight caching for core app shell assets without runtime errors.",
       "acceptanceCriteria": [
-        "A short disclaimer appears in the Videos tab (e.g., near the top of the feed) indicating the items are sample/demo sponsored content.",
-        "The feed and viewer are responsive and usable on small mobile screens and desktop widths without horizontal overflow."
+        "A service worker file exists in frontend public assets (e.g., `frontend/public/sw.js`) and can be fetched at `/sw.js`.",
+        "The service worker installs and activates successfully in supported browsers (no uncaught exceptions).",
+        "Core app shell requests needed to load the UI are cached in a safe, minimal way (e.g., cache-first for the shell, network-first for dynamic requests), and the caching logic does not break authenticated usage.",
+        "When the service worker is registered, the app still functions normally online."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/VideosPage.tsx",
-          "operation": "modify",
-          "description": "Add a small English disclaimer near the top of the Videos feed (e.g., “Demo sponsored content for preview purposes.”). Ensure layout uses responsive Tailwind classes and avoids horizontal overflow at common mobile/desktop widths. Use shadcn-ui typography-friendly components (Card, Alert, etc.) if desired; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/videos/SponsoredVideoViewer.tsx",
-          "operation": "modify",
-          "description": "Ensure the viewer modal/sheet layout is responsive: full-height vertical viewer on mobile, centered/max-width presentation on desktop, and no horizontal overflow. Keep user-facing text in English and clearly demo/simulated."
+          "path": "frontend/public/sw.js",
+          "operation": "create",
+          "description": "Create a baseline service worker that installs/activates safely and performs lightweight caching for core shell assets (e.g., cache-first for static shell files, network-first or bypass for non-shell/dynamic requests) while avoiding strategies that could break authenticated usage."
         }
       ]
     },
     {
-      "id": "REQ-35",
-      "summary": "Add required generated ad thumbnail images under frontend/public/assets/generated/ and render them via static paths in the feed (no backend fetch).",
+      "id": "REQ-48",
+      "summary": "Register the service worker from editable React code (not main.tsx), gated to supported browsers and production-like environments.",
       "acceptanceCriteria": [
-        "All generated thumbnails exist at `frontend/public/assets/generated/` and are referenced by the Videos tab via static paths (e.g., `/assets/generated/...`).",
-        "Thumbnails render crisply (no broken images) in both light and dark mode."
+        "Service worker registration is triggered from an editable file (e.g., `frontend/src/App.tsx` via a `useEffect`) without changing any immutable paths.",
+        "Registration checks for `'serviceWorker' in navigator` and avoids throwing errors on unsupported browsers.",
+        "In production builds, the service worker registers and controls the page after reload; in development, the app does not spam console errors if the service worker is absent."
       ],
       "file_operations": [
         {
-          "path": "frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png",
+          "path": "frontend/src/utils/registerServiceWorker.ts",
           "operation": "create",
-          "description": "Add the generated thumbnail image asset for sponsored item 1 at the exact required path."
+          "description": "Add a small helper that conditionally registers /sw.js only when the environment is production-like and the browser supports service workers, and degrades quietly in development if /sw.js is missing."
         },
         {
-          "path": "frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png",
-          "operation": "create",
-          "description": "Add the generated thumbnail image asset for sponsored item 2 at the exact required path."
-        },
-        {
-          "path": "frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png",
-          "operation": "create",
-          "description": "Add the generated thumbnail image asset for sponsored item 3 at the exact required path."
-        },
-        {
-          "path": "frontend/src/components/videos/mockSponsoredItems.ts",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Reference the generated thumbnails via static public paths that map to these exact files: frontend/public/assets/generated/vibechat-sponsored-1.dim_720x1280.png, frontend/public/assets/generated/vibechat-sponsored-2.dim_720x1280.png, frontend/public/assets/generated/vibechat-sponsored-3.dim_720x1280.png."
+          "description": "Wire service worker registration into an editable file by calling the registration helper from a useEffect (without modifying frontend/src/main.tsx) and ensuring it checks for 'serviceWorker' in navigator and runs only in production-like builds."
+        }
+      ]
+    },
+    {
+      "id": "REQ-49",
+      "summary": "Provide an unauthenticated UI affordance to install Vibechat as a PWA with clear English guidance and a fallback when install isn’t available.",
+      "acceptanceCriteria": [
+        "Unauthenticated UI (e.g., `LandingPage` and/or `PreLoginIntroPage`) includes an \"Install Vibechat\" action when the browser fires the install prompt event (or otherwise provides a short message if install is not available).",
+        "User-facing text is in English and does not claim installation is always available; it clearly indicates it depends on the browser/device.",
+        "If the install prompt is available, clicking the install action triggers the browser install prompt (where supported).",
+        "If the install prompt is not available, the UI shows a helpful fallback message such as \"To install, open your browser menu and choose 'Add to Home Screen' (if available).\""
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/usePWAInstallPrompt.ts",
+          "operation": "create",
+          "description": "Create a React hook that listens for the browser install prompt event, exposes whether installation is currently available, and provides a function to trigger the prompt when supported."
         },
         {
-          "path": "frontend/src/components/videos/SponsoredVideoFeed.tsx",
+          "path": "frontend/src/components/PWAInstallCallout.tsx",
+          "operation": "create",
+          "description": "Create a small callout component for unauthenticated screens that uses the install prompt hook and renders: (1) an \"Install Vibechat\" action when available, and (2) an English fallback message explaining that availability depends on browser/device and suggesting the browser menu 'Add to Home Screen' option when not available. Use existing shadcn-ui Button component for the action (Verify the component's usage instructions before implementing)."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
           "operation": "modify",
-          "description": "Render thumbnails from the static generated assets (not via backend). Ensure images display without breaking in both light and dark mode (e.g., appropriate object-fit, background, and border styling). Use shadcn-ui components where helpful; verify the component's usage instructions before implementing."
+          "description": "Add the PWA install callout to the unauthenticated LandingPage UI so users can install Vibechat when supported (and see the English fallback guidance otherwise)."
+        },
+        {
+          "path": "frontend/src/pages/PreLoginIntroPage.tsx",
+          "operation": "modify",
+          "description": "Add the PWA install callout to the unauthenticated PreLoginIntroPage UI so users can install Vibechat when supported (and see the English fallback guidance otherwise)."
         }
       ]
     }

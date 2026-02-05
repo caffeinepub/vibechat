@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppHeader } from './components/AppHeader';
 import { LandingPage } from './pages/LandingPage';
+import { PreLoginIntroPage } from './pages/PreLoginIntroPage';
 import { ChatsPage } from './pages/ChatsPage';
 import { GroupsPage } from './pages/GroupsPage';
 import { StatusPage } from './pages/StatusPage';
@@ -13,6 +14,8 @@ import { ContactsSyncDialog } from './components/ContactsSyncDialog';
 import { Toaster } from './components/ui/sonner';
 import { useInternetIdentity } from './hooks/useInternetIdentity';
 import { useGetCallerUserProfile } from './hooks/useQueries';
+import { hasSeenOnboarding, markOnboardingAsSeen } from './utils/onboardingStorage';
+import { registerServiceWorker } from './utils/registerServiceWorker';
 
 const queryClient = new QueryClient();
 
@@ -23,6 +26,7 @@ function AppContent() {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [contactsDialogOpen, setContactsDialogOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState<Section>('chats');
+  const [showIntro, setShowIntro] = useState(false);
 
   const { identity } = useInternetIdentity();
   const { data: userProfile, isLoading: profileLoading, isFetched } = useGetCallerUserProfile();
@@ -30,14 +34,42 @@ function AppContent() {
   const isAuthenticated = !!identity;
   const showProfileSetup = isAuthenticated && !profileLoading && isFetched && userProfile === null;
 
+  // Register service worker on mount
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
+
+  // Check if we should show the intro on mount
+  useEffect(() => {
+    if (!isAuthenticated && !hasSeenOnboarding()) {
+      setShowIntro(true);
+    }
+  }, [isAuthenticated]);
+
   // Auto-open profile setup if needed
   if (showProfileSetup && !authDialogOpen) {
     setAuthDialogOpen(true);
   }
 
+  const handleOpenAuth = () => {
+    // Mark intro as seen when user opens auth
+    if (showIntro) {
+      markOnboardingAsSeen();
+      setShowIntro(false);
+    }
+    setAuthDialogOpen(true);
+  };
+
+  const handleSkipIntro = () => {
+    markOnboardingAsSeen();
+    setShowIntro(false);
+    // Optionally open auth dialog after skip
+    setAuthDialogOpen(true);
+  };
+
   const handleNavigateToChats = () => {
     if (!isAuthenticated) {
-      setAuthDialogOpen(true);
+      handleOpenAuth();
       return;
     }
     setCurrentSection('chats');
@@ -60,12 +92,24 @@ function AppContent() {
     }
   };
 
+  // Show intro page for unauthenticated users who haven't seen it
+  if (!isAuthenticated && showIntro) {
+    return (
+      <>
+        {showSplash && <SplashScreen onDismiss={() => setShowSplash(false)} />}
+        <PreLoginIntroPage onOpenAuth={handleOpenAuth} onSkip={handleSkipIntro} />
+        <WhatsAppStyleAuth open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
+        <Toaster />
+      </>
+    );
+  }
+
   return (
     <>
       {showSplash && <SplashScreen onDismiss={() => setShowSplash(false)} />}
       <div className="min-h-screen flex flex-col bg-background">
         <AppHeader 
-          onOpenAuth={() => setAuthDialogOpen(true)}
+          onOpenAuth={handleOpenAuth}
           onOpenContacts={() => setContactsDialogOpen(true)}
           currentSection={isAuthenticated ? currentSection : null}
           onSectionChange={setCurrentSection}
@@ -73,7 +117,7 @@ function AppContent() {
         <main className="flex-1">
           {!isAuthenticated ? (
             <LandingPage 
-              onOpenAuth={() => setAuthDialogOpen(true)}
+              onOpenAuth={handleOpenAuth}
               onOpenContacts={() => setContactsDialogOpen(true)}
               onNavigateToChats={handleNavigateToChats}
             />
