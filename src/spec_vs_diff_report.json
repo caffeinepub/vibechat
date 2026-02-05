@@ -1,64 +1,26 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T21:13:08.438Z",
-  "summary": "BuildRequest contains no requirements or acceptance criteria. The diff introduces multiple new frontend components and backend APIs (auth/profile/phone availability, UI theming, splash screen integration, etc.) that were not requested in the provided BuildRequest.",
-  "missing_requirements": [],
-  "hallucinated_features": [
+  "generatedAt": "2026-02-05T21:31:03.086Z",
+  "summary": "REQ-17 is largely implemented by adding a new ProfilePhotoPicker with separate “From gallery” and “Take photo” actions, plus a CameraCaptureDialog that handles camera support/permission errors in clear English and returns a captured File for the existing preview/save flow. One acceptance-criteria detail (using a camera-capable file input with `capture`) is not evidenced; instead, the diff shows a custom camera dialog likely using getUserMedia via a `useCamera` hook.",
+  "missing_requirements": [
     {
-      "description": "Added a new multi-step “WhatsApp-style” authentication/profile setup dialog (phone entry -> verify -> profile) including image upload/preview and toast errors.",
-      "reason": "No requirements were provided in the BuildRequest, so this functionality was not requested.",
+      "id": "REQ-17",
+      "requirement": "In the profile setup step, users have an explicit UI option to take a new photo that uses a camera-capable file input (e.g., input capture) on supported mobile browsers.",
+      "reason": "The diff shows the “Take photo” UI opening a custom `CameraCaptureDialog` backed by a `useCamera` hook (live video/canvas capture). There is no evidence of an `<input type=\"file\" capture>`-based implementation for camera capture.",
       "evidence": [
-        "frontend/src/components/WhatsAppStyleAuth.tsx",
-        "frontend/src/App.tsx"
-      ]
-    },
-    {
-      "description": "Modified backend to store and manage user profiles (full name, phone number, optional profile picture), including authorization checks, querying profiles, listing all profiles/phone numbers, checking phone number availability, and uploading a profile picture.",
-      "reason": "No requirements were provided in the BuildRequest, so backend profile/phone APIs were not requested.",
-      "evidence": [
-        "backend/main.mo"
-      ]
-    },
-    {
-      "description": "Updated the application shell to wire auth dialog state, render the new auth dialog, and add Sonner toast notifications.",
-      "reason": "No requirements were provided in the BuildRequest, so this integration work was not requested.",
-      "evidence": [
-        "frontend/src/App.tsx"
-      ]
-    },
-    {
-      "description": "Changed the header to be auth-aware: shows Sign In, profile loading indicator, avatar/name display, or “Complete Profile” based on authentication/profile state.",
-      "reason": "No requirements were provided in the BuildRequest, so these UI behavior changes were not requested.",
-      "evidence": [
-        "frontend/src/components/AppHeader.tsx"
-      ]
-    },
-    {
-      "description": "Modified landing page CTAs to open the auth dialog (e.g., “Get Started”).",
-      "reason": "No requirements were provided in the BuildRequest, so landing page wiring changes were not requested.",
-      "evidence": [
-        "frontend/src/pages/LandingPage.tsx"
-      ]
-    },
-    {
-      "description": "Added/modified profile registration/editor dialog (including optional password fields and profile picture handling).",
-      "reason": "No requirements were provided in the BuildRequest, so this dialog was not requested.",
-      "evidence": [
-        "frontend/src/components/ProfileDialog.tsx",
-        "frontend-file-summaries.txt"
+        "frontend/src/components/ProfilePhotoPicker.tsx",
+        "frontend/src/components/CameraCaptureDialog.tsx"
       ]
     }
   ],
-  "confidence": 0.78,
+  "hallucinated_features": [],
+  "confidence": 0.68,
   "changed_files": [
-    "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/src/App.tsx",
-    "frontend/src/components/AppHeader.tsx",
-    "frontend/src/components/ProfileDialog.tsx",
+    "frontend/src/components/CameraCaptureDialog.tsx",
+    "frontend/src/components/ProfilePhotoPicker.tsx",
     "frontend/src/components/WhatsAppStyleAuth.tsx",
-    "frontend/src/pages/LandingPage.tsx",
     "project_state.json"
   ]
 }

@@ -1,6 +1,35 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Untitled request",
-  "requirements": []
+  "title": "Profile photo picker: gallery selection + camera capture (frontend-only)",
+  "requirements": [
+    {
+      "id": "REQ-17",
+      "summary": "Enhance the profile photo picker in the WhatsApp-style profile setup step to support both gallery selection and camera capture (on supported mobile browsers) with clear validation and fallback messaging, using the existing profile save flow.",
+      "acceptanceCriteria": [
+        "In the profile setup step (profile photo area), users can choose an existing image from their device gallery using the existing file picker flow.",
+        "In the profile setup step, users have an explicit UI option to take a new photo (e.g., a “Take photo” action) that uses a camera-capable file input (e.g., input capture) on supported mobile browsers.",
+        "The image validation rules continue to apply (type and max size) and any validation errors are shown in clear English.",
+        "If the browser/device does not support camera capture or the user denies permission, the UI shows a clear English message and the user can still select a photo from the gallery.",
+        "Selected/taken photos show a preview immediately (using the existing preview behavior) and continue to upload/save through the existing profile save flow."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProfilePhotoPicker.tsx",
+          "operation": "create",
+          "description": "Create a composed ProfilePhotoPicker used by the profile setup step that offers explicit actions for (1) choosing an image from the gallery via a standard file input and (2) taking a photo via camera capture; it should run existing validation (validateImageFile), surface clear English errors, and emit (file, previewUrl) back to the parent. Use shadcn-ui primitives already in the app for consistent UI. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/CameraCaptureDialog.tsx",
+          "operation": "create",
+          "description": "Add a small camera capture dialog/component that uses the selected \"camera\" component’s useCamera hook to show a stable-dimension live preview and allow capturing a photo into a File; handle and display not-supported and permission-denied states in clear English, and provide an obvious fallback action to use the gallery instead. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/WhatsAppStyleAuth.tsx",
+          "operation": "modify",
+          "description": "Wire the new ProfilePhotoPicker into the profile step: replace the current single file-input/avatar click flow with the new gallery + take-photo UI, keep selectedFile/previewUrl behavior consistent, ensure validation errors are shown in clear English, and ensure the captured/selected File continues through the existing save flow (readFileAsBytes -> ExternalBlob.fromBytes -> save mutation) without backend changes."
+        }
+      ]
+    }
+  ]
 }

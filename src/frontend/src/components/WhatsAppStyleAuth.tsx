@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useGetCallerUserProfile, useSaveCallerUserProfile, useCheckPhoneNumberAvailability } from '../hooks/useQueries';
 import { ExternalBlob } from '../backend';
-import { validateImageFile, readFileAsBytes } from '../utils/fileBytes';
+import { readFileAsBytes } from '../utils/fileBytes';
 import {
   Dialog,
   DialogContent,
@@ -13,9 +13,9 @@ import {
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Loader2, Upload, User, ArrowLeft, Check } from 'lucide-react';
+import { Loader2, ArrowLeft, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import { ProfilePhotoPicker } from './ProfilePhotoPicker';
 
 interface WhatsAppStyleAuthProps {
   open: boolean;
@@ -113,18 +113,8 @@ export function WhatsAppStyleAuth({ open, onOpenChange }: WhatsAppStyleAuthProps
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const validation = validateImageFile(file);
-    if (!validation.valid) {
-      toast.error(validation.error);
-      return;
-    }
-
+  const handleFileSelected = (file: File, url: string) => {
     setSelectedFile(file);
-    const url = URL.createObjectURL(file);
     setPreviewUrl(url);
   };
 
@@ -164,15 +154,6 @@ export function WhatsAppStyleAuth({ open, onOpenChange }: WhatsAppStyleAuthProps
       toast.error(error.message || 'Failed to save profile');
       setUploadProgress(0);
     }
-  };
-
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
   };
 
   const handleBack = () => {
@@ -306,34 +287,13 @@ export function WhatsAppStyleAuth({ open, onOpenChange }: WhatsAppStyleAuthProps
             </div>
           ) : (
             <div className="space-y-6">
-              {/* Profile Picture */}
-              <div className="flex flex-col items-center gap-4">
-                <Avatar className="h-32 w-32 cursor-pointer" onClick={() => document.getElementById('picture')?.click()}>
-                  {previewUrl ? (
-                    <AvatarImage src={previewUrl} alt={fullName || 'Profile'} />
-                  ) : (
-                    <AvatarFallback className="text-3xl bg-muted">
-                      {fullName ? getInitials(fullName) : <User className="h-12 w-12 text-muted-foreground" />}
-                    </AvatarFallback>
-                  )}
-                </Avatar>
-                <div className="text-center">
-                  <Label
-                    htmlFor="picture"
-                    className="cursor-pointer inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium"
-                  >
-                    <Upload className="h-4 w-4" />
-                    {previewUrl ? 'Change photo' : 'Add photo'}
-                  </Label>
-                  <Input
-                    id="picture"
-                    type="file"
-                    accept="image/jpeg,image/jpg,image/png,image/webp"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                </div>
-              </div>
+              {/* Profile Picture Picker */}
+              <ProfilePhotoPicker
+                previewUrl={previewUrl}
+                fullName={fullName}
+                onFileSelected={handleFileSelected}
+                disabled={isSaving}
+              />
 
               {/* Name Input */}
               <div className="space-y-2">

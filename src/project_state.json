@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 19,
+  "projectStateVersion": 21,
   "summary": "Project \"vibechat\" is being promoted to public production access, and scope now includes adding in-app user registration (name, phone number, profile picture) plus an optional app-level password field stored in the backend (not SMS-based).",
   "architectural_notes": [
     "Platform constraint: authentication must use Internet Identity; SMS verification/phone-based login is not supported. Any in-app password is app-level data (e.g., for extra gating) and not a replacement for II auth.",
@@ -11,9 +11,11 @@
     "Production deployment failed with a deployment error when attempting to take Version 2 live.",
     "Potential version/deployment state confusion: assistant reported \"Version 4\" live for preview while project summary references Version 3 pending production publish.",
     "Login flow error: users report being unable to log in due to a \"profile failed\" message (likely profile load/save failure after Internet Identity auth).",
-    "Potential version/deployment confusion: conversation references Version 7 being deployed/live while project state previously referenced Version 2/3/4 discrepancies."
+    "Potential version/deployment confusion: conversation references Version 7 being deployed/live while project state previously referenced Version 2/3/4 discrepancies.",
+    "Users report login still failing (\"But it failed\"), likely tied to post-Internet Identity profile flow.",
+    "Profile picture upload may fail due to missing device photo/gallery permission handling."
   ],
-  "isFixRequest": false,
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-generate-a-custom-original-logo-image-for-the-app-name-vibechat-and-add-it-to-the-project-as-a-static-asset-under-frontend-public-assets-generated",
@@ -126,6 +128,14 @@
         "REQ-16"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-profile-photo-picker-in-the-whatsapp-style-auth-profile-flow-to-support-selecting-an-image-from-the-device-photo-gallery-and-on-supported-mobile-browsers-taking-a-new-photo-using-the-device-camera-without-requiring-any-backend-changes",
+      "title": "Update the profile photo picker in the WhatsApp-style auth/profile flow to support selecting an image from the device photo gallery and (on supported mobile browsers) taking a new photo using the device camera, without requiring any backend changes.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -184,6 +194,12 @@
     {
       "id": "AR-9",
       "summary": "Make the login process UX almost similar to WhatsApp (while still using Internet Identity; no SMS-based phone login)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Enable photo/gallery access permission so users can select or take a profile picture (camera/gallery permissions and UX)",
       "reqIds": [],
       "status": "pending"
     }
