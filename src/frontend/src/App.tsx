@@ -1,18 +1,24 @@
 import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppHeader } from './components/AppHeader';
 import { LandingPage } from './pages/LandingPage';
 import { SplashScreen } from './components/SplashScreen';
+import { WhatsAppStyleAuth } from './components/WhatsAppStyleAuth';
+import { Toaster } from './components/ui/sonner';
+
+const queryClient = new QueryClient();
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       {showSplash && <SplashScreen onDismiss={() => setShowSplash(false)} />}
       <div className="min-h-screen flex flex-col bg-background">
-        <AppHeader />
+        <AppHeader onOpenAuth={() => setAuthDialogOpen(true)} />
         <main className="flex-1">
-          <LandingPage />
+          <LandingPage onOpenAuth={() => setAuthDialogOpen(true)} />
         </main>
         <footer className="border-t border-border py-6 px-4">
           <div className="container mx-auto text-center text-sm text-muted-foreground">
@@ -28,7 +34,9 @@ function App() {
           </div>
         </footer>
       </div>
-    </>
+      <WhatsAppStyleAuth open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
+      <Toaster />
+    </QueryClientProvider>
   );
 }
 

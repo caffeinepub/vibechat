@@ -1,84 +1,12 @@
 {
   "kind": "build_request",
-  "title": "Enable publishing: fix production build blockers and add a publish readiness check",
-  "priority": "high",
-  "requirements": [
-    {
-      "id": "REQ-6",
-      "text": "Fix any frontend build/type/lint errors that could block production publishing, including removing unused imports in the React codebase so the production build completes successfully.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Can I publish it"
-        ]
-      },
-      "acceptanceCriteria": [
-        "`frontend` production build completes successfully with no TypeScript errors.",
-        "No ESLint/TS unused import issues remain in committed code (e.g., remove unused `useEffect` import in `frontend/src/App.tsx`)."
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Add a minimal backend “publish readiness” API that confirms the canister is callable (e.g., a query that returns the caller principal and a simple canister status string), and wire a small frontend UI section that calls it and displays the result in English.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Can I publish it"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend exposes at least one query method that returns the caller Principal (or its text form) and a static status/version string.",
-        "Frontend provides a visible UI element (e.g., on the landing page or a small diagnostics panel) that triggers the call and renders success/failure states in English.",
-        "When run anonymously, the readiness check still returns a valid response (showing the anonymous principal) without crashing."
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "text": "Add a concise “How to publish” help section in the frontend UI with clear English instructions specific to publishing this app after a successful build, including a short troubleshooting note for deployment failures.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Can I publish it"
-        ]
-      },
-      "acceptanceCriteria": [
-        "The app includes a clearly labeled section such as “How to publish” with step-by-step guidance in English.",
-        "The help text includes a brief troubleshooting checklist focused on common causes like build failures and missing assets, without referencing unsupported third-party platforms.",
-        "No backend changes are required to view this help content."
-      ]
-    }
-  ],
-  "constraints": [
-    "Respect the single-actor backend architecture; place all Motoko logic in `backend/main.mo`.",
-    "Do not edit files under `frontend/src/components/ui` or any other paths listed in `frontend.immutablePaths`.",
-    "Use English for any user-facing text."
-  ],
-  "nonGoals": [
-    "Implementing non-Internet-Computer deployment targets (e.g., Vercel/Netlify/AWS).",
-    "Adding third-party authentication providers beyond Internet Identity.",
-    "Adding real-time features (WebSockets/push notifications) as part of publishing."
-  ],
+  "title": "Untitled request",
+  "priority": "normal",
+  "requirements": [],
+  "constraints": [],
+  "nonGoals": [],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

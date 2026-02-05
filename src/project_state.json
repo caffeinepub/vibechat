@@ -1,12 +1,19 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
-  "summary": "Project \"vibechat\" app, planning branding assets and adding a splash screen using the new logo.",
-  "architectural_notes": [],
-  "known_issues": [
-    "Production deployment failed with a deployment error when attempting to take Version 2 live."
+  "projectStateVersion": 19,
+  "summary": "Project \"vibechat\" is being promoted to public production access, and scope now includes adding in-app user registration (name, phone number, profile picture) plus an optional app-level password field stored in the backend (not SMS-based).",
+  "architectural_notes": [
+    "Platform constraint: authentication must use Internet Identity; SMS verification/phone-based login is not supported. Any in-app password is app-level data (e.g., for extra gating) and not a replacement for II auth.",
+    "Profile/registration UX: the \"name\" field should not require a full legal/real name; allow nicknames/handles and avoid copy implying otherwise.",
+    "Requested login UX should mimic WhatsApp where possible, but must still authenticate via Internet Identity (no SMS/phone-number login or verification)."
   ],
-  "isFixRequest": true,
+  "known_issues": [
+    "Production deployment failed with a deployment error when attempting to take Version 2 live.",
+    "Potential version/deployment state confusion: assistant reported \"Version 4\" live for preview while project summary references Version 3 pending production publish.",
+    "Login flow error: users report being unable to log in due to a \"profile failed\" message (likely profile load/save failure after Internet Identity auth).",
+    "Potential version/deployment confusion: conversation references Version 7 being deployed/live while project state previously referenced Version 2/3/4 discrepancies."
+  ],
+  "isFixRequest": false,
   "existing_features": [
     {
       "id": "feature-generate-a-custom-original-logo-image-for-the-app-name-vibechat-and-add-it-to-the-project-as-a-static-asset-under-frontend-public-assets-generated",
@@ -71,6 +78,54 @@
         "REQ-8"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-promote-the-currently-live-preview-version-of-the-vibechat-app-to-be-the-public-production-version-so-anyone-can-access-it",
+      "title": "Promote the currently-live preview version of the Vibechat app to be the public production version so anyone can access it.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-frontend-registration-profile-screen-that-lets-a-logged-in-user-enter-their-name-phone-number-and-upload-a-profile-picture-then-saves-the-profile-to-the-backend-and-shows-success-error-states-in-english",
+      "title": "Add a frontend registration/profile screen that lets a logged-in user enter their name, phone number, and upload a profile picture, then saves the profile to the backend and shows success/error states in English.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-the-registered-user-s-profile-summary-in-the-app-header-when-authenticated-at-minimum-name-and-profile-picture-if-set-and-provide-a-clear-way-to-open-the-profile-editor-from-the-header",
+      "title": "Display the registered user’s profile summary in the app header when authenticated (at minimum: name and profile picture if set), and provide a clear way to open the profile editor from the header.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-frontend-profile-registration-dialog-to-allow-a-signed-in-user-to-optionally-set-or-change-an-in-app-password-including-basic-validation-and-clear-english-success-error-states",
+      "title": "Update the frontend profile/registration dialog to allow a signed-in user to optionally set or change an in-app password, including basic validation and clear English success/error states.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-or-revise-any-misleading-frontend-copy-that-implies-phone-number-sms-verification-is-performed-since-sms-based-verification-codes-are-not-supported",
+      "title": "Remove or revise any misleading frontend copy that implies phone-number SMS verification is performed, since SMS-based verification codes are not supported.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-profile-ui-so-the-name-field-is-treated-as-a-user-chosen-display-name-nicknames-allowed-not-a-requirement-for-a-full-legal-real-name-and-update-all-related-user-facing-copy-and-validation-messages-to-reflect-this-in-english",
+      "title": "Update the profile UI so the name field is treated as a user-chosen display name (nicknames allowed), not a requirement for a full/legal/real name, and update all related user-facing copy and validation messages to reflect this in English.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -83,6 +138,52 @@
     {
       "id": "AR-2",
       "summary": "Add an app splash screen using the Vibechat logo",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Publish Version 3 to production (run build + deploy sequence)",
+      "reqIds": [],
+      "status": "in_progress"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Add user registration flow collecting name, phone number, and profile picture",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Implement backend user profile storage keyed by the caller Principal, supporting registration fields: full name, phone number, and profile picture.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Add an in-app password field/system as part of the user registration/profile flow (stored in backend; not SMS/phone-based auth)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Add backend support for an optional app-level password per user (keyed by caller Principal) that is stored securely and is never returned in any profile read APIs.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Relax profile name requirements: allow nicknames/non-real names and update any validation/copy accordingly",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Make the login process UX almost similar to WhatsApp (while still using Internet Identity; no SMS-based phone login)",
       "reqIds": [],
       "status": "pending"
     }

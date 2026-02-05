@@ -1,64 +1,6 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Publish readiness: unblock frontend build and add readiness + publishing guidance UI",
-  "requirements": [
-    {
-      "id": "REQ-6",
-      "summary": "Eliminate frontend build/type/lint blockers so the production build completes successfully (including unused imports).",
-      "acceptanceCriteria": [
-        "`frontend` production build completes successfully with no TypeScript errors.",
-        "No ESLint/TS unused import issues remain in committed code (e.g., remove unused `useEffect` import in `frontend/src/App.tsx`)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Remove the unused React `useEffect` import (and any other unused symbols discovered while addressing build/lint/type errors) to ensure a clean production build."
-        },
-        {
-          "path": "frontend/src/pages/LandingPage.tsx",
-          "operation": "modify",
-          "description": "As new UI sections are added (publish readiness + how-to), ensure imports remain minimal and free of unused symbols to avoid lint/type build blockers. Use existing shadcn/ui primitives already present in the codebase; verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "summary": "Add a small frontend diagnostics UI that runs a publish readiness check against the canister and displays results in English (success/failure and caller principal text).",
-      "acceptanceCriteria": [
-        "Backend exposes at least one query method that returns the caller Principal (or its text form) and a static status/version string.",
-        "Frontend provides a visible UI element (e.g., on the landing page or a small diagnostics panel) that triggers the call and renders success/failure states in English.",
-        "When run anonymously, the readiness check still returns a valid response (showing the anonymous principal) without crashing."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Implement a minimal React Query hook (e.g., `usePublishReadinessCheck`) that uses `useActor()` to call the backend readiness function (`checkCanisterStatus`) and returns normalized UI-ready states (idle/loading/success/error) with the caller principal rendered as text."
-        },
-        {
-          "path": "frontend/src/pages/LandingPage.tsx",
-          "operation": "modify",
-          "description": "Add a visible 'Publish readiness check' section to the landing page with a button to trigger/refetch the check and English success/failure rendering (including the returned principal text). Use shadcn-ui components (e.g., Card/Button) for consistent UI; verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "summary": "Add a concise 'How to publish' help section in the frontend UI with clear English steps and a short troubleshooting checklist.",
-      "acceptanceCriteria": [
-        "The app includes a clearly labeled section such as “How to publish” with step-by-step guidance in English.",
-        "The help text includes a brief troubleshooting checklist focused on common causes like build failures and missing assets, without referencing unsupported third-party platforms.",
-        "No backend changes are required to view this help content."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/LandingPage.tsx",
-          "operation": "modify",
-          "description": "Add a clearly labeled 'How to publish' section with step-by-step English instructions focused on publishing after a successful build, plus a concise troubleshooting checklist (build failures, missing assets, local environment/dfx issues). Use existing shadcn-ui components (e.g., Card) to present the content; verify the component's usage instructions before implementing."
-        }
-      ]
-    }
-  ]
+  "title": "Untitled request",
+  "requirements": []
 }

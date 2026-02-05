@@ -8,15 +8,167 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
+export const _CaffeineStorageCreateCertificateResult = IDL.Record({
+  'method' : IDL.Text,
+  'blob_hash' : IDL.Text,
+});
+export const _CaffeineStorageRefillInformation = IDL.Record({
+  'proposed_top_up_amount' : IDL.Opt(IDL.Nat),
+});
+export const _CaffeineStorageRefillResult = IDL.Record({
+  'success' : IDL.Opt(IDL.Bool),
+  'topped_up_amount' : IDL.Opt(IDL.Nat),
+});
+export const UserRole = IDL.Variant({
+  'admin' : IDL.Null,
+  'user' : IDL.Null,
+  'guest' : IDL.Null,
+});
+export const ExternalBlob = IDL.Vec(IDL.Nat8);
+export const UserProfile = IDL.Record({
+  'fullName' : IDL.Text,
+  'phoneNumber' : IDL.Text,
+  'profilePicture' : IDL.Opt(ExternalBlob),
+});
+
 export const idlService = IDL.Service({
-  'checkCanisterStatus' : IDL.Func([], [IDL.Principal], ['query']),
+  '_caffeineStorageBlobIsLive' : IDL.Func(
+      [IDL.Vec(IDL.Nat8)],
+      [IDL.Bool],
+      ['query'],
+    ),
+  '_caffeineStorageBlobsToDelete' : IDL.Func(
+      [],
+      [IDL.Vec(IDL.Vec(IDL.Nat8))],
+      ['query'],
+    ),
+  '_caffeineStorageConfirmBlobDeletion' : IDL.Func(
+      [IDL.Vec(IDL.Vec(IDL.Nat8))],
+      [],
+      [],
+    ),
+  '_caffeineStorageCreateCertificate' : IDL.Func(
+      [IDL.Text],
+      [_CaffeineStorageCreateCertificateResult],
+      [],
+    ),
+  '_caffeineStorageRefillCashier' : IDL.Func(
+      [IDL.Opt(_CaffeineStorageRefillInformation)],
+      [_CaffeineStorageRefillResult],
+      [],
+    ),
+  '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
+  '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+  'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'changePassword' : IDL.Func([IDL.Text, IDL.Text], [], []),
+  'checkPassword' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'checkPhoneNumberAvailability' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
+  'getAllUserProfiles' : IDL.Func([], [IDL.Vec(UserProfile)], ['query']),
+  'getAllVerifiedPhoneNumbers' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
+  'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+  'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'getProfilePicture' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(ExternalBlob)],
+      ['query'],
+    ),
+  'getUserProfile' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(UserProfile)],
+      ['query'],
+    ),
+  'hasPassword' : IDL.Func([], [IDL.Bool], ['query']),
+  'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'registerUserProfile' : IDL.Func([UserProfile], [], []),
+  'removePassword' : IDL.Func([], [], []),
+  'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'setPassword' : IDL.Func([IDL.Text], [], []),
+  'uploadProfilePicture' : IDL.Func([ExternalBlob], [], []),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
+  const _CaffeineStorageCreateCertificateResult = IDL.Record({
+    'method' : IDL.Text,
+    'blob_hash' : IDL.Text,
+  });
+  const _CaffeineStorageRefillInformation = IDL.Record({
+    'proposed_top_up_amount' : IDL.Opt(IDL.Nat),
+  });
+  const _CaffeineStorageRefillResult = IDL.Record({
+    'success' : IDL.Opt(IDL.Bool),
+    'topped_up_amount' : IDL.Opt(IDL.Nat),
+  });
+  const UserRole = IDL.Variant({
+    'admin' : IDL.Null,
+    'user' : IDL.Null,
+    'guest' : IDL.Null,
+  });
+  const ExternalBlob = IDL.Vec(IDL.Nat8);
+  const UserProfile = IDL.Record({
+    'fullName' : IDL.Text,
+    'phoneNumber' : IDL.Text,
+    'profilePicture' : IDL.Opt(ExternalBlob),
+  });
+  
   return IDL.Service({
-    'checkCanisterStatus' : IDL.Func([], [IDL.Principal], ['query']),
+    '_caffeineStorageBlobIsLive' : IDL.Func(
+        [IDL.Vec(IDL.Nat8)],
+        [IDL.Bool],
+        ['query'],
+      ),
+    '_caffeineStorageBlobsToDelete' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Vec(IDL.Nat8))],
+        ['query'],
+      ),
+    '_caffeineStorageConfirmBlobDeletion' : IDL.Func(
+        [IDL.Vec(IDL.Vec(IDL.Nat8))],
+        [],
+        [],
+      ),
+    '_caffeineStorageCreateCertificate' : IDL.Func(
+        [IDL.Text],
+        [_CaffeineStorageCreateCertificateResult],
+        [],
+      ),
+    '_caffeineStorageRefillCashier' : IDL.Func(
+        [IDL.Opt(_CaffeineStorageRefillInformation)],
+        [_CaffeineStorageRefillResult],
+        [],
+      ),
+    '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
+    '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+    'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'changePassword' : IDL.Func([IDL.Text, IDL.Text], [], []),
+    'checkPassword' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'checkPhoneNumberAvailability' : IDL.Func(
+        [IDL.Text],
+        [IDL.Bool],
+        ['query'],
+      ),
+    'getAllUserProfiles' : IDL.Func([], [IDL.Vec(UserProfile)], ['query']),
+    'getAllVerifiedPhoneNumbers' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
+    'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+    'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'getProfilePicture' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(ExternalBlob)],
+        ['query'],
+      ),
+    'getUserProfile' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(UserProfile)],
+        ['query'],
+      ),
+    'hasPassword' : IDL.Func([], [IDL.Bool], ['query']),
+    'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'registerUserProfile' : IDL.Func([UserProfile], [], []),
+    'removePassword' : IDL.Func([], [], []),
+    'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'setPassword' : IDL.Func([IDL.Text], [], []),
+    'uploadProfilePicture' : IDL.Func([ExternalBlob], [], []),
   });
 };
 
