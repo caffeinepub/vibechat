@@ -1,13 +1,15 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 27,
-  "summary": "Project \"vibechat\" is being promoted to public production access, and scope includes adding in-app user registration (name, phone number, profile picture) plus an optional app-level password field stored in the backend (not SMS-based), updating the UI to include a WhatsApp-like headline/header area with additional far-end navigation items for \"Live\" and \"Videos\", adding a WhatsApp-like contacts integration that can read/sync device phone contacts (with user permission) to connect users, and adding support for storing and sending media attachments (photos/videos) within conversations.",
+  "projectStateVersion": 31,
+  "summary": "Project \"vibechat\" is targeting a more strictly WhatsApp-like main navigation/UI, specifically using a top-level section order of Chats, Groups, Status, Live, then Videos, and removing prior advisory/help-style UI content that is not part of that WhatsApp-like experience.",
   "architectural_notes": [
     "Platform constraint: authentication must use Internet Identity; SMS verification/phone-based login is not supported. Any in-app password is app-level data (e.g., for extra gating) and not a replacement for II auth.",
     "Profile/registration UX: the \"name\" field should not require a full legal/real name; allow nicknames/handles and avoid copy implying otherwise.",
     "Requested login UX should mimic WhatsApp where possible, but must still authenticate via Internet Identity (no SMS/phone-number login or verification).",
     "Contacts integration requires explicit user permission and a privacy-forward UX; availability will vary by platform/browser (web vs mobile) and may require a fallback/manual contact discovery approach.",
-    "User requests WhatsApp-like parity; implement as \"WhatsApp-like\" UX/features within platform/legal constraints rather than a literal 1:1 copy."
+    "User requests WhatsApp-like parity; implement as \"WhatsApp-like\" UX/features within platform/legal constraints rather than a literal 1:1 copy.",
+    "WhatsApp message forwarding/bridging will require an official WhatsApp API integration (e.g., WhatsApp Business Platform) with significant policy/verification constraints; direct consumer WhatsApp message injection is generally not supported without approved APIs.",
+    "UI direction: prioritize a WhatsApp-like top-level navigation with sections in this order: Chats, Groups, Status, Live, Videos; de-emphasize/remove auxiliary advisory/help UI from the primary experience."
   ],
   "known_issues": [
     "Production deployment failed with a deployment error when attempting to take Version 2 live.",
@@ -186,6 +188,46 @@
         "REQ-25"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-an-optional-also-share-to-whatsapp-control-in-the-chat-message-composer-so-that-after-a-message-is-successfully-sent-in-vibechat-the-app-can-open-whatsapp-with-the-same-text-pre-filled-using-a-whatsapp-share-link-client-side",
+      "title": "Add an optional \"Also share to WhatsApp\" control in the chat message composer so that after a message is successfully sent in Vibechat, the app can open WhatsApp with the same text pre-filled using a WhatsApp share link (client-side).",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-handle-whatsapp-sharing-limitations-in-the-ui-with-clear-english-messaging-especially-for-media-attachments",
+      "title": "Handle WhatsApp sharing limitations in the UI with clear English messaging, especially for media attachments.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-current-advisory-marketing-style-landing-experience-and-make-the-authenticated-app-experience-start-on-a-whatsapp-like-main-navigation-flow-where-the-primary-sections-are-chats-groups-status-live-videos-in-that-order",
+      "title": "Remove the current advisory/marketing-style landing experience and make the authenticated app experience start on a WhatsApp-like main navigation flow where the primary sections are: Chats, Groups, Status, Live, Videos (in that order).",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-existing-top-navigation-appheader-to-reflect-whatsapp-like-section-navigation-show-actions-tabs-for-chats-groups-status-live-and-videos-in-that-order-remove-any-non-essential-navigation-items-that-are-not-part-of-this-whatsapp-like-top-level-experience-e-g-do-not-show-contacts-as-a-top-level-item",
+      "title": "Update the existing top navigation (AppHeader) to reflect WhatsApp-like section navigation: show actions/tabs for Chats, Groups, Status, Live, and Videos in that order; remove any non-essential navigation items that are not part of this WhatsApp-like top-level experience (e.g., do not show “Contacts” as a top-level item).",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-placeholder-screens-views-for-groups-status-live-and-videos-so-navigation-works-end-to-end-with-clear-english-coming-soon-messaging-and-no-backend-changes-required",
+      "title": "Add placeholder screens/views for Groups, Status, Live, and Videos so navigation works end-to-end, with clear English “Coming soon” messaging and no backend changes required.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -299,6 +341,36 @@
       "reqIds": [
         "REQ-26"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Integrate Vibechat with WhatsApp so that when a user sends a message in Vibechat it can also be sent to WhatsApp (message forwarding/bridging)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Update the app’s main navigation to be WhatsApp-like with top-level sections ordered: Chats, Groups, Status, Live, Videos",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Remove non-essential advisory/help content from the UI so the app experience matches a WhatsApp-like interface (focus on core tabs/screens)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Add a Groups section/screen (WhatsApp-like) alongside Chats and Status",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Add a Status section/screen (WhatsApp-like) alongside Chats and Groups",
+      "reqIds": [],
       "status": "pending"
     }
   ],

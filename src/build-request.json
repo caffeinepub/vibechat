@@ -1,95 +1,74 @@
 {
   "kind": "build_request",
-  "title": "Add WhatsApp-inspired chat UI with conversation media (photos/videos) storage",
+  "title": "Replace advisory/landing UI with WhatsApp-like main navigation (Chats, Groups, Status, Live, Videos)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-23",
-      "text": "Update the Vibechat UI to be WhatsApp-inspired (without copying WhatsApp’s exact branding/assets), including a dedicated Chats screen with a conversation list and a conversation detail view that feels familiar on mobile and desktop.",
+      "id": "REQ-29",
+      "text": "Remove the current advisory/marketing-style landing experience and make the authenticated app experience start on a WhatsApp-like main navigation flow where the primary sections are: Chats, Groups, Status, Live, Videos (in that order).",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "Hey I want everything to exactly just like Whatsapp... Copy everything of Whatsapp now"
+          "Can you remove all that advisement and add just like Whatsapp starting with chats, groups , status then live then videos"
         ]
       },
       "acceptanceCriteria": [
-        "App has a clear Chats entry point (in the main content area) that shows a conversation list.",
-        "Clicking a conversation opens a conversation detail view with a message timeline and a message composer.",
-        "User-facing text is in English and does not mention WhatsApp branding as if it were the same product.",
-        "Layout is responsive: usable on narrow mobile widths and on desktop widths."
+        "When a signed-in user opens the app, the default selected section is Chats (not the marketing landing page).",
+        "The app presents top-level navigation sections in this exact order: Chats, Groups, Status, Live, Videos.",
+        "The prior landing/marketing/advisory content is no longer shown as a primary screen for authenticated users."
       ]
     },
     {
-      "id": "REQ-24",
-      "text": "Implement backend support for conversations and messages, including storing message text plus optional media attachments (photos/videos) associated with a conversation, with appropriate access control so only conversation participants can read or write messages and attachments.",
-      "target": "backend",
+      "id": "REQ-30",
+      "text": "Update the existing top navigation (AppHeader) to reflect WhatsApp-like section navigation: show actions/tabs for Chats, Groups, Status, Live, and Videos in that order; remove any non-essential navigation items that are not part of this WhatsApp-like top-level experience (e.g., do not show “Contacts” as a top-level item).",
+      "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "also add space to store massage video and pictures when the user is having a conversation"
+          "add just like Whatsapp starting with chats, groups , status then live then videos"
         ]
       },
       "acceptanceCriteria": [
-        "Backend exposes APIs to: create or open a conversation between participants, list caller conversations, list messages for a conversation (paged or limited), and send a message with optional attachments.",
-        "Only authenticated users with appropriate permissions can create/send/read conversations and messages.",
-        "A user who is not a participant in a conversation cannot read its messages or attachments (backend enforces this)."
+        "On desktop widths, the header shows clickable navigation items for Chats, Groups, Status, Live, Videos in that order.",
+        "On mobile widths, the overflow menu (or mobile nav equivalent) lists Chats, Groups, Status, Live, Videos in that order.",
+        "Selecting each section updates the UI to the corresponding screen/view and visually indicates the active section."
       ]
     },
     {
-      "id": "REQ-25",
-      "text": "Add frontend chat functionality wired to the backend using React Query: conversation list, message list, and sending messages with optional photo/video attachments selected from the device.",
-      "target": "both",
+      "id": "REQ-31",
+      "text": "Add placeholder screens/views for Groups, Status, Live, and Videos so navigation works end-to-end, with clear English “Coming soon” messaging and no backend changes required.",
+      "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "also add space to store massage video and pictures when the user is having a conversation"
+          "add just like Whatsapp starting with chats, groups , status then live then videos"
         ]
       },
       "acceptanceCriteria": [
-        "User can start/open a conversation from the Chats screen with a selected contact (from existing contacts match results) or by entering a principal/identifier supported by the UI.",
-        "User can send a text message and see it appear in the message timeline.",
-        "User can attach an image or video file to a message, send it, and see it rendered in the timeline (image preview or a video player/thumbnail + download/open link).",
-        "UI shows clear English loading/progress and error states for sending and loading messages/attachments.",
-        "All new backend calls are wrapped in React Query hooks (consistent with existing query/mutation patterns)."
-      ]
-    },
-    {
-      "id": "REQ-26",
-      "text": "Ensure message media storage uses the existing blob storage capability in the backend and that attachments can be retrieved by authorized participants via a safe, direct mechanism supported by the current blob abstractions.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "add space to store massage video and pictures"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Attachments are stored as blobs linked to a specific message.",
-        "Backend returns attachment metadata needed for rendering (e.g., content type, size, and a retrievable reference) without exposing attachments to non-participants.",
-        "Basic validation exists for attachment size/type to prevent obviously invalid uploads (with clear trap/error messages)."
+        "Navigating to Groups shows a dedicated Groups screen with an English placeholder message (e.g., “Groups is coming soon.”).",
+        "Navigating to Status shows a dedicated Status screen with an English placeholder message (e.g., “Status is coming soon.”).",
+        "Navigating to Live shows a dedicated Live screen with an English placeholder message (e.g., “Live is coming soon.”).",
+        "Navigating to Videos shows a dedicated Videos screen with an English placeholder message (e.g., “Videos is coming soon.”).",
+        "No new backend methods are required to support these placeholder screens."
       ]
     }
   ],
   "constraints": [
-    "Do not claim to be WhatsApp or copy WhatsApp proprietary branding/assets; implement a WhatsApp-inspired layout and interaction patterns only.",
-    "Backend must remain a single Motoko actor (all logic in backend/main.mo).",
-    "Do not edit files under frontend/src/components/ui or other immutable frontend paths listed in SYSTEM_CONTEXT.",
-    "No SMS-based phone verification or third-party authentication integrations; continue using Internet Identity."
+    "Frontend files under frontend/src/components/ui and the paths listed in frontend.immutablePaths must not be edited directly.",
+    "Backend must remain single-actor (all Motoko logic in backend/main.mo); do not introduce additional canisters/services."
   ],
   "nonGoals": [
-    "Implementing end-to-end encryption.",
-    "Real-time messaging via WebSockets or push notifications.",
-    "Copying WhatsApp exactly (pixel-perfect clone) or using WhatsApp trademarks/assets.",
-    "External database or non-IC storage for messages/media."
+    "Implementing real Groups functionality (creating/managing group chats, membership, group messaging).",
+    "Implementing real Status functionality (stories/status posting, expiration, viewers).",
+    "Implementing real Live or Videos features beyond placeholder screens.",
+    "Adding third-party authentication (only Internet Identity is supported)."
   ],
   "imageRequirements": {
     "required": [],

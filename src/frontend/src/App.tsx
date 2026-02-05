@@ -3,6 +3,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppHeader } from './components/AppHeader';
 import { LandingPage } from './pages/LandingPage';
 import { ChatsPage } from './pages/ChatsPage';
+import { GroupsPage } from './pages/GroupsPage';
+import { StatusPage } from './pages/StatusPage';
+import { LivePage } from './pages/LivePage';
+import { VideosPage } from './pages/VideosPage';
 import { SplashScreen } from './components/SplashScreen';
 import { WhatsAppStyleAuth } from './components/WhatsAppStyleAuth';
 import { ContactsSyncDialog } from './components/ContactsSyncDialog';
@@ -12,11 +16,13 @@ import { useGetCallerUserProfile } from './hooks/useQueries';
 
 const queryClient = new QueryClient();
 
+type Section = 'chats' | 'groups' | 'status' | 'live' | 'videos';
+
 function AppContent() {
   const [showSplash, setShowSplash] = useState(true);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [contactsDialogOpen, setContactsDialogOpen] = useState(false);
-  const [currentView, setCurrentView] = useState<'landing' | 'chats'>('landing');
+  const [currentSection, setCurrentSection] = useState<Section>('chats');
 
   const { identity } = useInternetIdentity();
   const { data: userProfile, isLoading: profileLoading, isFetched } = useGetCallerUserProfile();
@@ -34,7 +40,24 @@ function AppContent() {
       setAuthDialogOpen(true);
       return;
     }
-    setCurrentView('chats');
+    setCurrentSection('chats');
+  };
+
+  const renderSection = () => {
+    switch (currentSection) {
+      case 'chats':
+        return <ChatsPage />;
+      case 'groups':
+        return <GroupsPage />;
+      case 'status':
+        return <StatusPage />;
+      case 'live':
+        return <LivePage />;
+      case 'videos':
+        return <VideosPage />;
+      default:
+        return <ChatsPage />;
+    }
   };
 
   return (
@@ -44,22 +67,21 @@ function AppContent() {
         <AppHeader 
           onOpenAuth={() => setAuthDialogOpen(true)}
           onOpenContacts={() => setContactsDialogOpen(true)}
-          onNavigateToChats={handleNavigateToChats}
-          currentView={currentView}
-          onViewChange={setCurrentView}
+          currentSection={isAuthenticated ? currentSection : null}
+          onSectionChange={setCurrentSection}
         />
         <main className="flex-1">
-          {!isAuthenticated || currentView === 'landing' ? (
+          {!isAuthenticated ? (
             <LandingPage 
               onOpenAuth={() => setAuthDialogOpen(true)}
               onOpenContacts={() => setContactsDialogOpen(true)}
               onNavigateToChats={handleNavigateToChats}
             />
           ) : (
-            <ChatsPage />
+            renderSection()
           )}
         </main>
-        {(!isAuthenticated || currentView === 'landing') && (
+        {!isAuthenticated && (
           <footer className="border-t border-border py-6 px-4">
             <div className="container mx-auto text-center text-sm text-muted-foreground">
               © 2026. Built with <span className="text-accent">♥</span> using{' '}

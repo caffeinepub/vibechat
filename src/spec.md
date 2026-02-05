@@ -1,13 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Update Vibechat with a WhatsApp-inspired chat experience and add backend support for conversations, messages, and photo/video attachments stored in existing blob storage with participant-only access.
+**Goal:** Replace the current advisory/marketing landing experience with a WhatsApp-like authenticated app navigation that starts on Chats and provides top-level sections for Chats, Groups, Status, Live, and Videos.
 
 **Planned changes:**
-- Redesign the frontend to add a dedicated Chats entry point with a conversation list and a responsive conversation detail view (message timeline + composer), using WhatsApp-inspired patterns without copying WhatsApp branding/assets.
-- Implement backend APIs for creating/opening conversations, listing a user’s conversations, listing messages for a conversation (paged/limited), and sending messages with optional photo/video attachments.
-- Enforce access control in the backend so only conversation participants can read/write messages and retrieve attachments.
-- Store message attachments as blobs linked to messages; return safe attachment metadata/references for authorized retrieval, with basic file size/type validation and clear error messages.
-- Wire the new chat UI to the backend using React Query hooks for conversation/message queries and send-message mutations, including loading/progress/error states and attachment selection from the device.
+- Remove the advisory/marketing-style landing screen as the primary entry for signed-in users and default the authenticated experience to the Chats section.
+- Update the existing AppHeader/top navigation to present WhatsApp-like section navigation in this exact order: Chats, Groups, Status, Live, Videos; remove non-essential top-level items (e.g., Contacts).
+- Add dedicated placeholder screens for Groups, Status, Live, and Videos with clear English “Coming soon” messaging so navigation works end-to-end without backend changes.
 
-**User-visible outcome:** Users can open the Chats screen, start or open a conversation, view message history, send text messages, and attach photos/videos that are stored and viewable only by conversation participants, on both mobile and desktop layouts.
+**User-visible outcome:** After signing in, users land on Chats by default and can switch between Chats, Groups, Status, Live, and Videos from the top navigation; non-Chat sections show “Coming soon” placeholder screens.

@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useGetCallerUserProfile } from '../hooks/useQueries';
-import { User, Loader2, Video, Radio, MoreVertical, Contact, MessageSquare } from 'lucide-react';
+import { User, Loader2, Video, Radio, MoreVertical, MessageSquare, Users, Eye } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,15 +13,16 @@ import {
 } from './ui/dropdown-menu';
 import { toast } from 'sonner';
 
+type Section = 'chats' | 'groups' | 'status' | 'live' | 'videos';
+
 interface AppHeaderProps {
   onOpenAuth: () => void;
   onOpenContacts: () => void;
-  onNavigateToChats: () => void;
-  currentView: 'landing' | 'chats';
-  onViewChange: (view: 'landing' | 'chats') => void;
+  currentSection: Section | null;
+  onSectionChange: (section: Section) => void;
 }
 
-export function AppHeader({ onOpenAuth, onOpenContacts, onNavigateToChats, currentView, onViewChange }: AppHeaderProps) {
+export function AppHeader({ onOpenAuth, currentSection, onSectionChange }: AppHeaderProps) {
   const { identity, login, loginStatus } = useInternetIdentity();
   const { data: userProfile, isLoading: profileLoading, isFetched } = useGetCallerUserProfile();
 
@@ -49,51 +50,31 @@ export function AppHeader({ onOpenAuth, onOpenContacts, onNavigateToChats, curre
     }
   };
 
-  const handleLiveClick = () => {
-    toast.info('Live is coming soon.');
-  };
-
-  const handleVideosClick = () => {
-    toast.info('Videos is coming soon.');
-  };
-
-  const handleContactsClick = () => {
+  const handleSectionClick = (section: Section) => {
     if (!isAuthenticated) {
-      toast.error('Please sign in to access contacts');
+      toast.error('Please sign in to access this section');
       return;
     }
-    onOpenContacts();
-  };
-
-  const handleChatsClick = () => {
-    if (!isAuthenticated) {
-      toast.error('Please sign in to access chats');
-      return;
-    }
-    onNavigateToChats();
+    onSectionChange(section);
   };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 gap-4">
         {/* Left: Logo + Title */}
-        <button 
-          onClick={() => onViewChange('landing')}
-          className="flex items-center gap-3 min-w-0 hover:opacity-80 transition-opacity"
-        >
+        <div className="flex items-center gap-3 min-w-0">
           <BrandLogo size="md" />
           <h1 className="text-xl font-semibold text-foreground whitespace-nowrap">
             Vibechat
           </h1>
-        </button>
+        </div>
 
-        {/* Right: Actions + Profile */}
-        <nav className="flex items-center gap-2 sm:gap-4">
-          {/* Desktop: Show all buttons */}
-          <div className="hidden md:flex items-center gap-2">
+        {/* Center: Section Navigation (Desktop) */}
+        {isAuthenticated && (
+          <nav className="hidden md:flex items-center gap-1">
             <Button
-              onClick={handleChatsClick}
-              variant={currentView === 'chats' ? 'default' : 'ghost'}
+              onClick={() => handleSectionClick('chats')}
+              variant={currentSection === 'chats' ? 'default' : 'ghost'}
               size="sm"
               className="gap-2"
             >
@@ -101,8 +82,26 @@ export function AppHeader({ onOpenAuth, onOpenContacts, onNavigateToChats, curre
               Chats
             </Button>
             <Button
-              onClick={handleLiveClick}
-              variant="ghost"
+              onClick={() => handleSectionClick('groups')}
+              variant={currentSection === 'groups' ? 'default' : 'ghost'}
+              size="sm"
+              className="gap-2"
+            >
+              <Users className="h-4 w-4" />
+              Groups
+            </Button>
+            <Button
+              onClick={() => handleSectionClick('status')}
+              variant={currentSection === 'status' ? 'default' : 'ghost'}
+              size="sm"
+              className="gap-2"
+            >
+              <Eye className="h-4 w-4" />
+              Status
+            </Button>
+            <Button
+              onClick={() => handleSectionClick('live')}
+              variant={currentSection === 'live' ? 'default' : 'ghost'}
               size="sm"
               className="gap-2"
             >
@@ -110,56 +109,55 @@ export function AppHeader({ onOpenAuth, onOpenContacts, onNavigateToChats, curre
               Live
             </Button>
             <Button
-              onClick={handleVideosClick}
-              variant="ghost"
+              onClick={() => handleSectionClick('videos')}
+              variant={currentSection === 'videos' ? 'default' : 'ghost'}
               size="sm"
               className="gap-2"
             >
               <Video className="h-4 w-4" />
               Videos
             </Button>
-            <Button
-              onClick={handleContactsClick}
-              variant="ghost"
-              size="sm"
-              className="gap-2"
-            >
-              <Contact className="h-4 w-4" />
-              Contacts
-            </Button>
-          </div>
+          </nav>
+        )}
 
+        {/* Right: Mobile Menu + Profile */}
+        <div className="flex items-center gap-2">
           {/* Mobile: Show overflow menu */}
-          <div className="md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9">
-                  <MoreVertical className="h-5 w-5" />
-                  <span className="sr-only">More options</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={handleChatsClick}>
-                  <MessageSquare className="mr-2 h-4 w-4" />
-                  Chats
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLiveClick}>
-                  <Radio className="mr-2 h-4 w-4" />
-                  Live
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleVideosClick}>
-                  <Video className="mr-2 h-4 w-4" />
-                  Videos
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleContactsClick}>
-                  <Contact className="mr-2 h-4 w-4" />
-                  Contacts
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          {isAuthenticated && (
+            <div className="md:hidden">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                    <MoreVertical className="h-5 w-5" />
+                    <span className="sr-only">Navigation menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => handleSectionClick('chats')}>
+                    <MessageSquare className="mr-2 h-4 w-4" />
+                    Chats
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleSectionClick('groups')}>
+                    <Users className="mr-2 h-4 w-4" />
+                    Groups
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleSectionClick('status')}>
+                    <Eye className="mr-2 h-4 w-4" />
+                    Status
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => handleSectionClick('live')}>
+                    <Radio className="mr-2 h-4 w-4" />
+                    Live
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleSectionClick('videos')}>
+                    <Video className="mr-2 h-4 w-4" />
+                    Videos
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
 
           {/* Profile Area */}
           {!isAuthenticated ? (
@@ -209,7 +207,7 @@ export function AppHeader({ onOpenAuth, onOpenContacts, onNavigateToChats, curre
               Complete Profile
             </Button>
           ) : null}
-        </nav>
+        </div>
       </div>
     </header>
   );

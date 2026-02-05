@@ -1,96 +1,71 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T21:58:48.241Z",
+  "generatedAt": "2026-02-05T22:18:22.418Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 2,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
-        "id": "REQ-23",
-        "summary": "Update the Vibechat UI to be WhatsApp-inspired (without copying WhatsApp’s exact branding/assets), including a dedicated Chats screen with a conversation list and a conversation detail view that feels familiar on mobile and desktop.",
+        "id": "REQ-29",
+        "summary": "Remove the current advisory/marketing-style landing experience and make the authenticated app experience start on a WhatsApp-like main navigation flow where the primary sections are: Chats, Groups, Status, Live, Videos (in that order).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/App.tsx",
-          "frontend/src/components/AppHeader.tsx",
-          "frontend/src/pages/ChatsPage.tsx",
-          "frontend/src/components/chat/ConversationList.tsx",
-          "frontend/src/components/chat/ConversationDetail.tsx"
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/App.tsx",
-          "frontend/src/components/AppHeader.tsx",
-          "frontend/src/pages/ChatsPage.tsx",
-          "frontend/src/components/chat/ConversationList.tsx",
-          "frontend/src/components/chat/ConversationDetail.tsx"
+          "frontend/src/App.tsx"
         ]
       },
       {
-        "id": "REQ-24",
-        "summary": "Implement backend support for conversations and messages, including storing message text plus optional media attachments (photos/videos) associated with a conversation, with appropriate access control so only conversation participants can read or write messages and attachments.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-25",
-        "summary": "Add frontend chat functionality wired to the backend using React Query: conversation list, message list, and sending messages with optional photo/video attachments selected from the device.",
+        "id": "REQ-30",
+        "summary": "Update the existing top navigation (AppHeader) to reflect WhatsApp-like section navigation: show actions/tabs for Chats, Groups, Status, Live, and Videos in that order; remove any non-essential navigation items that are not part of this WhatsApp-like top-level experience (e.g., do not show “Contacts” as a top-level item).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/chat/NewConversationDialog.tsx",
-          "frontend/src/components/chat/MessageComposer.tsx",
-          "frontend/src/components/chat/MessageTimeline.tsx",
-          "frontend/src/utils/readFileAsBytesAny.ts",
-          "frontend/src/pages/ChatsPage.tsx",
-          "frontend/src/components/ContactsSyncDialog.tsx"
+          "frontend/src/components/AppHeader.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/chat/NewConversationDialog.tsx",
-          "frontend/src/components/chat/MessageComposer.tsx",
-          "frontend/src/components/chat/MessageTimeline.tsx",
-          "frontend/src/utils/readFileAsBytesAny.ts",
-          "frontend/src/pages/ChatsPage.tsx",
-          "frontend/src/components/ContactsSyncDialog.tsx"
+          "frontend/src/components/AppHeader.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
-        "id": "REQ-26",
-        "summary": "Ensure message media storage uses the existing blob storage capability in the backend and that attachments can be retrieved by authorized participants via a safe, direct mechanism supported by the current blob abstractions.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
+        "id": "REQ-31",
+        "summary": "Add placeholder screens/views for Groups, Status, Live, and Videos so navigation works end-to-end, with clear English “Coming soon” messaging and no backend changes required.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/GroupsPage.tsx",
+          "frontend/src/pages/StatusPage.tsx",
+          "frontend/src/pages/LivePage.tsx",
+          "frontend/src/pages/VideosPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/GroupsPage.tsx",
+          "frontend/src/pages/StatusPage.tsx",
+          "frontend/src/pages/LivePage.tsx",
+          "frontend/src/pages/VideosPage.tsx",
+          "frontend/src/App.tsx"
+        ]
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
-    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
     "frontend/src/App.tsx",
-    "frontend/src/backend.d.ts",
-    "frontend/src/backend.ts",
     "frontend/src/components/AppHeader.tsx",
-    "frontend/src/components/ContactsSyncDialog.tsx",
-    "frontend/src/components/chat/ConversationDetail.tsx",
-    "frontend/src/components/chat/ConversationList.tsx",
-    "frontend/src/components/chat/MessageComposer.tsx",
-    "frontend/src/components/chat/MessageTimeline.tsx",
-    "frontend/src/components/chat/NewConversationDialog.tsx",
-    "frontend/src/declarations/backend.did.d.ts",
-    "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/pages/ChatsPage.tsx",
-    "frontend/src/pages/LandingPage.tsx",
-    "frontend/src/utils/readFileAsBytesAny.ts",
+    "frontend/src/pages/GroupsPage.tsx",
+    "frontend/src/pages/LivePage.tsx",
+    "frontend/src/pages/StatusPage.tsx",
+    "frontend/src/pages/VideosPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

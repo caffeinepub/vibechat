@@ -2,14 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-vibechat-ui-to-be-whatsapp-inspired-without-copying-whatsapp-s-exact-branding-assets-including-a-dedicated-chats-screen-with-a-conversation-list-and-a-conversation-detail-view-that-feels-familiar-on-mobile-and-desktop",
-      "featureTitle": "Update the Vibechat UI to be WhatsApp-inspired (without copying WhatsApp’s exact branding/assets), including a dedicated Chats screen with a conversation list and a conversation detail view that feels familiar on mobile and desktop.",
+      "featureId": "feature-remove-the-current-advisory-marketing-style-landing-experience-and-make-the-authenticated-app-experience-start-on-a-whatsapp-like-main-navigation-flow-where-the-primary-sections-are-chats-groups-status-live-videos-in-that-order",
+      "featureTitle": "Remove the current advisory/marketing-style landing experience and make the authenticated app experience start on a WhatsApp-like main navigation flow where the primary sections are: Chats, Groups, Status, Live, Videos (in that order).",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/AppHeader.tsx",
-        "frontend/src/components/chat/ConversationDetail.tsx",
-        "frontend/src/components/chat/ConversationList.tsx",
-        "frontend/src/pages/ChatsPage.tsx"
+        "frontend/src/App.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -22,21 +18,16 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-23"
+        "REQ-29"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-frontend-chat-functionality-wired-to-the-backend-using-react-query-conversation-list-message-list-and-sending-messages-with-optional-photo-video-attachments-selected-from-the-device",
-      "featureTitle": "Add frontend chat functionality wired to the backend using React Query: conversation list, message list, and sending messages with optional photo/video attachments selected from the device.",
+      "featureId": "feature-update-the-existing-top-navigation-appheader-to-reflect-whatsapp-like-section-navigation-show-actions-tabs-for-chats-groups-status-live-and-videos-in-that-order-remove-any-non-essential-navigation-items-that-are-not-part-of-this-whatsapp-like-top-level-experience-e-g-do-not-show-contacts-as-a-top-level-item",
+      "featureTitle": "Update the existing top navigation (AppHeader) to reflect WhatsApp-like section navigation: show actions/tabs for Chats, Groups, Status, Live, and Videos in that order; remove any non-essential navigation items that are not part of this WhatsApp-like top-level experience (e.g., do not show “Contacts” as a top-level item).",
       "files": [
-        "frontend/src/components/ContactsSyncDialog.tsx",
-        "frontend/src/components/chat/MessageComposer.tsx",
-        "frontend/src/components/chat/MessageTimeline.tsx",
-        "frontend/src/components/chat/NewConversationDialog.tsx",
-        "frontend/src/hooks/useQueries.ts",
-        "frontend/src/pages/ChatsPage.tsx",
-        "frontend/src/utils/readFileAsBytesAny.ts"
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppHeader.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -49,7 +40,32 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-25"
+        "REQ-30"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-placeholder-screens-views-for-groups-status-live-and-videos-so-navigation-works-end-to-end-with-clear-english-coming-soon-messaging-and-no-backend-changes-required",
+      "featureTitle": "Add placeholder screens/views for Groups, Status, Live, and Videos so navigation works end-to-end, with clear English “Coming soon” messaging and no backend changes required.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/GroupsPage.tsx",
+        "frontend/src/pages/LivePage.tsx",
+        "frontend/src/pages/StatusPage.tsx",
+        "frontend/src/pages/VideosPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-31"
       ],
       "confidence": "high"
     }

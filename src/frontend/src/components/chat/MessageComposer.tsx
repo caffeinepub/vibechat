@@ -2,11 +2,15 @@ import { useState, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { useSendMessage } from '../../hooks/useQueries';
-import { Loader2, Send, Paperclip, X, Image as ImageIcon, Video as VideoIcon } from 'lucide-react';
+import { Loader2, Send, Paperclip, X, Video as VideoIcon } from 'lucide-react';
+import { SiWhatsapp } from 'react-icons/si';
 import { toast } from 'sonner';
 import { readFileAsBytesAny } from '../../utils/readFileAsBytesAny';
 import { ExternalBlob, MediaAttachmentType } from '../../backend';
 import { Progress } from '../ui/progress';
+import { Checkbox } from '../ui/checkbox';
+import { Label } from '../ui/label';
+import { openWhatsAppShare } from '../../utils/whatsappShare';
 
 interface MessageComposerProps {
   conversationId: string;
@@ -16,6 +20,7 @@ export function MessageComposer({ conversationId }: MessageComposerProps) {
   const [text, setText] = useState('');
   const [attachments, setAttachments] = useState<File[]>([]);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [shareToWhatsApp, setShareToWhatsApp] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const sendMessageMutation = useSendMessage();
@@ -47,6 +52,17 @@ export function MessageComposer({ conversationId }: MessageComposerProps) {
       return;
     }
 
+    // Check if WhatsApp sharing is enabled but no text
+    if (shareToWhatsApp && !text.trim()) {
+      toast.error('WhatsApp sharing requires text. Please add a message.');
+      return;
+    }
+
+    // Warn about media attachments if WhatsApp sharing is enabled
+    if (shareToWhatsApp && attachments.length > 0) {
+      toast.info('WhatsApp sharing from Vibechat supports text only. Media will be sent to Vibechat only.');
+    }
+
     try {
       const mediaAttachments = await Promise.all(
         attachments.map(async (file) => {
@@ -72,11 +88,17 @@ export function MessageComposer({ conversationId }: MessageComposerProps) {
         attachments: mediaAttachments,
       });
 
+      // After successful send, open WhatsApp share if enabled and text exists
+      if (shareToWhatsApp && text.trim()) {
+        openWhatsAppShare(text.trim());
+      }
+
       setText('');
       setAttachments([]);
       setUploadProgress(0);
     } catch (error: any) {
       toast.error(error.message || 'Failed to send message');
+      // Don't open WhatsApp if send failed
     }
   };
 
@@ -125,6 +147,23 @@ export function MessageComposer({ conversationId }: MessageComposerProps) {
           <p className="text-xs text-muted-foreground">Uploading... {uploadProgress}%</p>
         </div>
       )}
+
+      {/* WhatsApp Share Toggle */}
+      <div className="flex items-center gap-2">
+        <Checkbox
+          id="whatsapp-share"
+          checked={shareToWhatsApp}
+          onCheckedChange={(checked) => setShareToWhatsApp(checked === true)}
+          disabled={isSending}
+        />
+        <Label
+          htmlFor="whatsapp-share"
+          className="text-sm font-normal cursor-pointer flex items-center gap-1.5"
+        >
+          <SiWhatsapp className="h-4 w-4 text-[#25D366]" />
+          Also share to WhatsApp
+        </Label>
+      </div>
 
       {/* Input Area */}
       <div className="flex items-end gap-2">

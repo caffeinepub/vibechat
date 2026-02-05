@@ -1,90 +1,80 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "WhatsApp-inspired Chats UI and media-enabled messaging (frontend)",
+  "title": "WhatsApp-like main navigation (Chats, Groups, Status, Live, Videos) replacing landing for authenticated users",
   "requirements": [
     {
-      "id": "REQ-23",
-      "summary": "Implement a WhatsApp-inspired (not branded) Chats screen with conversation list and responsive conversation detail layout.",
+      "id": "REQ-29",
+      "summary": "Replace the authenticated default experience so signed-in users start in a WhatsApp-like main navigation flow with Chats as the default section (no marketing landing as primary screen).",
       "acceptanceCriteria": [
-        "App has a clear Chats entry point (in the main content area) that shows a conversation list.",
-        "Clicking a conversation opens a conversation detail view with a message timeline and a message composer.",
-        "User-facing text is in English and does not mention WhatsApp branding as if it were the same product.",
-        "Layout is responsive: usable on narrow mobile widths and on desktop widths."
+        "When a signed-in user opens the app, the default selected section is Chats (not the marketing landing page).",
+        "The app presents top-level navigation sections in this exact order: Chats, Groups, Status, Live, Videos.",
+        "The prior landing/marketing/advisory content is no longer shown as a primary screen for authenticated users."
       ],
       "file_operations": [
         {
           "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Add a Chats entry point in the main content area and switch main content between the existing LandingPage (unauthenticated) and the new Chats UI (authenticated). Wire selection state for active conversation and mobile/desktop layout behavior. Use existing authorization/auth flows (Internet Identity) to ensure chat UI is only visible after login; verify the authorization component usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/AppHeader.tsx",
-          "operation": "modify",
-          "description": "Add a Chats navigation action (desktop button + mobile overflow item) that routes the user into the Chats screen in the main content area. Keep English labels and Vibechat branding (no WhatsApp naming). Use shadcn-ui primitives already present for buttons/menus; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/ChatsPage.tsx",
-          "operation": "create",
-          "description": "Create a dedicated Chats screen that renders a left-side conversation list and a conversation detail area (split view on desktop; list/detail navigation on mobile). Provide a clear empty state and calls-to-action to start a new conversation. Use shadcn-ui layout primitives (cards, buttons, inputs, separators) as appropriate; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/chat/ConversationList.tsx",
-          "operation": "create",
-          "description": "Implement a conversation list component showing the caller's conversations, selection state, loading skeleton/placeholder, and error state. Keep the UI familiar (chat list rows with title/subtitle placeholders) without copying proprietary WhatsApp assets. Use shadcn-ui components for list row styling and loading states; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/chat/ConversationDetail.tsx",
-          "operation": "create",
-          "description": "Implement the conversation detail shell: header (conversation title + back on mobile), scrollable message timeline area, and message composer anchored to bottom. Ensure responsive behavior (mobile safe areas, proper scrolling). Use shadcn-ui components for header/buttons and any scroll containers; verify the component's usage instructions before implementing."
+          "description": "Update app view state so unauthenticated users see the existing LandingPage, while authenticated users start on a WhatsApp-like section-based flow with Chats as the default selected section and section switching rendering the corresponding screen. Ensure landing/marketing content is not the primary screen for authenticated users."
         }
       ]
     },
     {
-      "id": "REQ-25",
-      "summary": "Wire frontend chat functionality to the backend using React Query: list conversations, load messages, and send messages with optional photo/video attachments selected from device.",
+      "id": "REQ-30",
+      "summary": "Update AppHeader to provide WhatsApp-like top-level section navigation (Chats, Groups, Status, Live, Videos) in order across desktop and mobile, removing non-essential top-level items like Contacts.",
       "acceptanceCriteria": [
-        "User can start/open a conversation from the Chats screen with a selected contact (from existing contacts match results) or by entering a principal/identifier supported by the UI.",
-        "User can send a text message and see it appear in the message timeline.",
-        "User can attach an image or video file to a message, send it, and see it rendered in the timeline (image preview or a video player/thumbnail + download/open link).",
-        "UI shows clear English loading/progress and error states for sending and loading messages/attachments.",
-        "All new backend calls are wrapped in React Query hooks (consistent with existing query/mutation patterns)."
+        "On desktop widths, the header shows clickable navigation items for Chats, Groups, Status, Live, Videos in that order.",
+        "On mobile widths, the overflow menu (or mobile nav equivalent) lists Chats, Groups, Status, Live, Videos in that order.",
+        "Selecting each section updates the UI to the corresponding screen/view and visually indicates the active section."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/useQueries.ts",
+          "path": "frontend/src/components/AppHeader.tsx",
           "operation": "modify",
-          "description": "Add React Query hooks for chat capabilities consistent with existing patterns: list caller conversations, create/open conversation, load messages for a conversation, and send a message. Include cache keys, enabled-guards based on actor availability, and user-friendly English error mapping (including Unauthorized handling). This continues the authorization pattern requiring login before data access; verify the authorization component usage instructions before implementing."
+          "description": "Refactor AppHeader to switch from the current landing/chats + extra buttons model to a section navigation model with exactly these primary items in order: Chats, Groups, Status, Live, Videos. Keep active-state styling based on the current section. Remove Contacts as a top-level item (it may be moved behind a secondary menu if still needed). Use the shadcn-ui Button and DropdownMenu components for consistent UI; verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/components/chat/NewConversationDialog.tsx",
-          "operation": "create",
-          "description": "Add a dialog for starting/opening a conversation by entering a Principal/identifier supported by the UI (required path), and optionally allow initiating from existing matched contacts where feasible in the current UI. Provide clear validation and English error feedback. Use shadcn-ui Dialog/Input/Button components; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/chat/MessageComposer.tsx",
-          "operation": "create",
-          "description": "Create a message composer with text input + attachment picker (image/video) from device. On send, build the message payload, show sending/progress states, and disable controls appropriately. For attachments, use blob-storage's ExternalBlob (fromBytes + withUploadProgress) to upload and track progress; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/chat/MessageTimeline.tsx",
-          "operation": "create",
-          "description": "Render message list with grouping/spacing similar to familiar chat apps (without copying exact branding). Show sender context (e.g., You vs others) based on the current Internet Identity principal. Render attachments: photos as image previews, videos via a video player, using ExternalBlob.getDirectURL() for safe direct access; verify the blob-storage component usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/utils/readFileAsBytesAny.ts",
-          "operation": "create",
-          "description": "Add a utility to read arbitrary File (photo/video) into Uint8Array for attachment uploads, including basic size/type checks and clear thrown errors for UI display."
-        },
-        {
-          "path": "frontend/src/pages/ChatsPage.tsx",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Wire React Query hooks into the Chats screen: fetch conversation list, select a conversation to load messages, open the NewConversationDialog, and integrate MessageTimeline + MessageComposer. Ensure clear English loading/error states across list, detail, and sending."
+          "description": "Update AppHeader integration to pass/receive the new section-based navigation props (current section + setter) so selecting header items switches the rendered screen and the active state is consistent across desktop/mobile."
+        }
+      ]
+    },
+    {
+      "id": "REQ-31",
+      "summary": "Add placeholder screens for Groups, Status, Live, and Videos with clear English 'Coming soon' messaging (no backend changes).",
+      "acceptanceCriteria": [
+        "Navigating to Groups shows a dedicated Groups screen with an English placeholder message (e.g., “Groups is coming soon.”).",
+        "Navigating to Status shows a dedicated Status screen with an English placeholder message (e.g., “Status is coming soon.”).",
+        "Navigating to Live shows a dedicated Live screen with an English placeholder message (e.g., “Live is coming soon.”).",
+        "Navigating to Videos shows a dedicated Videos screen with an English placeholder message (e.g., “Videos is coming soon.”).",
+        "No new backend methods are required to support these placeholder screens."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/GroupsPage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated Groups placeholder screen with clear English 'Coming soon' messaging (no backend calls). Use shadcn-ui primitives (e.g., Card/Typography/Button if needed) for consistent styling; verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/components/ContactsSyncDialog.tsx",
+          "path": "frontend/src/pages/StatusPage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated Status placeholder screen with clear English 'Coming soon' messaging (no backend calls). Use shadcn-ui primitives for consistent styling; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LivePage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated Live placeholder screen with clear English 'Coming soon' messaging (no backend calls). Use shadcn-ui primitives for consistent styling; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/VideosPage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated Videos placeholder screen with clear English 'Coming soon' messaging (no backend calls). Use shadcn-ui primitives for consistent styling; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Add an optional affordance to 'Start chat' from matched contact results that routes users into the Chats screen and pre-fills the new conversation flow with whatever identifier is available in the UI. If a Principal is not available from matched contacts, provide a clear English prompt guiding the user to enter the recipient's Principal/identifier in the New Conversation dialog. Use shadcn-ui components already present; verify the component's usage instructions before implementing."
+          "description": "Wire the new Groups/Status/Live/Videos pages into the authenticated section renderer so navigation works end-to-end without requiring any backend changes."
         }
       ]
     }
