@@ -1,0 +1,19 @@
+{
+  "backend/main.mo": "Defines a simple canister with a query method returning the caller's principal.",
+  "feature_evidence.json": "Lists feature evidence entries describing implemented features, related files, components, tests, and confidence levels.",
+  "frontend-file-summaries.txt": "Provides short summaries of various frontend files including components, hooks, and styles.",
+  "frontend/index.css": "Tailwind base stylesheet defining custom CSS variables for colors, layout, and theme behavior.",
+  "frontend/index.html": "Basic HTML entry file mounting the React app and loading main.tsx.",
+  "frontend/src/App.tsx": "Main React app component showing a splash screen, header, landing page, and footer.",
+  "frontend/src/components/AppHeader.tsx": "Sticky header with logo and navigation including a chat call-to-action button.",
+  "frontend/src/components/BrandLogo.tsx": "Logo component displaying an image with fallback text when loading fails.",
+  "frontend/src/components/SplashScreen.tsx": "Animated full‑screen splash screen that fades out after a timed delay.",
+  "frontend/src/hooks/useActor.ts": "Hook that initializes and manages a backend actor instance tied to Internet Identity.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Context and hook providing Internet Identity login, logout, and identity state management.",
+  "frontend/src/hooks/useQueries.ts": "Hook performing the publish‑readiness query by calling checkCanisterStatus via the actor.",
+  "frontend/src/index.css": "Global Tailwind stylesheet defining a warm coral/teal design system for light and dark modes.",
+  "frontend/src/main.tsx": "React entry point configuring QueryClient and InternetIdentityProvider before rendering App.",
+  "frontend/src/pages/LandingPage.tsx": "React landing page with hero, feature cards, and UI elements, integrating a publish readiness check hook.",
+  "frontend/tailwind.config.js": "Tailwind configuration defining theme extensions, colors, typography, plugins, and container settings.",
+  "project_state.json": "JSON describing project state, feature requirements, known issues, and current planning metadata for Vibechat."
+}

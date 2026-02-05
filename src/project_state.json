@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 7,
+  "summary": "Project \"vibechat\" app, planning branding assets and adding a splash screen using the new logo.",
+  "architectural_notes": [],
+  "known_issues": [
+    "Production deployment failed with a deployment error when attempting to take Version 2 live."
+  ],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-generate-a-custom-original-logo-image-for-the-app-name-vibechat-and-add-it-to-the-project-as-a-static-asset-under-frontend-public-assets-generated",
+      "title": "Generate a custom, original logo image for the app name \"vibechat\" and add it to the project as a static asset under frontend/public/assets/generated.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-the-vibechat-logo-in-the-frontend-ui-in-a-sensible-consistent-location-e-g-app-header-top-bar-and-or-landing-view-and-ensure-it-renders-correctly-on-mobile-and-desktop",
+      "title": "Display the Vibechat logo in the frontend UI in a sensible, consistent location (e.g., app header/top bar and/or landing view) and ensure it renders correctly on mobile and desktop.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-define-and-apply-a-cohesive-visual-theme-for-vibechat-color-palette-typography-spacing-and-component-styling-that-complements-the-logo-and-is-used-consistently-across-existing-screens",
+      "title": "Define and apply a cohesive visual theme for Vibechat (color palette, typography, spacing, and component styling) that complements the logo and is used consistently across existing screens.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-full-screen-splash-screen-that-appears-on-initial-app-load-and-prominently-displays-the-existing-vibechat-logo-image-assets-generated-vibechat-logo-dim-512x512-png-then-smoothly-dismisses-to-reveal-the-existing-app-ui",
+      "title": "Add a full-screen splash screen that appears on initial app load and prominently displays the existing Vibechat logo image (/assets/generated/vibechat-logo.dim_512x512.png), then smoothly dismisses to reveal the existing app UI.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-splash-screen-in-a-reusable-component-and-integrate-it-into-the-existing-app-entry-layout-so-it-can-be-toggled-on-off-via-local-react-state-without-backend-changes",
+      "title": "Implement the splash screen in a reusable component and integrate it into the existing app entry layout so it can be toggled on/off via local React state without backend changes.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-any-frontend-build-type-lint-errors-that-could-block-production-publishing-including-removing-unused-imports-in-the-react-codebase-so-the-production-build-completes-successfully",
+      "title": "Fix any frontend build/type/lint errors that could block production publishing, including removing unused imports in the React codebase so the production build completes successfully.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-minimal-backend-publish-readiness-api-that-confirms-the-canister-is-callable-e-g-a-query-that-returns-the-caller-principal-and-a-simple-canister-status-string-and-wire-a-small-frontend-ui-section-that-calls-it-and-displays-the-result-in-english",
+      "title": "Add a minimal backend “publish readiness” API that confirms the canister is callable (e.g., a query that returns the caller principal and a simple canister status string), and wire a small frontend UI section that calls it and displays the result in English.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-concise-how-to-publish-help-section-in-the-frontend-ui-with-clear-english-instructions-specific-to-publishing-this-app-after-a-successful-build-including-a-short-troubleshooting-note-for-deployment-failures",
+      "title": "Add a concise “How to publish” help section in the frontend UI with clear English instructions specific to publishing this app after a successful build, including a short troubleshooting note for deployment failures.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Design/create an app logo for vibechat",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Add an app splash screen using the Vibechat logo",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "vibechat",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

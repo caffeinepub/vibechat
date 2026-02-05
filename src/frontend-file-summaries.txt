@@ -1,0 +1,10 @@
+{
+  "frontend/src/App.tsx": "Main application component that conditionally renders a splash screen on initial load before showing the header, landing page, and footer with branding attribution (removed unused useEffect import).",
+  "frontend/src/components/BrandLogo.tsx": "Reusable logo component that displays the Vibechat logo image with responsive sizing and text fallback on error.",
+  "frontend/src/components/AppHeader.tsx": "Sticky header component featuring the brand logo and navigation with call-to-action button.",
+  "frontend/src/pages/LandingPage.tsx": "Landing page with hero section, feature cards, publish readiness check UI with status display and principal information, how-to-publish guide with troubleshooting checklist, and call-to-action sections.",
+  "frontend/src/hooks/useQueries.ts": "React Query hook for checking publish readiness by calling the backend's checkCanisterStatus method and returning the caller principal and status.",
+  "frontend/src/index.css": "Global styles with custom OKLCH color system using warm coral and teal palette, supporting both light and dark modes.",
+  "frontend/tailwind.config.js": "Tailwind configuration with extended theme including custom fonts, colors mapped to CSS variables, and refined design tokens.",
+  "frontend/src/components/SplashScreen.tsx": "Full-screen splash screen component that displays the Vibechat logo with animated loading dots, auto-dismisses after a configurable duration with a smooth fade-out transition, and is responsive across all screen sizes."
+}
